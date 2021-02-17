@@ -1,0 +1,1032 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="HederVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|VarAccess"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <Variable
+    Name="Production_no"
+    Kind="viewcriteria"
+    Type="java.lang.String"/>
+  <Variable
+    Name="p_Org_Id"
+    Kind="where"
+    Type="java.lang.String">
+    <TransientExpression><![CDATA[adf.context.sessionScope.orgId]]></TransientExpression>
+  </Variable>
+  <ViewAccessor
+    Name="operationLineVo1"
+    ViewObjectName="mnj.ont.model.views.operationLineVo"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="SaleOrderLOV1"
+    ViewObjectName="mnj.ont.model.lov.views.SaleOrderLOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="jobLOV1"
+    ViewObjectName="mnj.ont.model.lov.views.jobLOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="InseemLOV1"
+    ViewObjectName="mnj.ont.model.lov.views.InseemLOV"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="BuyerLovVo1"
+    ViewObjectName="mnj.ont.model.lov.views.BuyerLovVo"
+    RowLevelBinds="true"/>
+  <ViewAccessor
+    Name="StyleLov1"
+    ViewObjectName="mnj.ont.model.lov.views.StyleLov">
+    <ParameterMap>
+      <PIMap Variable="p_customerID">
+        <TransientExpression><![CDATA[CustomerId]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="BPOLOV1"
+    ViewObjectName="mnj.ont.model.lov.views.BPOLOV">
+    <ViewCriteriaUsage
+      Name="BPOLOVCriteria"
+      FullName="mnj.ont.model.lov.views.BPOLOV.BPOLOVCriteria"/>
+    <ParameterMap>
+      <PIMap Variable="p_style">
+        <TransientExpression><![CDATA[Style]]></TransientExpression>
+      </PIMap>
+      <PIMap Variable="p_buyerId">
+        <TransientExpression><![CDATA[CustomerId]]></TransientExpression>
+      </PIMap>
+    </ParameterMap>
+  </ViewAccessor>
+  <ViewAccessor
+    Name="STNLOV1"
+    ViewObjectName="mnj.ont.model.lov.views.STNLOV"
+    RowLevelBinds="true"/>
+  <ListBinding
+    Name="LOV_InseamId"
+    ListVOName="InseemLOV1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_InseamId_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="InseamId"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Inseam"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Inseam"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_JobIdDi"
+    ListVOName="jobLOV1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_JobIdDi_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="JobIdDi"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="JobId"/>
+      <Item Value="ItemDesc"/>
+      <Item Value="OrderNumber"/>
+      <Item Value="SalesorderId"/>
+      <Item Value="JobQty"/>
+      <Item Value="SoLineId"/>
+      <Item Value="DivisionId"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="WipEntityName"/>
+      <Item Value="WipEntityId"/>
+      <Item Value="Description"/>
+      <Item Value="OrderNumber"/>
+      <Item Value="HeaderId"/>
+      <Item Value="JobQty"/>
+      <Item Value="LineId"/>
+      <Item Value="OrgId"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="WipEntityName"/>
+      <Item Value="JobQty"/>
+      <Item Value="OrderNumber"/>
+      <Item Value="Description"/>
+    </AttrArray>
+    <DisplayCriteria
+      Name="jobLOVCriteria"
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_BuyerName"
+    ListVOName="BuyerLovVo1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_BuyerName_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="BuyerName"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="CustomerId"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="CustomerName"/>
+      <Item Value="CustomerId"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="CustomerName"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_Style"
+    ListVOName="StyleLov1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_Style_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="Style"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="SalesorderId"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="StyleName"/>
+      <Item Value="HeaderId"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="StyleName"/>
+      <Item Value="StyleNo"/>
+      <Item Value="Season"/>
+      <Item Value="Brand"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"
+      Name="StyleLovCriteria"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_Bpo"
+    ListVOName="BPOLOV1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_Bpo_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="Bpo"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="SalesorderId"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="BpoNo"/>
+      <Item Value="HeaderId"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="BpoNo"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"
+      Name="BPOLOVCriteria"/>
+  </ListBinding>
+  <ListBinding
+    Name="LOV_Obno"
+    ListVOName="STNLOV1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_Obno_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="Obno"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="Stn"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="Stn"/>
+      <Item Value="BpoNo"/>
+    </AttrArray>
+    <DisplayCriteria
+      Name="STNLOVCriteria"
+      Hint="showAndExecute"/>
+  </ListBinding>
+  <SQLQuery>
+    <![CDATA[/* Formatted on 3/18/2019 3:26:13 PM (QP5 v5.256.13226.35510) */
+SELECT HederEO.DIVISION_ID,
+       HederEO.PROD_TRANS_ID,
+       HederEO.PROD_TRANS_NUM,
+       HederEO.OUTREC_DATE,
+       --trunc(HederEO.OUTREC_DATE) OUTREC_DATE,
+       HederEO.SALESORDER_ID,
+       HederEO.SO_LINE_ID,
+       HederEO.JOB_ID,
+       HederEO.LINE_ID,
+       HederEO.LINE_TARGET,
+       HederEO.OBNO,
+       HederEO.INSEAM_ID,
+       HederEO.REMARKS,
+       HederEO.TOTAL_PRODUCED_MINUTES,
+       HederEO.EFFICIENCY,
+       HederEO.TL_STANDARD_MIN,
+       HederEO.LAST_UPDATE_DATE,
+       HederEO.LAST_UPDATED_BY,
+       HederEO.CREATION_DATE,
+       HederEO.CREATED_BY,
+       HederEO.NEW_STYLE,
+       HederEO.OE_SOLINE_ID,
+       HederEO.CUT_ISSUE_ID,
+       HederEO.MOVE_STATUS,
+       HederEO.POSTED_STATUS,
+       HederEO.TRANSACTION_STATUS,
+       HederEO.SUBINVENTORY,
+       HederEO.POSTED_STATUS_TMP,
+       HederEO.MOVE_STATUS_TMP,
+       HederEO.LAST_UPDATE_LOGIN,
+       HederEO.ATTRIBUTE1,
+       HederEO.ATTRIBUTE2,
+       HederEO.ATTRIBUTE3,
+       HederEO.ATTRIBUTE4,
+       HederEO.ATTRIBUTE5,
+       HederEO.ATTRIBUTE6,
+       HederEO.ATTRIBUTE7,
+       HederEO.ATTRIBUTE8,
+       HederEO.ATTRIBUTE9,
+       HederEO.ATTRIBUTE10,
+       HederEO.ATTRIBUTE11,
+       HederEO.ATTRIBUTE12,
+       HederEO.ATTRIBUTE13,
+       HederEO.ATTRIBUTE14,
+       HederEO.ATTRIBUTE15,
+       HederEO.JOB_QTY,
+       HederEO.Customer_Id,
+       HederEO.Bpo,
+       HederEO.Style,
+       (SELECT msi.description
+          FROM mtl_system_items msi,
+               org_organization_definitions ood,
+               oe_order_lines_all oola
+         WHERE     msi.ORGANIZATION_ID = ood.ORGANIZATION_ID
+               AND ood.OPERATING_UNIT = HederEO.division_id
+               AND oola.INVENTORY_ITEM_ID = msi.INVENTORY_ITEM_ID
+               AND oola.LINE_ID = HederEO.SO_LINE_ID)
+          ITEM_DESC,
+       NULL OPERATION_LINE,
+       (SELECT v.wip_entity_name
+          FROM wip_discrete_jobs_v v
+         WHERE v.wip_entity_id = HederEO.JOB_ID)
+          JOB_ID_DI,
+       (SELECT ooha.ORDER_NUMBER
+          FROM oe_order_headers_all ooha
+         WHERE ooha.HEADER_ID = HederEO.SALESORDER_ID)
+          order_number,
+       (SELECT ar.CUSTOMER_NAME
+          FROM ar_customers ar
+         WHERE ar.CUSTOMER_ID = HederEO.Customer_Id)
+          Buyer_NAME,
+       HederEO.Doc_No,
+       (SELECT h.name
+          FROM hr_operating_units h
+         WHERE h.organization_id = HederEO.DIVISION_ID)
+          unit_name,
+       HederEO.TOTAL_STANDARD_MINUTES,
+       (SELECT LISTAGG (SUBLINE_NO, ',') WITHIN GROUP (ORDER BY SUBLINE_NO)
+          FROM ( (SELECT DISTINCT l.SUBLINE_NO
+                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l
+                   WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID)))
+          Line_No,
+       (SELECT LISTAGG (known_as, ',') WITHIN GROUP (ORDER BY known_as)
+          FROM ( (SELECT DISTINCT known_as
+                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l,
+                         hz_parties hp,
+                         hz_cust_accounts hca
+                   WHERE     l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID
+                         AND hp.party_id = hca.party_id
+                         AND hca.CUST_ACCOUNT_ID = l.Buyer_Id
+                         AND hp.KNOWN_AS IS NOT NULL)))
+          Buyer,
+       (SELECT LISTAGG (Style, ',') WITHIN GROUP (ORDER BY Style)
+          FROM ( (SELECT DISTINCT l.Style
+                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l
+                   WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID)))
+          Style_Name,
+       (SELECT LISTAGG (Style, ',') WITHIN GROUP (ORDER BY Style)
+          FROM ( (SELECT (SELECT DECODE (
+                                    StyleLineEO.TRACK_BASIS,
+                                    'Style Name', StyleLineEO.STYLE_NAME,
+                                    'Style Number', StyleLineEO.STYLE_NUMBER)
+                            FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
+                                 pwc_mfg_bss_buyer_h pwcmfgbssbuyerh
+                           WHERE     StyleLineEO.STYLE_IDENTIFIER = l.STYLE
+                                 AND pwcmfgbssbuyerh.BUYER_ID = l.BUYER_ID
+                                 --AND   pwcmfgbssbuyerh.ORG_ID = LineVO.DIVISION_ID
+                                 AND StyleLineEO.HEADER_ID =
+                                        pwcmfgbssbuyerh.HEADER_ID
+                                 AND ROWNUM = 1)
+                            Style
+                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l
+                   WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID)))
+          Current_Style,
+       (SELECT LISTAGG (Season, ',') WITHIN GROUP (ORDER BY Season)
+          FROM ( (SELECT DISTINCT l.Season
+                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l
+                   WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID)))
+          Season,
+       (SELECT LISTAGG (Season, ',') WITHIN GROUP (ORDER BY Season)
+          FROM ( (SELECT DISTINCT
+                         (SELECT SeasonDetailEO.SEASON_NAME
+                            FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
+                                 pwc_mfg_bss_buyer_h pwcmfgbssbuyerh,
+                                 PWC_MFG_BSS_SEASON_D SeasonDetailEO
+                           WHERE     StyleLineEO.STYLE_IDENTIFIER = l.STYLE
+                                 AND SeasonDetailEO.SEASON_IDENTIFIER =
+                                        l.SEASON
+                                 AND pwcmfgbssbuyerh.BUYER_ID = l.BUYER_ID
+                                 --AND   pwcmfgbssbuyerh.ORG_ID = LineVO.DIVISION_ID
+                                 AND StyleLineEO.HEADER_ID =
+                                        pwcmfgbssbuyerh.HEADER_ID
+                                 AND SeasonDetailEO.LINE_ID =
+                                        StyleLineEO.LINE_ID
+                                 AND ROWNUM = 1)
+                            Season
+                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l
+                   WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID)))
+          Current_Season,
+       (SELECT LISTAGG (Color, ',') WITHIN GROUP (ORDER BY Color)
+          FROM ( (SELECT DISTINCT l.Color
+                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l
+                   WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID)))
+          Color,
+       (SELECT SUM (L.DAY_REJECTION)
+          FROM  MNJ_MFG_LINEOUTPUT_SBLINE L
+         WHERE HederEO.PROD_TRANS_ID = L.PROD_TRANS_ID ) Day_Rejection /* ADDED BY SAKIBUL ISLAM, 18-MAR-2019 ON REQUIREMENTS OF GFL ABDUL HAKIM */
+  FROM MNJ_MFG_LINEOUTPUT HederEO
+ WHERE HederEO.DIVISION_ID = :p_Org_Id]]>
+  </SQLQuery>
+  <EntityUsage
+    Name="HederEO"
+    Entity="mnj.ont.model.entities.HederEO"/>
+  <ViewAttribute
+    Name="DivisionId"
+    PrecisionRule="true"
+    EntityAttrName="DivisionId"
+    EntityUsage="HederEO"
+    AliasName="DIVISION_ID"/>
+  <ViewAttribute
+    Name="ProdTransId"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="ProdTransId"
+    EntityUsage="HederEO"
+    AliasName="PROD_TRANS_ID"/>
+  <ViewAttribute
+    Name="ProdTransNum"
+    PrecisionRule="true"
+    EntityAttrName="ProdTransNum"
+    EntityUsage="HederEO"
+    AliasName="PROD_TRANS_NUM">
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.ont.model.views.HederVO.ProdTransNum_LABEL"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OutrecDate"
+    PrecisionRule="true"
+    EntityAttrName="OutrecDate"
+    EntityUsage="HederEO"
+    AliasName="OUTREC_DATE">
+    <Properties>
+      <SchemaBasedProperties>
+        <FMT_FORMATTER
+          ResId="mnj.ont.model.views.HederVO.OutrecDate_FMT_FORMATTER"/>
+        <FMT_FORMAT
+          ResId="mnj.ont.model.views.HederVO.OutrecDate_FMT_FORMAT"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SalesorderId"
+    PrecisionRule="true"
+    EntityAttrName="SalesorderId"
+    EntityUsage="HederEO"
+    AliasName="SALESORDER_ID"/>
+  <ViewAttribute
+    Name="SoLineId"
+    PrecisionRule="true"
+    EntityAttrName="SoLineId"
+    EntityUsage="HederEO"
+    AliasName="SO_LINE_ID"/>
+  <ViewAttribute
+    Name="JobId"
+    PrecisionRule="true"
+    EntityAttrName="JobId"
+    EntityUsage="HederEO"
+    AliasName="JOB_ID"/>
+  <ViewAttribute
+    Name="LineId"
+    PrecisionRule="true"
+    EntityAttrName="LineId"
+    EntityUsage="HederEO"
+    AliasName="LINE_ID"/>
+  <ViewAttribute
+    Name="LineTarget"
+    PrecisionRule="true"
+    EntityAttrName="LineTarget"
+    EntityUsage="HederEO"
+    AliasName="LINE_TARGET"/>
+  <ViewAttribute
+    Name="Obno"
+    PrecisionRule="true"
+    EntityAttrName="Obno"
+    EntityUsage="HederEO"
+    AliasName="OBNO"
+    LOVName="LOV_Obno">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+        <LABEL
+          ResId="mnj.ont.model.views.HederVO.Obno_LABEL"/>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="InseamId"
+    LOVName="LOV_InseamId"
+    PrecisionRule="true"
+    EntityAttrName="InseamId"
+    EntityUsage="HederEO"
+    AliasName="INSEAM_ID">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Remarks"
+    PrecisionRule="true"
+    EntityAttrName="Remarks"
+    EntityUsage="HederEO"
+    AliasName="REMARKS"
+    DefaultValue="    "/>
+  <ViewAttribute
+    Name="TotalProducedMinutes"
+    PrecisionRule="true"
+    EntityAttrName="TotalProducedMinutes"
+    EntityUsage="HederEO"
+    AliasName="TOTAL_PRODUCED_MINUTES"/>
+  <ViewAttribute
+    Name="Efficiency"
+    PrecisionRule="true"
+    EntityAttrName="Efficiency"
+    EntityUsage="HederEO"
+    AliasName="EFFICIENCY"/>
+  <ViewAttribute
+    Name="TlStandardMin"
+    PrecisionRule="true"
+    EntityAttrName="TlStandardMin"
+    EntityUsage="HederEO"
+    AliasName="TL_STANDARD_MIN"/>
+  <ViewAttribute
+    Name="LastUpdateDate"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdateDate"
+    EntityUsage="HederEO"
+    AliasName="LAST_UPDATE_DATE"/>
+  <ViewAttribute
+    Name="LastUpdatedBy"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdatedBy"
+    EntityUsage="HederEO"
+    AliasName="LAST_UPDATED_BY"/>
+  <ViewAttribute
+    Name="CreationDate"
+    PrecisionRule="true"
+    EntityAttrName="CreationDate"
+    EntityUsage="HederEO"
+    AliasName="CREATION_DATE">
+    <Properties>
+      <SchemaBasedProperties>
+        <FMT_FORMATTER
+          ResId="mnj.ont.model.views.HederVO.CreationDate_FMT_FORMATTER"/>
+        <FMT_FORMAT
+          ResId="mnj.ont.model.views.HederVO.CreationDate_FMT_FORMAT"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CreatedBy"
+    PrecisionRule="true"
+    EntityAttrName="CreatedBy"
+    EntityUsage="HederEO"
+    AliasName="CREATED_BY"/>
+  <ViewAttribute
+    Name="NewStyle"
+    PrecisionRule="true"
+    EntityAttrName="NewStyle"
+    EntityUsage="HederEO"
+    AliasName="NEW_STYLE"/>
+  <ViewAttribute
+    Name="OeSolineId"
+    PrecisionRule="true"
+    EntityAttrName="OeSolineId"
+    EntityUsage="HederEO"
+    AliasName="OE_SOLINE_ID"/>
+  <ViewAttribute
+    Name="CutIssueId"
+    PrecisionRule="true"
+    EntityAttrName="CutIssueId"
+    EntityUsage="HederEO"
+    AliasName="CUT_ISSUE_ID"/>
+  <ViewAttribute
+    Name="MoveStatus"
+    PrecisionRule="true"
+    EntityAttrName="MoveStatus"
+    EntityUsage="HederEO"
+    AliasName="MOVE_STATUS"/>
+  <ViewAttribute
+    Name="PostedStatus"
+    PrecisionRule="true"
+    EntityAttrName="PostedStatus"
+    EntityUsage="HederEO"
+    AliasName="POSTED_STATUS"/>
+  <ViewAttribute
+    Name="TransactionStatus"
+    PrecisionRule="true"
+    EntityAttrName="TransactionStatus"
+    EntityUsage="HederEO"
+    AliasName="TRANSACTION_STATUS"/>
+  <ViewAttribute
+    Name="Subinventory"
+    PrecisionRule="true"
+    EntityAttrName="Subinventory"
+    EntityUsage="HederEO"
+    AliasName="SUBINVENTORY"/>
+  <ViewAttribute
+    Name="PostedStatusTmp"
+    PrecisionRule="true"
+    EntityAttrName="PostedStatusTmp"
+    EntityUsage="HederEO"
+    AliasName="POSTED_STATUS_TMP"/>
+  <ViewAttribute
+    Name="MoveStatusTmp"
+    PrecisionRule="true"
+    EntityAttrName="MoveStatusTmp"
+    EntityUsage="HederEO"
+    AliasName="MOVE_STATUS_TMP"/>
+  <ViewAttribute
+    Name="LastUpdateLogin"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdateLogin"
+    EntityUsage="HederEO"
+    AliasName="LAST_UPDATE_LOGIN"/>
+  <ViewAttribute
+    Name="Attribute1"
+    PrecisionRule="true"
+    EntityAttrName="Attribute1"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE1"/>
+  <ViewAttribute
+    Name="Attribute2"
+    PrecisionRule="true"
+    EntityAttrName="Attribute2"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE2"/>
+  <ViewAttribute
+    Name="Attribute3"
+    PrecisionRule="true"
+    EntityAttrName="Attribute3"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE3"/>
+  <ViewAttribute
+    Name="Attribute4"
+    PrecisionRule="true"
+    EntityAttrName="Attribute4"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE4"/>
+  <ViewAttribute
+    Name="Attribute5"
+    PrecisionRule="true"
+    EntityAttrName="Attribute5"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE5"/>
+  <ViewAttribute
+    Name="Attribute6"
+    PrecisionRule="true"
+    EntityAttrName="Attribute6"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE6"/>
+  <ViewAttribute
+    Name="Attribute7"
+    PrecisionRule="true"
+    EntityAttrName="Attribute7"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE7"/>
+  <ViewAttribute
+    Name="Attribute8"
+    PrecisionRule="true"
+    EntityAttrName="Attribute8"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE8"/>
+  <ViewAttribute
+    Name="Attribute9"
+    PrecisionRule="true"
+    EntityAttrName="Attribute9"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE9"/>
+  <ViewAttribute
+    Name="Attribute10"
+    PrecisionRule="true"
+    EntityAttrName="Attribute10"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE10"/>
+  <ViewAttribute
+    Name="Attribute11"
+    PrecisionRule="true"
+    EntityAttrName="Attribute11"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE11"/>
+  <ViewAttribute
+    Name="Attribute12"
+    PrecisionRule="true"
+    EntityAttrName="Attribute12"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE12"/>
+  <ViewAttribute
+    Name="Attribute13"
+    PrecisionRule="true"
+    EntityAttrName="Attribute13"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE13"/>
+  <ViewAttribute
+    Name="Attribute14"
+    PrecisionRule="true"
+    EntityAttrName="Attribute14"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE14"/>
+  <ViewAttribute
+    Name="Attribute15"
+    PrecisionRule="true"
+    EntityAttrName="Attribute15"
+    EntityUsage="HederEO"
+    AliasName="ATTRIBUTE15"/>
+  <ViewAttribute
+    Name="JobQty"
+    PrecisionRule="true"
+    EntityAttrName="JobQty"
+    EntityUsage="HederEO"
+    AliasName="JOB_QTY"
+    DefaultValue="0"/>
+  <ViewAttribute
+    Name="CustomerId"
+    PrecisionRule="true"
+    EntityAttrName="CustomerId"
+    EntityUsage="HederEO"
+    AliasName="CUSTOMER_ID"/>
+  <ViewAttribute
+    Name="Bpo"
+    PrecisionRule="true"
+    EntityAttrName="Bpo"
+    EntityUsage="HederEO"
+    AliasName="BPO"
+    LOVName="LOV_Bpo">
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.ont.model.views.HederVO.Bpo_LABEL"/>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Style"
+    PrecisionRule="true"
+    EntityAttrName="Style"
+    EntityUsage="HederEO"
+    AliasName="STYLE"
+    LOVName="LOV_Style">
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.ont.model.views.HederVO.Style_LABEL"/>
+        <DISPLAYWIDTH
+          Value="30"/>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ItemDesc"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="ITEM_DESC"
+    Expression="ITEM_DESC"
+    SQLType="VARCHAR"/>
+  <ViewAttribute
+    Name="OperationLine"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="OPERATION_LINE"
+    Expression="OPERATION_LINE"
+    SQLType="VARCHAR"/>
+  <ViewAttribute
+    Name="JobIdDi"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="JOB_ID_DI"
+    Expression="JOB_ID_DI"
+    SQLType="VARCHAR"
+    LOVName="LOV_JobIdDi">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OrderNumber"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="ORDER_NUMBER"
+    Expression="ORDER_NUMBER"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BuyerName"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="50"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BUYER_NAME"
+    Expression="BUYER_NAME"
+    SQLType="VARCHAR"
+    LOVName="LOV_BuyerName">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="50"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+        <DISPLAYWIDTH
+          Value="30"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="DocNo"
+    PrecisionRule="true"
+    EntityAttrName="DocNo"
+    EntityUsage="HederEO"
+    AliasName="DOC_NO"/>
+  <ViewAttribute
+    Name="UnitName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="240"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="UNIT_NAME"
+    Expression="UNIT_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="240"/>
+    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <DISPLAYWIDTH
+          Value="20"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="TotalStandardMinutes"
+    PrecisionRule="true"
+    EntityAttrName="TotalStandardMinutes"
+    EntityUsage="HederEO"
+    AliasName="TOTAL_STANDARD_MINUTES"
+    Expression="TOTAL_STANDARD_MINUTES"/>
+  <ViewAttribute
+    Name="LineNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="4000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="LINE_NO"
+    Expression="LINE_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="4000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Buyer"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="4000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BUYER"
+    Expression="BUYER"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="4000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="StyleName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="4000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STYLE_NAME"
+    Expression="STYLE_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="4000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentStyle"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="4000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_STYLE"
+    Expression="CURRENT_STYLE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="4000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Season"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="4000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SEASON"
+    Expression="SEASON"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="4000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentSeason"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="4000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_SEASON"
+    Expression="CURRENT_SEASON"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="4000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Color"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="4000"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="COLOR"
+    Expression="COLOR"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="4000"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="DayRejection"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="DAY_REJECTION"
+    Expression="DAY_REJECTION"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewCriteria
+    Name="HederVOCriteriaSP"
+    ViewObjectName="mnj.ont.model.views.HederVO"
+    Conjunction="AND">
+    <Properties>
+      <CustomProperties>
+        <Property
+          Name="displayOperators"
+          Value="InAdvancedMode"/>
+        <Property
+          Name="autoExecute"
+          Value="false"/>
+        <Property
+          Name="showInList"
+          Value="true"/>
+        <Property
+          Name="allowConjunctionOverride"
+          Value="true"/>
+        <Property
+          Name="mode"
+          Value="Basic"/>
+      </CustomProperties>
+    </Properties>
+    <ViewCriteriaRow
+      Name="vcrow2"
+      UpperColumns="1">
+      <ViewCriteriaItem
+        Name="ProdTransNum"
+        ViewAttribute="ProdTransNum"
+        Operator="="
+        Conjunction="AND"
+        Value=":Production_no"
+        IsBindVarValue="true"
+        Required="Optional"/>
+    </ViewCriteriaRow>
+  </ViewCriteria>
+  <ViewLinkAccessor
+    Name="LineVO"
+    ViewLink="mnj.ont.model.views.MnjMfgSublineoutputFkLink"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="LineVO1"
+    ViewLink="mnj.ont.model.views.HederLineVL"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="AdditionBlockVO"
+    ViewLink="mnj.ont.model.views.MnjMfgLineoutputAdditionFkLink"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="AdditionBlockVO1"
+    ViewLink="mnj.ont.model.views.HeaderAdditionVL"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="OffStandardVO"
+    ViewLink="mnj.ont.model.views.MnjMfgOutputOffStandardFkLink"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

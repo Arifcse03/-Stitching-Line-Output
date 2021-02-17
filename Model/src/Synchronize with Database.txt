@@ -1,0 +1,16 @@
+The following Synchronization Actions were performed successfully:
+
+Entity :DetailEO
+  Create Attribute for column: R1
+  Create Attribute for column: R2
+  Create Attribute for column: R3
+  Create Attribute for column: R4
+  Create Attribute for column: R5
+  Create Attribute for column: R6
+  Create Attribute for column: R7
+  Create Attribute for column: R8
+  Create Attribute for column: R9
+  Create Attribute for column: R10
+  Create Attribute for column: R11
+  Create Attribute for column: R12
+  Create Attribute for column: R13

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="AdditionBlockVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|VarAccess"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+  </DesignTime>
+  <SQLQuery>
+    <![CDATA[SELECT AdditionBlockEO.DIVISION_ID, 
+       AdditionBlockEO.PROD_TRANS_ID, 
+       AdditionBlockEO.HEADER_ID, 
+       AdditionBlockEO.SUBLINE_NO, 
+       AdditionBlockEO.WORKING_HOUR_BASIC, 
+       AdditionBlockEO.MANPOWER_BASIC, 
+       AdditionBlockEO.WORKING_HOUR_OVERTIME, 
+       AdditionBlockEO.MANPOWER_OVERTIME, 
+       AdditionBlockEO.WORKING_HOUR_EXTRAOT_1, 
+       AdditionBlockEO.MAN_POWER_EXTRAOT_1, 
+       AdditionBlockEO.WORKING_HOUR_EXTRAOT_2, 
+       AdditionBlockEO.MAN_POWER_EXTRAOT_2, 
+       AdditionBlockEO.ATTRIBUTE9, 
+       AdditionBlockEO.ATTRIBUTE10, 
+       AdditionBlockEO.BUYER_ID, 
+       AdditionBlockEO.SEASON, 
+       AdditionBlockEO.STYLE,
+       AdditionBlockEO.WASH, 
+       AdditionBlockEO.COLOR,
+       AdditionBlockEO.RRMARKS,
+(select 
+    known_as
+from hz_parties hp,
+hz_cust_accounts hca
+where 
+    hp.party_id =  hca.party_id
+and hca.CUST_ACCOUNT_ID=AdditionBlockEO.BUYER_ID
+    and hp.KNOWN_AS is not null) buyer_name,
+(SELECT DECODE(StyleLineEO.TRACK_BASIS,'Style Name',StyleLineEO.STYLE_NAME,'Style Number',StyleLineEO.STYLE_NUMBER)
+       FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
+            pwc_mfg_bss_buyer_h pwcmfgbssbuyerh       
+       WHERE StyleLineEO.STYLE_IDENTIFIER = AdditionBlockEO.STYLE
+       AND   pwcmfgbssbuyerh.BUYER_ID = AdditionBlockEO.BUYER_ID
+       --AND   pwcmfgbssbuyerh.ORG_ID = LineVO.DIVISION_ID  
+       AND   StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
+       AND   rownum = 1) CURRENT_STYLE,
+       (SELECT SeasonDetailEO.SEASON_NAME
+       FROM PWC_MFG_BSS_STYLE_L  StyleLineEO,
+            pwc_mfg_bss_buyer_h  pwcmfgbssbuyerh,
+            PWC_MFG_BSS_SEASON_D SeasonDetailEO   
+       WHERE StyleLineEO.STYLE_IDENTIFIER = AdditionBlockEO.STYLE
+AND   SeasonDetailEO.SEASON_IDENTIFIER = AdditionBlockEO.SEASON
+       AND   pwcmfgbssbuyerh.BUYER_ID = AdditionBlockEO.BUYER_ID
+       --AND   pwcmfgbssbuyerh.ORG_ID = LineVO.DIVISION_ID 
+       AND   StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
+       AND   SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID 
+       AND   rownum = 1) CURRENT_SEASON,
+       AdditionBlockEO.CREATED_BY,
+       AdditionBlockEO.CREATION_DATE,
+       AdditionBlockEO.LAST_UPDATED_BY,
+       AdditionBlockEO.LAST_UPDATE_DATE,
+       AdditionBlockEO.BUYER_ID_1
+   
+FROM MNJ_MFG_LINEOUTPUT_ADDITION AdditionBlockEO]]>
+  </SQLQuery>
+  <EntityUsage
+    Name="AdditionBlockEO"
+    Entity="mnj.ont.model.entities.AdditionBlockEO"/>
+  <ViewAttribute
+    Name="DivisionId"
+    PrecisionRule="true"
+    EntityAttrName="DivisionId"
+    EntityUsage="AdditionBlockEO"
+    AliasName="DIVISION_ID"/>
+  <ViewAttribute
+    Name="ProdTransId"
+    PrecisionRule="true"
+    EntityAttrName="ProdTransId"
+    EntityUsage="AdditionBlockEO"
+    AliasName="PROD_TRANS_ID"/>
+  <ViewAttribute
+    Name="HeaderId"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="HeaderId"
+    EntityUsage="AdditionBlockEO"
+    AliasName="HEADER_ID"/>
+  <ViewAttribute
+    Name="SublineNo"
+    PrecisionRule="true"
+    EntityAttrName="SublineNo"
+    EntityUsage="AdditionBlockEO"
+    AliasName="SUBLINE_NO"/>
+  <ViewAttribute
+    Name="WorkingHourBasic"
+    PrecisionRule="true"
+    EntityAttrName="WorkingHourBasic"
+    EntityUsage="AdditionBlockEO"
+    AliasName="WORKING_HOUR_BASIC"
+    DefaultValue="0"/>
+  <ViewAttribute
+    Name="ManpowerBasic"
+    PrecisionRule="true"
+    EntityAttrName="ManpowerBasic"
+    EntityUsage="AdditionBlockEO"
+    AliasName="MANPOWER_BASIC"
+    DefaultValue="0"/>
+  <ViewAttribute
+    Name="WorkingHourOvertime"
+    PrecisionRule="true"
+    EntityAttrName="WorkingHourOvertime"
+    EntityUsage="AdditionBlockEO"
+    AliasName="WORKING_HOUR_OVERTIME"
+    DefaultValue="0"/>
+  <ViewAttribute
+    Name="ManpowerOvertime"
+    PrecisionRule="true"
+    EntityAttrName="ManpowerOvertime"
+    EntityUsage="AdditionBlockEO"
+    AliasName="MANPOWER_OVERTIME"
+    DefaultValue="0"/>
+  <ViewAttribute
+    Name="WorkingHourExtraot1"
+    PrecisionRule="true"
+    EntityAttrName="WorkingHourExtraot1"
+    EntityUsage="AdditionBlockEO"
+    AliasName="WORKING_HOUR_EXTRAOT_1"
+    DefaultValue="0"/>
+  <ViewAttribute
+    Name="ManPowerExtraot1"
+    PrecisionRule="true"
+    EntityAttrName="ManPowerExtraot1"
+    EntityUsage="AdditionBlockEO"
+    AliasName="MAN_POWER_EXTRAOT_1"
+    DefaultValue="0"/>
+  <ViewAttribute
+    Name="WorkingHourExtraot2"
+    PrecisionRule="true"
+    EntityAttrName="WorkingHourExtraot2"
+    EntityUsage="AdditionBlockEO"
+    AliasName="WORKING_HOUR_EXTRAOT_2"
+    DefaultValue="0"/>
+  <ViewAttribute
+    Name="ManPowerExtraot2"
+    PrecisionRule="true"
+    EntityAttrName="ManPowerExtraot2"
+    EntityUsage="AdditionBlockEO"
+    AliasName="MAN_POWER_EXTRAOT_2"
+    DefaultValue="0"/>
+  <ViewAttribute
+    Name="Attribute9"
+    PrecisionRule="true"
+    EntityAttrName="Attribute9"
+    EntityUsage="AdditionBlockEO"
+    AliasName="ATTRIBUTE9"/>
+  <ViewAttribute
+    Name="Attribute10"
+    PrecisionRule="true"
+    EntityAttrName="Attribute10"
+    EntityUsage="AdditionBlockEO"
+    AliasName="ATTRIBUTE10"/>
+  <ViewAttribute
+    Name="BuyerId"
+    PrecisionRule="true"
+    EntityAttrName="BuyerId"
+    EntityUsage="AdditionBlockEO"
+    AliasName="BUYER_ID"/>
+  <ViewAttribute
+    Name="Season"
+    PrecisionRule="true"
+    EntityAttrName="Season"
+    EntityUsage="AdditionBlockEO"
+    AliasName="SEASON"/>
+  <ViewAttribute
+    Name="Style"
+    PrecisionRule="true"
+    EntityAttrName="Style"
+    EntityUsage="AdditionBlockEO"
+    AliasName="STYLE"/>
+  <ViewAttribute
+    Name="Wash"
+    PrecisionRule="true"
+    EntityAttrName="Wash"
+    EntityUsage="AdditionBlockEO"
+    AliasName="WASH"/>
+  <ViewAttribute
+    Name="Color"
+    PrecisionRule="true"
+    EntityAttrName="Color"
+    EntityUsage="AdditionBlockEO"
+    AliasName="COLOR"/>
+  <ViewAttribute
+    Name="Rrmarks"
+    PrecisionRule="true"
+    EntityAttrName="Rrmarks"
+    EntityUsage="AdditionBlockEO"
+    AliasName="RRMARKS"/>
+  <ViewAttribute
+    Name="BuyerName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="240"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BUYER_NAME"
+    Expression="BUYER_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="240"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentStyle"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_STYLE"
+    Expression="CURRENT_STYLE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentSeason"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_SEASON"
+    Expression="CURRENT_SEASON"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CreatedBy"
+    PrecisionRule="true"
+    EntityAttrName="CreatedBy"
+    EntityUsage="AdditionBlockEO"
+    AliasName="CREATED_BY"/>
+  <ViewAttribute
+    Name="CreationDate"
+    PrecisionRule="true"
+    EntityAttrName="CreationDate"
+    EntityUsage="AdditionBlockEO"
+    AliasName="CREATION_DATE"/>
+  <ViewAttribute
+    Name="LastUpdatedBy"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdatedBy"
+    EntityUsage="AdditionBlockEO"
+    AliasName="LAST_UPDATED_BY"/>
+  <ViewAttribute
+    Name="LastUpdateDate"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdateDate"
+    EntityUsage="AdditionBlockEO"
+    AliasName="LAST_UPDATE_DATE"/>
+  <ViewAttribute
+    Name="BuyerId1"
+    PrecisionRule="true"
+    EntityAttrName="BuyerId1"
+    EntityUsage="AdditionBlockEO"
+    AliasName="BUYER_ID_1"/>
+</ViewObject>

@@ -1,0 +1,11 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<BC4JConfig version="11.1" xmlns="http://xmlns.oracle.com/bc4j/configuration">
+   <AppModuleConfigBag ApplicationName="mnj.ont.model.services.InquiryInfoAM">
+      <AppModuleConfig name="15DA7E2D99A" IsLazyLoadingTrue="true" password="apps" jbo.txn.disconnect_level="1" user="apps" DBconnection="jdbc:oracle:thin:@192.168.200.102:1521:PROD" ApplicationName="mnj.ont.model.services.InquiryInfoAM" jbo.project="model.Model" BC4JConfigName="InquiryInfoAMLocal" java.naming.factory.initial="oracle.jbo.common.JboInitialContextFactory" DeployPlatform="LOCAL" JDBCName="Conn1">
+         <AM-Pooling jbo.doconnectionpooling="true"/>
+         <Database jbo.SQLBuilder="Oracle" jbo.TypeMapEntries="Oracle" jbo.locking.mode="optimistic"/>
+         <Security AppModuleJndiName="mnj.ont.model.services.InquiryInfoAM"/>
+         <Tester FullProxyInterfaceName="mnj.ont.model.services.common.InquiryInfoAM"/>
+      </AppModuleConfig>
+   </AppModuleConfigBag>
+</BC4JConfig>

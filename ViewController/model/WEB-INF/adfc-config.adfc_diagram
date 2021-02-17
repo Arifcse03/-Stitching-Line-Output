@@ -1,0 +1,55 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SDM>
+   <OverallProperties
+      id="OverallProperties1"/>
+   <View
+      id="View2">
+      <property
+         name="activityId">QueryPG</property>
+      <property
+         name="page">/QueryPG.jspx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>QueryPG&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">39.29883</property>
+      <property
+         name="x">207.0</property>
+   </View>
+   <View
+      id="View3">
+      <property
+         name="activityId">CreatePG</property>
+      <property
+         name="page">/CreatePG.jspx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>CreatePG&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">222.89648</property>
+      <property
+         name="x">306.0</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase4"
+      from="View2"
+      to="View3">
+      <property
+         name="fromOutcome">GoToEdit</property>
+      <property
+         name="sdm:polyPoints">B44,203.5,96.41045,302.5,168.5459,T44</property>
+   </ControlFlowCase>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase5"
+      from="View3"
+      to="View2">
+      <property
+         name="fromOutcome">GoToBack</property>
+      <property
+         name="sdm:polyPoints">T56,309.5,165.03447,210.5,92.94824,B56</property>
+   </ControlFlowCase>
+</SDM>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewLink SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewLink
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="MnjMfgOutputOffStandLFkLink"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  EntityAssociation="mnj.ont.model.entities.MnjMfgOutputOffStandLFkAssoc">
+  <DesignTime>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <ViewLinkDefEnd
+    Name="OffStandardVO"
+    Cardinality="1"
+    Owner="mnj.ont.model.views.OffStandardVO"
+    Source="true">
+    <DesignTime>
+      <Attr Name="_finderName" Value="OffStandardVO"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="mnj.ont.model.views.OffStandardVO.HeaderId"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+  <ViewLinkDefEnd
+    Name="OffStandardLineVO"
+    Cardinality="-1"
+    Owner="mnj.ont.model.views.OffStandardLineVO">
+    <DesignTime>
+      <Attr Name="_finderName" Value="OffStandardLineVO"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="mnj.ont.model.views.OffStandardLineVO.HeaderId"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+</ViewLink>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE Association SYSTEM "jbo_03_01.dtd">
+<!---->
+<Association
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="MnjMfgSubdetFkAssoc"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true">
+  <DesignTime>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <AssociationEnd
+    Name="LineEO1"
+    Cardinality="1"
+    Source="true"
+    Owner="mnj.ont.model.entities.LineEO">
+    <DesignTime>
+      <Attr Name="_aggregation" Value="0"/>
+      <Attr Name="_finderName" Value="LineEO1"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="mnj.ont.model.entities.LineEO.OutSublineId"/>
+      <Item Value="mnj.ont.model.entities.LineEO.ProdTransId"/>
+    </AttrArray>
+  </AssociationEnd>
+  <AssociationEnd
+    Name="DetailEO1"
+    Cardinality="-1"
+    Owner="mnj.ont.model.entities.DetailEO">
+    <DesignTime>
+      <Attr Name="_aggregation" Value="0"/>
+      <Attr Name="_finderName" Value="DetailEO1"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="mnj.ont.model.entities.DetailEO.ProdTransId"/>
+      <Item Value="mnj.ont.model.entities.DetailEO.OutSublineId"/>
+    </AttrArray>
+  </AssociationEnd>
+</Association>

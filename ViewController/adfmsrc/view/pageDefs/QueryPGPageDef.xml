@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel"
+                version="11.1.1.62.29" id="QueryPGPageDef"
+                Package="view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <iterator Binds="HederVO1" RangeSize="25"
+              DataControl="InquiryInfoAMDataControl" id="HederVO1Iterator"/>
+    <searchRegion Criteria="HederVOCriteriaSP"
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  Binds="HederVO1Iterator" id="HederVOCriteriaSPQuery"/>
+    <invokeAction id="setSession" Binds="setSessionValues"
+                  Refresh="renderModel"/>
+  </executables>
+  <bindings>
+    <tree IterBinding="HederVO1Iterator" id="HederVO1">
+      <nodeDefinition DefName="mnj.ont.model.views.HederVO" Name="HederVO10">
+        <AttrNames>
+          <Item Value="ProdTransNum"/>
+          <Item Value="OutrecDate"/>
+          <Item Value="SalesorderId"/>
+          <Item Value="LineTarget"/>
+          <Item Value="Obno"/>
+          <Item Value="Remarks"/>
+          <Item Value="OrderNumber"/>
+          <Item Value="JobIdDi"/>
+          <Item Value="Bpo"/>
+          <Item Value="DocNo"/>
+          <Item Value="BuyerName"/>
+          <Item Value="StyleName"/>
+          <Item Value="Season"/>
+          <Item Value="LineNo"/>
+          <Item Value="Color"/>
+          <Item Value="CurrentStyle"/>
+          <Item Value="CurrentSeason"/>
+          <Item Value="TotalProducedMinutes"/>
+          <Item Value="TotalStandardMinutes"/>
+          <Item Value="Efficiency"/>
+          <Item Value="JobQty"/>
+          <Item Value="CustomerId"/>
+          <Item Value="TlStandardMin"/>
+          <Item Value="Buyer"/>
+          <Item Value="CreationDate"/>
+          <Item Value="DayRejection"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action IterBinding="HederVO1Iterator" id="CreateInsert"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <action IterBinding="HederVO1Iterator" id="setCurrentRowWithKey"
+            RequiresUpdateModel="false" Action="setCurrentRowWithKey">
+      <NamedData NDName="rowKey" NDType="java.lang.String"/>
+    </action>
+    <action id="Commit" RequiresUpdateModel="true" Action="commitTransaction"
+            DataControl="InquiryInfoAMDataControl"/>
+    <action id="Rollback" RequiresUpdateModel="false"
+            Action="rollbackTransaction"
+            DataControl="InquiryInfoAMDataControl"/>
+    <action IterBinding="HederVO1Iterator" id="Delete"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <methodAction id="setSessionValues"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="setSessionValues" IsViewObjectMethod="false">
+      <NamedData NDName="orgId" NDValue="#{viewScope.OrgId}"
+                 NDType="java.lang.String"/>
+      <NamedData NDName="userId" NDValue="#{viewScope.UserId}"
+                 NDType="java.lang.String"/>
+      <NamedData NDName="respId" NDValue="#{viewScope.RespId}"
+                 NDType="java.lang.String"/>
+      <NamedData NDName="respAppl" NDValue="#{viewScope.RespApplId}"
+                 NDType="java.lang.String"/>
+    </methodAction>
+    <methodAction id="CalculateTotalProductionNewLINE"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="CalculateTotalProductionNewLINE"
+                  IsViewObjectMethod="false"
+                  ReturnName="data.InquiryInfoAMDataControl.methodResults.CalculateTotalProductionNewLINE_InquiryInfoAMDataControl_dataProvider_CalculateTotalProductionNewLINE_result">
+      <NamedData NDName="headerId" NDType="java.lang.String"/>
+    </methodAction>
+  </bindings>
+</pageDefinition>

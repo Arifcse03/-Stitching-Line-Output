@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="AdditionalPOPVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  RowClass="mnj.ont.model.lov.views.AdditionalPOPVORowImpl"
+  ComponentClass="mnj.ont.model.lov.views.AdditionalPOPVOImpl"
+  PageIterMode="Full"
+  UseGlueCode="false">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|Coll|VarAccess"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <Properties>
+    <SchemaBasedProperties>
+      <LABEL
+        ResId="mnj.ont.model.lov.views.AdditionalPOPVO_LABEL"/>
+    </SchemaBasedProperties>
+  </Properties>
+  <SQLQuery>
+    <![CDATA[SELECT DISTINCT
+       h.prod_trans_id,
+       h.division_id,
+       l.SUBLINE_NO,
+       l.Buyer_Id,
+       l.Style,
+       l.Season,
+       (SELECT DECODE (StyleLineEO.TRACK_BASIS,
+                       'Style Name', StyleLineEO.STYLE_NAME,
+                       'Style Number', StyleLineEO.STYLE_NUMBER)
+          FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
+               pwc_mfg_bss_buyer_h pwcmfgbssbuyerh
+         WHERE     StyleLineEO.STYLE_IDENTIFIER = l.STYLE
+               AND pwcmfgbssbuyerh.BUYER_ID = l.BUYER_ID
+               --AND   pwcmfgbssbuyerh.ORG_ID = LineVO.DIVISION_ID
+               AND StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
+               AND ROWNUM = 1)
+          CURRENT_STYLE,
+       (SELECT SeasonDetailEO.SEASON_NAME
+          FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
+               pwc_mfg_bss_buyer_h pwcmfgbssbuyerh,
+               PWC_MFG_BSS_SEASON_D SeasonDetailEO
+         WHERE     StyleLineEO.STYLE_IDENTIFIER = l.STYLE
+               AND SeasonDetailEO.SEASON_IDENTIFIER = l.SEASON
+               AND pwcmfgbssbuyerh.BUYER_ID = l.Buyer_Id
+               --AND   pwcmfgbssbuyerh.ORG_ID = LineVO.DIVISION_ID
+               AND StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
+               AND SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID
+               AND ROWNUM = 1)
+          CURRENT_SEASON,
+       (SELECT known_as
+          FROM hz_parties hp, hz_cust_accounts hca
+         WHERE     hp.party_id = hca.party_id
+               AND hca.CUST_ACCOUNT_ID = l.Buyer_Id
+               AND hp.KNOWN_AS IS NOT NULL)
+          buyer_name,
+      l.Color,  -- l.WASH W0,
+          (NVL (
+                       (SELECT (NVL (rpln.wash, 0))
+                          FROM MNJ_MFG_ROUTING_PLAN rpln
+                         WHERE     rpln.style = l.STYLE
+                               AND rpln.season = l.SEASON
+                               --AND rpln.color = l.VALUE_DESCRIPTION
+                               AND rpln.color=l.Color
+                              -- AND rpln.customer_id = HCA.CUST_ACCOUNT_ID
+                               AND ROWNUM = 1),
+                       0)) wash
+  FROM MNJ_MFG_LINEOUTPUT h, MNJ_MFG_LINEOUTPUT_SBLINE l
+ WHERE h.prod_trans_id = l.prod_trans_id]]>
+  </SQLQuery>
+  <ViewAttribute
+    Name="ProdTransId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="15"
+    Scale="0"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="PROD_TRANS_ID"
+    Expression="PROD_TRANS_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="16"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="DivisionId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="6"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="DIVISION_ID"
+    Expression="DIVISION_ID"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="6"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SublineNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="6"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SUBLINE_NO"
+    Expression="SUBLINE_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="6"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BuyerId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="BUYER_ID"
+    Expression="BUYER_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Style"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STYLE"
+    Expression="STYLE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Season"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SEASON"
+    Expression="SEASON"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentStyle"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_STYLE"
+    Expression="CURRENT_STYLE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentSeason"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_SEASON"
+    Expression="CURRENT_SEASON"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BuyerName"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="240"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BUYER_NAME"
+    Expression="BUYER_NAME"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="240"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Color"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="COLOR"
+    Expression="COLOR"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="500"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Wash"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="WASH"
+    Expression="WASH"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="OutSublineId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    IsNotNull="true"
+    PrecisionRule="true"
+    Precision="15"
+    Scale="0"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="OUT_SUBLINE_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="16"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="FlagNEW"
+    IsSelected="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="VIEW_ATTR"
+    SQLType="VARCHAR"/>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

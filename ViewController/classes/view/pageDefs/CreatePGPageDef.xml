@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel"
+                version="11.1.1.62.29" id="CreatePGPageDef"
+                Package="view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <iterator Binds="HederVO1" RangeSize="25"
+              DataControl="InquiryInfoAMDataControl" id="HederVO1Iterator"/>
+    <iterator Binds="LineVO1" RangeSize="25"
+              DataControl="InquiryInfoAMDataControl" id="LineVO1Iterator"/>
+    <searchRegion Binds="LineVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="LineVO1Query"/>
+    <iterator Binds="DetailVO1" RangeSize="25"
+              DataControl="InquiryInfoAMDataControl" id="DetailVO1Iterator"/>
+    <searchRegion Binds="DetailVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="DetailVO1Query"/>
+    <iterator Binds="FillBPOsCriteria1" RangeSize="25"
+              DataControl="InquiryInfoAMDataControl"
+              id="FillBPOsCriteria1Iterator"/>
+    <searchRegion Binds="FillBPOsCriteria1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="FillBPOsCriteria1Query"/>
+    <iterator Binds="SizeLOV1" RangeSize="25"
+              DataControl="InquiryInfoAMDataControl" id="SizeLOV1Iterator"/>
+    <searchRegion Binds="SizeLOV1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="SizeLOV1Query"/>
+    <iterator Binds="AdditionBlockVO1" RangeSize="25"
+              DataControl="InquiryInfoAMDataControl"
+              id="AdditionBlockVO1Iterator"/>
+    <iterator Binds="AdditionalPOPVO1" RangeSize="25"
+              DataControl="InquiryInfoAMDataControl"
+              id="AdditionalPOPVO1Iterator"/>
+    <searchRegion Binds="AdditionalPOPVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="AdditionalPOPVO1Query"/>
+    <searchRegion Binds="AdditionBlockVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="AdditionBlockVO1Query"/>
+    <iterator Binds="OffStandardVO1" RangeSize="25"
+              DataControl="InquiryInfoAMDataControl"
+              id="OffStandardVO1Iterator"/>
+    <searchRegion Binds="OffStandardVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="OffStandardVO1Query"/>
+    <iterator Binds="OffStandardLineVO1" RangeSize="25"
+              DataControl="InquiryInfoAMDataControl"
+              id="OffStandardLineVO1Iterator"/>
+    <iterator Binds="CodeDescreptionVO1" RangeSize="25"
+              DataControl="InquiryInfoAMDataControl"
+              id="CodeDescreptionVO1Iterator"/>
+    <searchRegion Binds="CodeDescreptionVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="CodeDescreptionVO1Query"/>
+    <searchRegion Binds="OffStandardLineVO1Iterator" Criteria=""
+                  Customizer="oracle.jbo.uicli.binding.JUSearchBindingCustomizer"
+                  id="OffStandardLineVO1Query"/>
+  </executables>
+  <bindings>
+    <attributeValues IterBinding="HederVO1Iterator" id="Remarks">
+      <AttrNames>
+        <Item Value="Remarks"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="HederVO1Iterator" id="Subinventory">
+      <AttrNames>
+        <Item Value="Subinventory"/>
+      </AttrNames>
+    </attributeValues>
+    <action id="Rollback" RequiresUpdateModel="false"
+            Action="rollbackTransaction"
+            DataControl="InquiryInfoAMDataControl"/>
+    <action id="Commit" RequiresUpdateModel="true" Action="commitTransaction"
+            DataControl="InquiryInfoAMDataControl"/>
+    <tree IterBinding="LineVO1Iterator" id="LineVO1">
+      <nodeDefinition DefName="mnj.ont.model.views.LineVO" Name="LineVO10">
+        <AttrNames>
+          <Item Value="SublineNo"/>
+          <Item Value="BuyerName"/>
+          <Item Value="Style"/>
+          <Item Value="Season"/>
+          <Item Value="BpoNo"/>
+          <Item Value="StnNo"/>
+          <Item Value="OutSublineId"/>
+          <Item Value="NoMachines"/>
+          <Item Value="Attribute1"/>
+          <Item Value="Attribute2"/>
+          <Item Value="PrvTargetqty"/>
+          <Item Value="BalanceTarget"/>
+          <Item Value="LineOutput"/>
+          <Item Value="TargetQty"/>
+          <Item Value="Remarks"/>
+          <Item Value="TotRejection"/>
+          <Item Value="DayRejection"/>
+          <Item Value="ProdType"/>
+          <Item Value="StnNumber"/>
+          <Item Value="JobName"/>
+          <Item Value="ErrorMessage"/>
+          <Item Value="LastAction"/>
+          <Item Value="Color"/>
+          <Item Value="TotalInput"/>
+          <Item Value="TotalProduetion"/>
+          <Item Value="Wip"/>
+          <Item Value="PrevTotalPro"/>
+          <Item Value="TotalPro"/>
+          <Item Value="Attribute3"/>
+          <Item Value="Attribute4"/>
+          <Item Value="Attribute5"/>
+          <Item Value="Attribute6"/>
+          <Item Value="Attribute7"/>
+          <Item Value="Attribute8"/>
+          <Item Value="BuyerId"/>
+          <Item Value="CurrentStyle"/>
+          <Item Value="CurrentSeason"/>
+          <Item Value="Wash"/>
+          <Item Value="SamValue"/>
+          <Item Value="ProducedMin"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action IterBinding="LineVO1Iterator" id="CreateInsert"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <action IterBinding="LineVO1Iterator" id="Delete"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <attributeValues IterBinding="HederVO1Iterator" id="OutrecDate">
+      <AttrNames>
+        <Item Value="OutrecDate"/>
+      </AttrNames>
+    </attributeValues>
+    <listOfValues StaticList="false" IterBinding="HederVO1Iterator"
+                  Uses="LOV_InseamId" id="InseamId"/>
+    <attributeValues IterBinding="HederVO1Iterator" id="OrderNumber">
+      <AttrNames>
+        <Item Value="OrderNumber"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="callPost"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="callPost" IsViewObjectMethod="false"
+                  ReturnName="data.InquiryInfoAMDataControl.methodResults.callPost_InquiryInfoAMDataControl_dataProvider_callPost_result">
+      <NamedData NDName="headerId" NDType="java.lang.String"/>
+    </methodAction>
+    <attributeValues IterBinding="HederVO1Iterator" id="ProdTransId">
+      <AttrNames>
+        <Item Value="ProdTransId"/>
+      </AttrNames>
+    </attributeValues>
+    <listOfValues StaticList="false" IterBinding="HederVO1Iterator"
+                  Uses="LOV_BuyerName" id="BuyerName"/>
+    <attributeValues IterBinding="HederVO1Iterator" id="CustomerId">
+      <AttrNames>
+        <Item Value="CustomerId"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="HederVO1Iterator" id="SalesorderId">
+      <AttrNames>
+        <Item Value="SalesorderId"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="DetailVO1Iterator" id="DetailVO1">
+      <nodeDefinition DefName="mnj.ont.model.views.DetailVO" Name="DetailVO10">
+        <AttrNames>
+          <Item Value="ProdQty"/>
+          <Item Value="ProductionQuantity"/>
+          <Item Value="Cutqty"/>
+          <Item Value="Rejection"/>
+          <Item Value="SizeVal"/>
+          <Item Value="PrevProdQty"/>
+          <Item Value="TotalInput"/>
+          <Item Value="TotalRejection"/>
+          <Item Value="TotalProduction"/>
+          <Item Value="Wip"/>
+          <Item Value="Inseem"/>
+          <Item Value="OutSublineId"/>
+          <Item Value="R1"/>
+          <Item Value="R2"/>
+          <Item Value="R3"/>
+          <Item Value="R4"/>
+          <Item Value="R5"/>
+          <Item Value="R6"/>
+          <Item Value="R7"/>
+          <Item Value="R8"/>
+          <Item Value="R9"/>
+          <Item Value="R10"/>
+          <Item Value="R11"/>
+          <Item Value="R12"/>
+          <Item Value="R13"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action IterBinding="DetailVO1Iterator" id="CreateInsert1"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <action IterBinding="DetailVO1Iterator" id="Delete1"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <listOfValues StaticList="false" IterBinding="HederVO1Iterator"
+                  Uses="LOV_Style" id="Style"/>
+    <attributeValues IterBinding="HederVO1Iterator" id="DocNo">
+      <AttrNames>
+        <Item Value="DocNo"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="FillBPOsCriteria1Iterator" id="FillBPOsCriteria1">
+      <nodeDefinition DefName="mnj.ont.model.lov.views.FillBPOsCriteria"
+                      Name="FillBPOsCriteria10">
+        <AttrNames>
+          <Item Value="BpoNo"/>
+          <Item Value="CustomerName"/>
+          <Item Value="StyleName"/>
+          <Item Value="Season"/>
+          <Item Value="StnNo"/>
+          <Item Value="Flag" Binds="Flag"/>
+          <Item Value="LineNo"/>
+          <Item Value="WipEntityName"/>
+          <Item Value="KnownAs"/>
+          <Item Value="Colour"/>
+          <Item Value="TotalInput"/>
+          <Item Value="BelQty"/>
+          <Item Value="TotRej"/>
+          <Item Value="WipQty"/>
+          <Item Value="IssQuantity"/>
+          <Item Value="ProductionDate"/>
+          <Item Value="Wip"/>
+          <Item Value="CurrentStyle"/>
+          <Item Value="CurrentSeason"/>
+          <Item Value="Wash"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <button IterBinding="FillBPOsCriteria1Iterator" id="Flag"
+            DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="Flag"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <methodAction id="FillLines"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="FillLines" IsViewObjectMethod="false"/>
+    <attributeValues IterBinding="HederVO1Iterator" id="Attribute1">
+      <AttrNames>
+        <Item Value="Attribute1"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="SizeLOV1Iterator" id="SizeLOV1">
+      <nodeDefinition DefName="mnj.ont.model.lov.views.SizeLOV"
+                      Name="SizeLOV10">
+        <AttrNames>
+          <Item Value="ObRef"/>
+          <Item Value="OrderedItem"/>
+          <Item Value="Description"/>
+          <Item Value="DcpoNo"/>
+          <Item Value="InseamQty"/>
+          <Item Value="DeliveryDate"/>
+          <Item Value="DeliveryTerm"/>
+          <Item Value="ShipMode"/>
+          <Item Value="Country"/>
+          <Item Value="InseamSizeConcat"/>
+          <Item Value="SizeQty"/>
+          <Item Value="Color"/>
+          <Item Value="Flag" Binds="Flag1"/>
+          <Item Value="SelSize" Binds="SelSize"/>
+          <Item Value="PrevProd"/>
+          <Item Value="TotalInput"/>
+          <Item Value="BelQty"/>
+          <Item Value="WipQty"/>
+          <Item Value="TotRej"/>
+          <Item Value="TotalQty"/>
+          <Item Value="PrevRejQty"/>
+          <Item Value="ActualDayProduction"/>
+          <Item Value="ActualDayRejection"/>
+          <Item Value="Inseam"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <button IterBinding="SizeLOV1Iterator" id="Flag1" DTSupportsMRU="false"
+            StaticList="true">
+      <AttrNames>
+        <Item Value="Flag"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <methodAction id="FillSizes"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="FillSizes" IsViewObjectMethod="false"/>
+    <button IterBinding="SizeLOV1Iterator" id="SelSize" DTSupportsMRU="false"
+            StaticList="true">
+      <AttrNames>
+        <Item Value="SelSize"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <methodAction id="setSizeWherCaluse"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="setSizeWherCaluse" IsViewObjectMethod="false"/>
+    <methodAction id="sumtotalRejectiondetail"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="sumtotalRejectiondetail"
+                  IsViewObjectMethod="false"
+                  ReturnName="data.InquiryInfoAMDataControl.methodResults.sumtotalRejectiondetail_InquiryInfoAMDataControl_dataProvider_sumtotalRejectiondetail_result">
+      <NamedData NDName="OutSublineId" NDType="java.lang.String"/>
+    </methodAction>
+    <methodAction id="sumtotalprodetail"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="sumtotalprodetail" IsViewObjectMethod="false"
+                  ReturnName="data.InquiryInfoAMDataControl.methodResults.sumtotalprodetail_InquiryInfoAMDataControl_dataProvider_sumtotalprodetail_result">
+      <NamedData NDName="OutSublineId" NDType="java.lang.String"/>
+    </methodAction>
+    <methodAction id="sumtotalProductionWIPLINE"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="sumtotalProductionWIPLINE"
+                  IsViewObjectMethod="false"
+                  ReturnName="data.InquiryInfoAMDataControl.methodResults.sumtotalProductionWIPLINE_InquiryInfoAMDataControl_dataProvider_sumtotalProductionWIPLINE_result">
+      <NamedData NDName="ProdTransId" NDType="java.lang.String"/>
+    </methodAction>
+    <methodAction id="sumtotalprodetailWIP"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="sumtotalprodetailWIP" IsViewObjectMethod="false"
+                  ReturnName="data.InquiryInfoAMDataControl.methodResults.sumtotalprodetailWIP_InquiryInfoAMDataControl_dataProvider_sumtotalprodetailWIP_result">
+      <NamedData NDName="OutSublineId" NDType="java.lang.String"/>
+    </methodAction>
+    <methodAction id="sumtotalProduction"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="sumtotalProduction" IsViewObjectMethod="false"
+                  ReturnName="data.InquiryInfoAMDataControl.methodResults.sumtotalProduction_InquiryInfoAMDataControl_dataProvider_sumtotalProduction_result"/>
+    <methodAction id="sumtotalRejection"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="sumtotalRejection" IsViewObjectMethod="false"
+                  ReturnName="data.InquiryInfoAMDataControl.methodResults.sumtotalRejection_InquiryInfoAMDataControl_dataProvider_sumtotalRejection_result"/>
+    <methodAction id="CalculateTotalProductionNewLINE"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="CalculateTotalProductionNewLINE"
+                  IsViewObjectMethod="false"
+                  ReturnName="data.InquiryInfoAMDataControl.methodResults.CalculateTotalProductionNewLINE_InquiryInfoAMDataControl_dataProvider_CalculateTotalProductionNewLINE_result">
+      <NamedData NDName="headerId" NDType="java.lang.String"/>
+    </methodAction>
+    <attributeValues IterBinding="HederVO1Iterator" id="Attribute2">
+      <AttrNames>
+        <Item Value="Attribute2"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="ExecuteBlock"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="ExecuteBlock" IsViewObjectMethod="false"/>
+    <action IterBinding="AdditionBlockVO1Iterator" id="CreateInsert2"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <action IterBinding="AdditionBlockVO1Iterator" id="Delete2"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <methodAction id="FillLinesNEW"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="FillLinesNEW" IsViewObjectMethod="false"/>
+    <methodAction id="setSizeWherCaluseNew"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="setSizeWherCaluseNew" IsViewObjectMethod="false"/>
+    <tree IterBinding="AdditionalPOPVO1Iterator" id="AdditionalPOPVO1">
+      <nodeDefinition DefName="mnj.ont.model.lov.views.AdditionalPOPVO"
+                      Name="AdditionalPOPVO10">
+        <AttrNames>
+          <Item Value="ProdTransId"/>
+          <Item Value="OutSublineId"/>
+          <Item Value="SublineNo"/>
+          <Item Value="BuyerId"/>
+          <Item Value="Style"/>
+          <Item Value="Season"/>
+          <Item Value="BuyerName"/>
+          <Item Value="Color"/>
+          <Item Value="FlagNEW" Binds="FlagNEW"/>
+          <Item Value="CurrentStyle"/>
+          <Item Value="CurrentSeason"/>
+          <Item Value="Wash"/>
+          <Item Value="DivisionId"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <button IterBinding="AdditionalPOPVO1Iterator" id="FlagNEW"
+            DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="FlagNEW"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <methodAction id="populateLinesNEW"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="populateLinesNEW" IsViewObjectMethod="false">
+      <NamedData NDName="poprow" NDType="oracle.jbo.Row"/>
+    </methodAction>
+    <tree IterBinding="AdditionBlockVO1Iterator" id="AdditionBlockVO1">
+      <nodeDefinition DefName="mnj.ont.model.views.AdditionBlockVO"
+                      Name="AdditionBlockVO10">
+        <AttrNames>
+          <Item Value="SublineNo"/>
+          <Item Value="WorkingHourBasic"/>
+          <Item Value="ManpowerBasic"/>
+          <Item Value="WorkingHourOvertime"/>
+          <Item Value="ManpowerOvertime"/>
+          <Item Value="WorkingHourExtraot1"/>
+          <Item Value="ManPowerExtraot1"/>
+          <Item Value="WorkingHourExtraot2"/>
+          <Item Value="ManPowerExtraot2"/>
+          <Item Value="Season"/>
+          <Item Value="Style"/>
+          <Item Value="Color"/>
+          <Item Value="BuyerName"/>
+          <Item Value="Attribute9"/>
+          <Item Value="BuyerId"/>
+          <Item Value="CurrentStyle"/>
+          <Item Value="CurrentSeason"/>
+          <Item Value="Wash"/>
+          <Item Value="Rrmarks"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <attributeValues IterBinding="HederVO1Iterator" id="JobQty">
+      <AttrNames>
+        <Item Value="JobQty"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="OffStandardVO1Iterator" id="OffStandardVO1">
+      <nodeDefinition DefName="mnj.ont.model.views.OffStandardVO"
+                      Name="OffStandardVO10">
+        <AttrNames>
+          <Item Value="StitchingLine"/>
+          <Item Value="TotalStandad"/>
+          <Item Value="Remarks"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action IterBinding="OffStandardLineVO1Iterator" id="CreateInsert3"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <action IterBinding="OffStandardLineVO1Iterator" id="Delete3"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <action IterBinding="OffStandardVO1Iterator" id="CreateInsert4"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <action IterBinding="OffStandardVO1Iterator" id="Delete4"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <methodAction id="FillLinesNEWTab"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="FillLinesNEWTab" IsViewObjectMethod="false"/>
+    <tree IterBinding="CodeDescreptionVO1Iterator" id="CodeDescreptionVO1">
+      <nodeDefinition DefName="mnj.ont.model.lov.CodeDescreptionVO"
+                      Name="CodeDescreptionVO10">
+        <AttrNames>
+          <Item Value="FlexValue"/>
+          <Item Value="Description"/>
+          <Item Value="FlagNEWTab" Binds="FlagNEWTab"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <button IterBinding="CodeDescreptionVO1Iterator" id="FlagNEWTab"
+            DTSupportsMRU="false" StaticList="true">
+      <AttrNames>
+        <Item Value="FlagNEWTab"/>
+      </AttrNames>
+      <ValueList>
+        <Item Value="Y"/>
+        <Item Value="N"/>
+      </ValueList>
+    </button>
+    <tree IterBinding="OffStandardLineVO1Iterator" id="OffStandardLineVO1">
+      <nodeDefinition DefName="mnj.ont.model.views.OffStandardLineVO"
+                      Name="OffStandardLineVO10">
+        <AttrNames>
+          <Item Value="ProdTransId"/>
+          <Item Value="LineId"/>
+          <Item Value="HeaderId"/>
+          <Item Value="CodeStandard"/>
+          <Item Value="Descreption"/>
+          <Item Value="Area"/>
+          <Item Value="TotalStandad"/>
+          <Item Value="Remarks"/>
+          <Item Value="Attribute3"/>
+          <Item Value="Attribute4"/>
+          <Item Value="Attribute5"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <methodAction id="selectAllLines"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="GET_TOTAL_SAM" IsViewObjectMethod="false"
+                  ReturnName="data.InquiryInfoAMDataControl.methodResults.selectAllLines_InquiryInfoAMDataControl_dataProvider_GET_TOTAL_SAM_result">
+      <NamedData NDName="p_header_id" NDType="int"/>
+    </methodAction>
+    <attributeValues IterBinding="HederVO1Iterator" id="TotalStandardMinutes">
+      <AttrNames>
+        <Item Value="TotalStandardMinutes"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="GET_TOTAL_MINUTS"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="GET_TOTAL_MINUTS" IsViewObjectMethod="false"
+                  ReturnName="data.InquiryInfoAMDataControl.methodResults.GET_TOTAL_MINUTS_InquiryInfoAMDataControl_dataProvider_GET_TOTAL_MINUTS_result">
+      <NamedData NDName="p_header_id" NDType="int"/>
+    </methodAction>
+    <methodAction id="completion"
+                  InstanceName="InquiryInfoAMDataControl.dataProvider"
+                  DataControl="InquiryInfoAMDataControl"
+                  RequiresUpdateModel="true" Action="invokeMethod"
+                  MethodName="completion" IsViewObjectMethod="false"
+                  ReturnName="data.InquiryInfoAMDataControl.methodResults.completion_InquiryInfoAMDataControl_dataProvider_completion_result">
+      <NamedData NDName="headerId" NDType="java.lang.String"/>
+      <NamedData NDName="respId" NDType="java.lang.String"/>
+    </methodAction>
+    <attributeValues IterBinding="HederVO1Iterator" id="Efficiency">
+      <AttrNames>
+        <Item Value="Efficiency"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="HederVO1Iterator" id="TotalProducedMinutes">
+      <AttrNames>
+        <Item Value="TotalProducedMinutes"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="HederVO1Iterator" id="TlStandardMin">
+      <AttrNames>
+        <Item Value="TlStandardMin"/>
+      </AttrNames>
+    </attributeValues>
+  </bindings>
+</pageDefinition>

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="DetailVO"
+  Version="11.1.1.62.29"
+  InheritPersonalization="true"
+  BindingStyle="OracleName"
+  CustomQuery="true"
+  PageIterMode="Full"
+  UseGlueCode="false"
+  RowClass="mnj.ont.model.views.DetailVORowImpl"
+  ComponentClass="mnj.ont.model.views.DetailVOImpl">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|Coll|VarAccess"/>
+    <Attr Name="_isExpertMode" Value="true"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <ViewAccessor
+    Name="SizeLOV1"
+    ViewObjectName="mnj.ont.model.lov.views.SizeLOV"
+    RowLevelBinds="true"/>
+  <ListBinding
+    Name="LOV_ProdQty"
+    ListVOName="SizeLOV1"
+    ListRangeSize="10"
+    NullValueFlag="none"
+    NullValueId="LOV_ProdQty_LOVUIHints_NullValueId"
+    MRUCount="0">
+    <AttrArray Name="AttrNames">
+      <Item Value="ProdQty"/>
+    </AttrArray>
+    <AttrArray Name="DerivedAttrNames">
+      <Item Value="ProductionQuantity"/>
+    </AttrArray>
+    <AttrArray Name="ListAttrNames">
+      <Item Value="InseamSizeConcat"/>
+      <Item Value="SizeQty"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
+      <Item Value="InseamSizeConcat"/>
+      <Item Value="SizeQty"/>
+    </AttrArray>
+    <DisplayCriteria
+      Hint="showAndExecute"
+      Name="SizeLOVCriteria"/>
+  </ListBinding>
+  <SQLQuery>
+    <![CDATA[SELECT DetailEO.DIVISION_ID, 
+       DetailEO.PROD_TRANS_ID, 
+       DetailEO.OUT_SUBLINE_ID, 
+       DetailEO.DETAIL_ID, 
+       DetailEO.PRODUCTION_QUANTITY, 
+       DetailEO.PROD_QTY,
+       DetailEO.Cutqty,
+       DetailEO.REJECTION,
+       DetailEO.SIZE_VAL,
+       DetailEO.PREV_PROD_QTY,
+       DetailEO.Total_Input,
+       DetailEO.Day_Prooduction,
+       DetailEO.Total_Production,
+       DetailEO.Total_Rejection,
+DetailEO.Inseem,
+DetailEO.wip,
+DetailEO.R1,
+DetailEO.R2,
+DetailEO.R3,
+DetailEO.R4,
+DetailEO.R5,
+DetailEO.R6,
+DetailEO.R7,
+DetailEO.R8,
+DetailEO.R9,
+DetailEO.R10,
+DetailEO.R11,
+DetailEO.R12,
+DetailEO.R13,
+DetailEO.CREATED_BY,
+DetailEO.CREATION_DATE,
+DetailEO.LAST_UPDATED_BY,
+DetailEO.LAST_UPDATE_DATE    
+FROM MNJ_MFG_LINEOUTPUT_DETAIL DetailEO]]>
+  </SQLQuery>
+  <EntityUsage
+    Name="DetailEO"
+    Entity="mnj.ont.model.entities.DetailEO"/>
+  <ViewAttribute
+    Name="DivisionId"
+    PrecisionRule="true"
+    EntityAttrName="DivisionId"
+    EntityUsage="DetailEO"
+    AliasName="DIVISION_ID"/>
+  <ViewAttribute
+    Name="ProdTransId"
+    PrecisionRule="true"
+    EntityAttrName="ProdTransId"
+    EntityUsage="DetailEO"
+    AliasName="PROD_TRANS_ID"/>
+  <ViewAttribute
+    Name="OutSublineId"
+    PrecisionRule="true"
+    EntityAttrName="OutSublineId"
+    EntityUsage="DetailEO"
+    AliasName="OUT_SUBLINE_ID"/>
+  <ViewAttribute
+    Name="DetailId"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="DetailId"
+    EntityUsage="DetailEO"
+    AliasName="DETAIL_ID"/>
+  <ViewAttribute
+    Name="ProductionQuantity"
+    PrecisionRule="true"
+    EntityAttrName="ProductionQuantity"
+    EntityUsage="DetailEO"
+    AliasName="PRODUCTION_QUANTITY"/>
+  <ViewAttribute
+    Name="ProdQty"
+    PrecisionRule="true"
+    EntityAttrName="ProdQty"
+    EntityUsage="DetailEO"
+    AliasName="PROD_QTY"
+    LOVName="LOV_ProdQty">
+    <Properties>
+      <SchemaBasedProperties>
+        <CONTROLTYPE
+          Value="input_text_lov"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="Cutqty"
+    PrecisionRule="true"
+    EntityAttrName="Cutqty"
+    EntityUsage="DetailEO"
+    AliasName="CUTQTY"/>
+  <ViewAttribute
+    Name="Rejection"
+    PrecisionRule="true"
+    EntityAttrName="Rejection"
+    EntityUsage="DetailEO"
+    AliasName="REJECTION"/>
+  <ViewAttribute
+    Name="SizeVal"
+    PrecisionRule="true"
+    EntityAttrName="SizeVal"
+    EntityUsage="DetailEO"
+    AliasName="SIZE_VAL"/>
+  <ViewAttribute
+    Name="PrevProdQty"
+    PrecisionRule="true"
+    EntityAttrName="PrevProdQty"
+    EntityUsage="DetailEO"
+    AliasName="PREV_PROD_QTY"/>
+  <ViewAttribute
+    Name="TotalInput"
+    PrecisionRule="true"
+    EntityAttrName="TotalInput"
+    EntityUsage="DetailEO"
+    AliasName="TOTAL_INPUT"/>
+  <ViewAttribute
+    Name="DayProoduction"
+    PrecisionRule="true"
+    EntityAttrName="DayProoduction"
+    EntityUsage="DetailEO"
+    AliasName="DAY_PROODUCTION"/>
+  <ViewAttribute
+    Name="TotalProduction"
+    PrecisionRule="true"
+    EntityAttrName="TotalProduction"
+    EntityUsage="DetailEO"
+    AliasName="TOTAL_PRODUCTION"/>
+  <ViewAttribute
+    Name="TotalRejection"
+    PrecisionRule="true"
+    EntityAttrName="TotalRejection"
+    EntityUsage="DetailEO"
+    AliasName="TOTAL_REJECTION"/>
+  <ViewAttribute
+    Name="Inseem"
+    PrecisionRule="true"
+    AliasName="INSEEM"
+    EntityAttrName="Inseem"
+    EntityUsage="DetailEO"/>
+  <ViewAttribute
+    Name="Wip"
+    PrecisionRule="true"
+    AliasName="WIP"
+    EntityAttrName="Wip"
+    EntityUsage="DetailEO"/>
+  <ViewAttribute
+    Name="R1"
+    PrecisionRule="true"
+    EntityAttrName="R1"
+    EntityUsage="DetailEO"
+    AliasName="R1"/>
+  <ViewAttribute
+    Name="R2"
+    PrecisionRule="true"
+    EntityAttrName="R2"
+    EntityUsage="DetailEO"
+    AliasName="R2"/>
+  <ViewAttribute
+    Name="R3"
+    PrecisionRule="true"
+    EntityAttrName="R3"
+    EntityUsage="DetailEO"
+    AliasName="R3"/>
+  <ViewAttribute
+    Name="R4"
+    PrecisionRule="true"
+    EntityAttrName="R4"
+    EntityUsage="DetailEO"
+    AliasName="R4"/>
+  <ViewAttribute
+    Name="R5"
+    PrecisionRule="true"
+    EntityAttrName="R5"
+    EntityUsage="DetailEO"
+    AliasName="R5"/>
+  <ViewAttribute
+    Name="R6"
+    PrecisionRule="true"
+    EntityAttrName="R6"
+    EntityUsage="DetailEO"
+    AliasName="R6"/>
+  <ViewAttribute
+    Name="R7"
+    PrecisionRule="true"
+    EntityAttrName="R7"
+    EntityUsage="DetailEO"
+    AliasName="R7"/>
+  <ViewAttribute
+    Name="R8"
+    PrecisionRule="true"
+    EntityAttrName="R8"
+    EntityUsage="DetailEO"
+    AliasName="R8"/>
+  <ViewAttribute
+    Name="R9"
+    PrecisionRule="true"
+    EntityAttrName="R9"
+    EntityUsage="DetailEO"
+    AliasName="R9"/>
+  <ViewAttribute
+    Name="R10"
+    PrecisionRule="true"
+    EntityAttrName="R10"
+    EntityUsage="DetailEO"
+    AliasName="R10"/>
+  <ViewAttribute
+    Name="R11"
+    PrecisionRule="true"
+    EntityAttrName="R11"
+    EntityUsage="DetailEO"
+    AliasName="R11"/>
+  <ViewAttribute
+    Name="R12"
+    PrecisionRule="true"
+    EntityAttrName="R12"
+    EntityUsage="DetailEO"
+    AliasName="R12"/>
+  <ViewAttribute
+    Name="R13"
+    PrecisionRule="true"
+    EntityAttrName="R13"
+    EntityUsage="DetailEO"
+    AliasName="R13"/>
+  <ViewAttribute
+    Name="CreatedBy"
+    PrecisionRule="true"
+    EntityAttrName="CreatedBy"
+    EntityUsage="DetailEO"
+    AliasName="CREATED_BY"/>
+  <ViewAttribute
+    Name="CreationDate"
+    PrecisionRule="true"
+    EntityAttrName="CreationDate"
+    EntityUsage="DetailEO"
+    AliasName="CREATION_DATE"/>
+  <ViewAttribute
+    Name="LastUpdatedBy"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdatedBy"
+    EntityUsage="DetailEO"
+    AliasName="LAST_UPDATED_BY"/>
+  <ViewAttribute
+    Name="LastUpdateDate"
+    PrecisionRule="true"
+    EntityAttrName="LastUpdateDate"
+    EntityUsage="DetailEO"
+    AliasName="LAST_UPDATE_DATE"/>
+</ViewObject>
