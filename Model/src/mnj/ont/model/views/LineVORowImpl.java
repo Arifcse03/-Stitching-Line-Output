@@ -740,6 +740,26 @@ public class LineVORowImpl extends ViewRowImpl {
             }
         }
         ,
+        BpoId {
+            public Object get(LineVORowImpl obj) {
+                return obj.getBpoId();
+            }
+
+            public void put(LineVORowImpl obj, Object value) {
+                obj.setBpoId((Number)value);
+            }
+        }
+        ,
+        SystemId {
+            public Object get(LineVORowImpl obj) {
+                return obj.getSystemId();
+            }
+
+            public void put(LineVORowImpl obj, Object value) {
+                obj.setSystemId((Number)value);
+            }
+        }
+        ,
         DetailVO {
             public Object get(LineVORowImpl obj) {
                 return obj.getDetailVO();
@@ -910,6 +930,8 @@ public class LineVORowImpl extends ViewRowImpl {
     public static final int BALANCETARGET = AttributesEnum.BalanceTarget.index();
     public static final int OPERATIONLINE = AttributesEnum.OperationLine.index();
     public static final int STNNO = AttributesEnum.StnNo.index();
+    public static final int BPOID = AttributesEnum.BpoId.index();
+    public static final int SYSTEMID = AttributesEnum.SystemId.index();
     public static final int DETAILVO = AttributesEnum.DetailVO.index();
     public static final int SIZELOV1 = AttributesEnum.SizeLOV1.index();
     public static final int LINENOCODEVO1 = AttributesEnum.LineNoCodeVO1.index();
@@ -1731,6 +1753,38 @@ public class LineVORowImpl extends ViewRowImpl {
      */
     public void setStnNo(String value) {
         setAttributeInternal(STNNO, value);
+    }
+
+    /**
+     * Gets the attribute value for BPO_ID using the alias name BpoId.
+     * @return the BPO_ID
+     */
+    public Number getBpoId() {
+        return (Number) getAttributeInternal(BPOID);
+    }
+
+    /**
+     * Sets <code>value</code> as attribute value for BPO_ID using the alias name BpoId.
+     * @param value value to set the BPO_ID
+     */
+    public void setBpoId(Number value) {
+        setAttributeInternal(BPOID, value);
+    }
+
+    /**
+     * Gets the attribute value for SYSTEM_ID using the alias name SystemId.
+     * @return the SYSTEM_ID
+     */
+    public Number getSystemId() {
+        return (Number) getAttributeInternal(SYSTEMID);
+    }
+
+    /**
+     * Sets <code>value</code> as attribute value for SYSTEM_ID using the alias name SystemId.
+     * @param value value to set the SYSTEM_ID
+     */
+    public void setSystemId(Number value) {
+        setAttributeInternal(SYSTEMID, value);
     }
 
     /**

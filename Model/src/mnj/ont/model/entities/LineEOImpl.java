@@ -661,6 +661,26 @@ public class LineEOImpl extends EntityImpl {
             }
         }
         ,
+        BpoId {
+            public Object get(LineEOImpl obj) {
+                return obj.getBpoId();
+            }
+
+            public void put(LineEOImpl obj, Object value) {
+                obj.setBpoId((Number)value);
+            }
+        }
+        ,
+        SystemId {
+            public Object get(LineEOImpl obj) {
+                return obj.getSystemId();
+            }
+
+            public void put(LineEOImpl obj, Object value) {
+                obj.setSystemId((Number)value);
+            }
+        }
+        ,
         HederEO {
             public Object get(LineEOImpl obj) {
                 return obj.getHederEO();
@@ -790,6 +810,8 @@ public class LineEOImpl extends EntityImpl {
     public static final int SAMVALUE = AttributesEnum.SamValue.index();
     public static final int WASH = AttributesEnum.Wash.index();
     public static final int PRODUCEDMIN = AttributesEnum.ProducedMin.index();
+    public static final int BPOID = AttributesEnum.BpoId.index();
+    public static final int SYSTEMID = AttributesEnum.SystemId.index();
     public static final int HEDEREO = AttributesEnum.HederEO.index();
     public static final int DETAILEO = AttributesEnum.DetailEO.index();
     public static final int DETAILEO1 = AttributesEnum.DetailEO1.index();
@@ -1787,6 +1809,38 @@ public class LineEOImpl extends EntityImpl {
      */
     public void setProducedMin(Number value) {
         setAttributeInternal(PRODUCEDMIN, value);
+    }
+
+    /**
+     * Gets the attribute value for BpoId, using the alias name BpoId.
+     * @return the BpoId
+     */
+    public Number getBpoId() {
+        return (Number)getAttributeInternal(BPOID);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for BpoId.
+     * @param value value to set the BpoId
+     */
+    public void setBpoId(Number value) {
+        setAttributeInternal(BPOID, value);
+    }
+
+    /**
+     * Gets the attribute value for SystemId, using the alias name SystemId.
+     * @return the SystemId
+     */
+    public Number getSystemId() {
+        return (Number)getAttributeInternal(SYSTEMID);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for SystemId.
+     * @param value value to set the SystemId
+     */
+    public void setSystemId(Number value) {
+        setAttributeInternal(SYSTEMID, value);
     }
 
     /**
