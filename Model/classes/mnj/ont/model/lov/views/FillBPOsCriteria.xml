@@ -20,47 +20,20 @@
     </SchemaBasedProperties>
   </Properties>
   <Variable
-    Name="p_Org_Id"
+    Name="P_ORG_ID"
     Kind="where"
     Type="java.lang.String">
     <TransientExpression><![CDATA[adf.context.sessionScope.orgId]]></TransientExpression>
   </Variable>
   <SQLQuery>
-    <![CDATA[/* Formatted on 7/21/2019 10:26:05 AM by Abdul Ahad (QP5 v5.256.13226.35510) */
-  SELECT PRODUCTION_DATE,
+    <![CDATA[/* Formatted on 2/18/2021 5:45:12 PM (QP5 v5.256.13226.35510) --Developed By Syed Abdul Ahad-- */
+  SELECT SYSTEM_ID,
          BPO_NO,
          COLOUR,
          WASH,
-         KNOWN_AS,
-         HEADER_ID,
          ORG_ID,
          STYLE_NAME,
          SEASON,
-         (SELECT DECODE (StyleLineEO.TRACK_BASIS,
-                         'Style Name', StyleLineEO.STYLE_NAME,
-                         'Style Number', StyleLineEO.STYLE_NUMBER)
-            FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
-                 pwc_mfg_bss_buyer_h pwcmfgbssbuyerh
-           WHERE     StyleLineEO.STYLE_IDENTIFIER = aa.STYLE_NAME
-                 AND pwcmfgbssbuyerh.BUYER_ID = aa.CUST_ACCOUNT_ID
-                 --AND pwcmfgbssbuyerh.ORG_ID = LineVO.DIVISION_ID
-                 AND StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
-                 AND ROWNUM = 1)
-            CURRENT_STYLE,
-         (SELECT SeasonDetailEO.SEASON_NAME
-            FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
-                 pwc_mfg_bss_buyer_h pwcmfgbssbuyerh,
-                 PWC_MFG_BSS_SEASON_D SeasonDetailEO
-           WHERE     StyleLineEO.STYLE_IDENTIFIER = aa.STYLE_NAME
-                 AND SeasonDetailEO.SEASON_IDENTIFIER = aa.SEASON
-                 AND pwcmfgbssbuyerh.BUYER_ID = aa.CUST_ACCOUNT_ID
-                 --AND pwcmfgbssbuyerh.ORG_ID = LineVO.DIVISION_ID
-                 AND StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
-                 AND SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID
-                 AND ROWNUM = 1)
-            CURRENT_SEASON,
-         STN_NO,
-         CUST_ACCOUNT_ID,
          LINE_NO,
          WIP_ENTITY_ID,
          WIP_ENTITY_NAME,
@@ -69,31 +42,15 @@
          TOT_REJ TOT_REJ,
          SUM (ISS_QUANTITY) - (BEL_QTY - TOT_REJ) WIP,
          SUM (ISS_QUANTITY) ISS_QUANTITY,
-         FIND_STITCH_LINEOUTPUT_LASTSAM (CUST_ACCOUNT_ID,
-                                         STYLE_NAME,
-                                         SEASON,
-                                         COLOUR,
-                                         WASH)
-            sam
-    --SAM
-    FROM (  SELECT (SELECT MAX (H.OUTREC_DATE)
-                      FROM MNJ_MFG_LINEOUTPUT H, MNJ_MFG_LINEOUTPUT_SBLINE LL
-                     WHERE     H.PROD_TRANS_ID = LL.PROD_TRANS_ID
-                           AND LL.BPO_NO = OOHA.CUST_PO_NUMBER
-                           AND LL.STN_NUMBER = MMRSA.STN_NO
-                           AND LL.SALE_ORDER_ID = OOHA.HEADER_ID
-                           AND LL.DIVISION_ID = OOHA.ORG_ID
-                           AND LL.SUBLINE_NO = MMC.LINE_NO)
-                      PRODUCTION_DATE,
-                   OOHA.CUST_PO_NUMBER BPO_NO,
-                   MCV.VALUE_DESCRIPTION COLOUR,
-                   HP.KNOWN_AS,
-                   OOHA.HEADER_ID,
-                   OOHA.ORG_ID,
-                   MMC.STYLE STYLE_NAME,
-                   MMC.SEASON,
-                   OOHA.CUST_PO_NUMBER || '/' || OOLA.LINE_NUMBER STN_NO,
-                   HCA.CUST_ACCOUNT_ID,
+         FIND_STITCH_LINEOUTPUT_LSTSAM (SYSTEM_ID) SAM
+    FROM (  SELECT PL.SYSTEM_ID,
+                   PH.POC_ID,
+                   PB.BPO BPO_NO,
+                   PL.COLOR COLOUR,
+                   PH.LC_UNIT ORG_ID,
+                   PH.style STYLE_NAME,
+                   PH.season,
+                   --PB.BPO_ID,
                    MMC.LINE_NO,
                    WDJ.WIP_ENTITY_ID,
                    WDJ.WIP_ENTITY_NAME,
@@ -102,28 +59,18 @@
                       (SELECT SUM (NVL (LL.LINE_OUTPUT, 0))
                          FROM MNJ_MFG_LINEOUTPUT H, MNJ_MFG_LINEOUTPUT_SBLINE LL
                         WHERE     H.PROD_TRANS_ID = LL.PROD_TRANS_ID
-                              AND LL.BPO_NO = OOHA.CUST_PO_NUMBER
-                              AND LL.STN_NUMBER = MMRSA.STN_NO
-                              AND LL.SALE_ORDER_ID = OOHA.HEADER_ID
-                              AND LL.DIVISION_ID = OOHA.ORG_ID
-                              AND LL.SUBLINE_NO = MMC.LINE_NO
-                              AND LL.COLOR = MCV.VALUE_DESCRIPTION
-                              AND LL.SEASON = MMC.SEASON
-                              AND LL.STYLE = MMC.STYLE),
+                              AND LL.BPO_ID = PB.BPO_ID
+                              AND LL.BPO_ID = MMRSA.bpo_id
+                              AND LL.SUBLINE_NO = MMC.LINE_NO),
                       0)
                       BEL_QTY,
                    NVL (
                       (SELECT SUM (NVL (LL.DAY_REJECTION, 0))
                          FROM MNJ_MFG_LINEOUTPUT H, MNJ_MFG_LINEOUTPUT_SBLINE LL
                         WHERE     H.PROD_TRANS_ID = LL.PROD_TRANS_ID
-                              AND LL.BPO_NO = OOHA.CUST_PO_NUMBER
-                              AND LL.STN_NUMBER = MMRSA.STN_NO
-                              AND LL.SALE_ORDER_ID = OOHA.HEADER_ID
-                              AND LL.DIVISION_ID = OOHA.ORG_ID
-                              AND LL.SUBLINE_NO = MMC.LINE_NO
-                              AND LL.COLOR = MCV.VALUE_DESCRIPTION
-                              AND LL.SEASON = MMC.SEASON
-                              AND LL.STYLE = MMC.STYLE),
+                              AND LL.BPO_ID = PB.BPO_ID
+                              AND LL.bpo_id = MMRSA.bpo_id
+                              AND LL.SUBLINE_NO = MMC.LINE_NO),
                       0)
                       TOT_REJ,
                    (SELECT COUNT (1)
@@ -134,146 +81,103 @@
                               FROM MNJ_MFG_CUTISSUANCE_LINE MMCL,
                                    MNJ_MFG_CUTISSUANCE_SZLINE MMCD
                              WHERE     1 = 1
-                                   AND MMC.CUTISSUE_ID = MMCL.CUTISSUE_ID
-                                   --AND 42 = MMCL.CUTISSUE_ID
+                                   AND MMC.CUTISSUE_ID = MMCL.CUTISSUE_ID 
                                    AND MMCL.CUTISSUE_LINE_ID =
                                           MMCD.CUTISSUE_LINE_ID) QUERY_M
                      WHERE     MMPS.PIECE_NO BETWEEN QUERY_M.MINI
                                                  AND QUERY_M.MAXI
-                           AND MMPS.STN =
-                                  OOHA.CUST_PO_NUMBER || '/' || OOLA.LINE_NUMBER
+                           AND MMPS.bpo_id = PB.bpo_id
                            AND QUERY_M.BANDEL_NO = MMPS.BUNDLE_NO
-                           AND (SELECT    MMCH1.BUYER_ID
-                                       || MMCH1.STYLE
-                                       || MMCH1.SEASON
+                           --AND MMPS.PIECE_STN_ID > 30314620
+                           AND (SELECT MMCH1.POC_ID
                                   FROM MNJ_MFG_CUTLYRCNTRL_L MMCL1,
                                        MNJ_MFG_CUTLYRCNTRL_H MMCH1
                                  WHERE     MMCH1.HEADER_ID = MMCL1.HEADER_ID
                                        AND MMCL1.LINE_ID = MMPS.LINE_ID) =
-                                  MMC.BUYER_ID || MMC.STYLE || MMC.SEASON)
+                                  PH.POC_ID)
                       ISS_QUANTITY,
                    (NVL (
                        (SELECT (NVL (rpln.sam_stitch, 0))
                           FROM MNJ_MFG_ROUTING_PLAN rpln
-                         WHERE     rpln.style = MMC.STYLE
-                               AND rpln.season = MMC.SEASON
-                               AND rpln.color = MCV.VALUE_DESCRIPTION
-                               AND rpln.customer_id = HCA.CUST_ACCOUNT_ID
+                         WHERE     1 = 1
+                               AND rpln.system_id = pl.system_id
                                AND ROWNUM = 1),
                        0))
                       SAM,
-                   /*(NVL (
-                       (SELECT (NVL (rpln.wash, 0))
-                          FROM MNJ_MFG_ROUTING_PLAN rpln
-                         WHERE     rpln.style = MMC.STYLE
-                               AND rpln.season = MMC.SEASON
-                               AND rpln.color = MCV.VALUE_DESCRIPTION
-                               AND rpln.customer_id = HCA.CUST_ACCOUNT_ID
-                               AND ROWNUM = 1),
-                       0))*/
-                   --Commented by Abdul Ahad on requirements of finding eaxct wash name
-                   wdj.attribute9 WASH ---Wash add  by Ahad based on Requiremtns of Tareq on 13-MAR-2018
-              FROM OE_ORDER_HEADERS_ALL OOHA,
-                   OE_ORDER_LINES_ALL OOLA,
-                   MNJ_MFG_CUTISSUANCE MMC,
-                   MNJ_MFG_RATIOPLAN MMR,
+                   PL.WASH_NAME WASH
+              FROM XX_OM_POC_H_T PH,
+                   XX_OM_POC_L_T PL,
+                   XX_OM_BPO_INFO_T PB,
                    MNJ_MFG_RATIOPLAN_STNS_ALL MMRSA,
-                   WIP_DISCRETE_JOBS_V WDJ,
-                   HZ_PARTIES HP,
-                   HZ_CUST_ACCOUNTS HCA,
-                   MNJ_COLOR_V MCV,
-                   MTL_SYSTEM_ITEMS_B MSIB
+                   MNJ_MFG_RATIOPLAN MMR,
+                   MNJ_MFG_CUTISSUANCE MMC,
+                   WIP_DISCRETE_JOBS_V WDJ
              WHERE     1 = 1
-                   AND MMC.RATION_NO = MMR.RATIOPLAN_NUMBER
+                   AND PH.POC_ID = PL.POC_ID
+                   AND PL.FOB_ID = PB.FOB_ID
+                   AND MMRSA.BPO_ID = PB.BPO_ID
                    AND MMR.RATIOPLAN_ID = MMRSA.RATIOPLAN_ID
-                   AND wdj.attribute8 = mmr.color
-                   AND wdj.attribute7 = mmr.season
-                   AND wdj.attribute6 = mmr.style
-                   AND MMRSA.STN_NO =
-                          OOHA.CUST_PO_NUMBER || '/' || OOLA.LINE_NUMBER
-                   AND MMC.BUYER_ID = OOHA.SOLD_TO_ORG_ID
-                   AND MMC.SEASON = OOHA.ATTRIBUTE4
-                   AND HCA.CUST_ACCOUNT_ID = OOHA.SOLD_TO_ORG_ID
-                   AND OOHA.HEADER_ID = OOLA.HEADER_ID
-                   --AND MMC.COLOR = MCV.VALUE_DESCRIPTION
-                   AND HP.PARTY_ID = HCA.PARTY_ID
-                   --AND MMC.ISSUE_TO = 'Issued to Stich'
-                   AND MMC.LINE_NO IS NOT NULL
-                   AND MSIB.INVENTORY_ITEM_ID = OOLA.INVENTORY_ITEM_ID
-                   AND MSIB.ORGANIZATION_ID = 353
-                   AND MCV.FLEX_VALUE = MSIB.SEGMENT4
+                   AND MMC.SYSTEM_ID = PL.SYSTEM_ID
                    AND WDJ.CLASS_CODE = 'STI'
                    AND wdj.status_type NOT IN (7, 12)
+                   AND TO_CHAR (PL.SYSTEM_ID) = WDJ.ATTRIBUTE10
+                   AND TO_CHAR (MMR.SYSTEM_ID) = MMC.SYSTEM_ID
                    AND (SELECT                                      --DISTINCT
-                               mmoda.final_mfg_org_id
-                          FROM mnj_mfg_osp_dep_assign mmoda,
-                               mnj_mfg_osp_stn_line mmosl,
-                               MNJ_MFG_OSP_HEADER mmoh
-                         WHERE     mmoda.stn_line_id = mmosl.stn_line_id
-                               AND mmosl.header_id = mmoh.header_id
-                               AND mmoh.style = wdj.attribute6
-                               AND mmoh.season = wdj.attribute7
-                               AND mmosl.color = wdj.attribute8
+                               MMODA.FINAL_MFG_ORG_ID
+                          FROM MNJ_MFG_OSP_DEP_ASSIGN MMODA,
+                               MNJ_MFG_OSP_STN_LINE MMOSL,
+                               MNJ_MFG_OSP_HEADER MMOH
+                         WHERE     MMODA.STN_LINE_ID = MMOSL.STN_LINE_ID
+                               AND MMOSL.HEADER_ID = MMOH.HEADER_ID
+                               AND TO_CHAR (MMOSL.SYSTEM_ID) = WDJ.ATTRIBUTE10
                                AND MMODA.FINAL_DEPARTMENT = 'Stitching'
-                               AND ROWNUM = 1) = :p_Org_Id
-          --                   AND MMC.STYLE='368490'
-          --                   AND MMC.season='Summer-19'
-          --                   AND MMC.BUYER_ID='1086'
-          --                   AND OOHA.CUST_PO_NUMBER='NM43U'
-          GROUP BY OOHA.CUST_PO_NUMBER,
-                   MMRSA.STN_NO,
-                   MCV.VALUE_DESCRIPTION,
-                   HP.KNOWN_AS,
-                   OOHA.HEADER_ID,
-                   OOHA.ORG_ID,
-                   MMC.STYLE,
-                   MMC.SEASON,
-                   OOHA.CUST_PO_NUMBER || '/' || OOLA.LINE_NUMBER,
-                   HCA.CUST_ACCOUNT_ID,
+                               AND ROWNUM = 1) = :P_ORG_ID
+                   --AND PL.SYSTEM_ID = 3068
+          GROUP BY PL.SYSTEM_ID,
+                   PB.BPO,
+                   PL.COLOR,
+                   PH.LC_UNIT,
+                   PH.style,
+                   PH.season,
+                   PB.BPO_ID,
+                   MMC.CUTISSUE_ID,
                    MMC.LINE_NO,
                    WDJ.WIP_ENTITY_ID,
                    WDJ.WIP_ENTITY_NAME,
                    WDJ.ORGANIZATION_ID,
-                   MMC.LINE_NO,
-                   MMC.CUTISSUE_ID,
-                   MMC.BUYER_ID,
-                   MMC.STYLE,
-                   MMC.SEASON,
-                   wdj.attribute9) aa
-   WHERE 1 = 1 AND ISS_QUANTITY <> 0
-GROUP BY PRODUCTION_DATE,
+                   PL.WASH_NAME,
+                   MMRSA.bpo_id,
+                   PH.POC_ID) aa
+   WHERE 1 = 1     AND ISS_QUANTITY <> 0
+GROUP BY SYSTEM_ID,
          BPO_NO,
          COLOUR,
          WASH,
-         KNOWN_AS,
-         HEADER_ID,
          ORG_ID,
          STYLE_NAME,
          SEASON,
-         STN_NO,
-         CUST_ACCOUNT_ID,
          LINE_NO,
          WIP_ENTITY_ID,
          WIP_ENTITY_NAME,
          ORGANIZATION_ID,
-         SAM,
+         --         SAM,--
          WASH,
          --ISS_QUANTITY,
          BEL_QTY,
          TOT_REJ]]>
   </SQLQuery>
   <ViewAttribute
-    Name="ProductionDate"
+    Name="SystemId"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
-    Type="oracle.jbo.domain.Date"
-    ColumnType="DATE"
-    AliasName="PRODUCTION_DATE"
-    SQLType="DATE"
-    Expression="PRODUCTION_DATE">
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="SYSTEM_ID"
+    Expression="SYSTEM_ID"
+    SQLType="NUMERIC">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="7"/>
+      <Attr Name="_DisplaySize" Value="39"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
@@ -322,36 +226,6 @@ GROUP BY PRODUCTION_DATE,
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="KnownAs"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="240"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="KNOWN_AS"
-    SQLType="VARCHAR"
-    Expression="KNOWN_AS">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="240"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="HeaderId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="HEADER_ID"
-    SQLType="NUMERIC"
-    Expression="HEADER_ID">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
     Name="OrgId"
     IsUpdateable="false"
     IsPersistent="false"
@@ -393,68 +267,6 @@ GROUP BY PRODUCTION_DATE,
     Expression="SEASON">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="500"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="CurrentStyle"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="250"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="CURRENT_STYLE"
-    Expression="CURRENT_STYLE"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="CurrentSeason"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="250"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="CURRENT_SEASON"
-    Expression="CURRENT_SEASON"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="StnNo"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="91"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="STN_NO"
-    SQLType="VARCHAR"
-    Expression="STN_NO">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="91"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="CustAccountId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Precision="15"
-    Scale="0"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="CUST_ACCOUNT_ID"
-    SQLType="NUMERIC"
-    Expression="CUST_ACCOUNT_ID">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="16"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
@@ -586,6 +398,105 @@ GROUP BY PRODUCTION_DATE,
     Expression="SAM">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ProductionDate"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Date"
+    ColumnType="DATE"
+    AliasName="PRODUCTION_DATE"
+    SQLType="DATE">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="7"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="KnownAs"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="240"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="KNOWN_AS"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="240"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="HeaderId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    IsNotNull="true"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="HEADER_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentStyle"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_STYLE"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CurrentSeason"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="250"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="CURRENT_SEASON"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="250"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="StnNo"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="91"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STN_NO"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="91"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="CustAccountId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    IsNotNull="true"
+    PrecisionRule="true"
+    Precision="15"
+    Scale="0"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="CUST_ACCOUNT_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="16"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute

@@ -243,7 +243,9 @@ AND   SeasonDetailEO.SEASON_IDENTIFIER = LineVO.SEASON
        --AND   pwcmfgbssbuyerh.ORG_ID = LineVO.DIVISION_ID 
        AND   StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
        AND   SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID 
-       AND   rownum = 1) CURRENT_SEASON/*,
+       AND   rownum = 1) CURRENT_SEASON,
+       LineVO.Bpo_Id,
+       LineVO.System_Id/*,
  NVL ((SELECT SUM(NVL(ll.line_output,0)) FROM MNJ_MFG_LINEOUTPUT h, 
          MNJ_MFG_LINEOUTPUT_SBLINE ll, oe_order_headers_all         ooha
           WHERE h.prod_trans_id=ll.prod_trans_id
@@ -798,6 +800,18 @@ AND   SeasonDetailEO.SEASON_IDENTIFIER = LineVO.SEASON
     Type="java.lang.String"
     ColumnType="$none$"
     SQLType="VARCHAR"/>
+  <ViewAttribute
+    Name="BpoId"
+    PrecisionRule="true"
+    EntityAttrName="BpoId"
+    EntityUsage="LineVO"
+    AliasName="BPO_ID"/>
+  <ViewAttribute
+    Name="SystemId"
+    PrecisionRule="true"
+    EntityAttrName="SystemId"
+    EntityUsage="LineVO"
+    AliasName="SYSTEM_ID"/>
   <ViewLinkAccessor
     Name="DetailVO"
     ViewLink="mnj.ont.model.views.LineDetail"
