@@ -304,6 +304,14 @@
                             <f:validator binding="#{row.bindings.SublineNo.validator}"/>
                           </af:inputText>
                         </af:column>
+                        <af:column headerText="System Id"
+                                   id="c122" align="center" sortable="true"
+                                   filterable="true" sortProperty="SystemId">
+                          <af:outputText value="#{row.SystemId}" id="ot46">
+                            <af:convertNumber groupingUsed="false"
+                                              pattern="#{bindings.LineVO1.hints.SystemId.format}"/>
+                          </af:outputText>
+                        </af:column>
                         <af:column headerText="Buyer Name" id="c20"
                                    sortProperty="BuyerName" filterable="true"
                                    sortable="false" align="center" width="110">

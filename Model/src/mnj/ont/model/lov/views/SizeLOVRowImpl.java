@@ -25,13 +25,43 @@ public class SizeLOVRowImpl extends ViewRowImpl {
             }
         }
         ,
-        UserItemDescription {
+        SystemId {
             public Object get(SizeLOVRowImpl obj) {
-                return obj.getUserItemDescription();
+                return obj.getSystemId();
             }
 
             public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setUserItemDescription((String)value);
+                obj.setSystemId((Number)value);
+            }
+        }
+        ,
+        BpoId {
+            public Object get(SizeLOVRowImpl obj) {
+                return obj.getBpoId();
+            }
+
+            public void put(SizeLOVRowImpl obj, Object value) {
+                obj.setBpoId((Number)value);
+            }
+        }
+        ,
+        BuyerId {
+            public Object get(SizeLOVRowImpl obj) {
+                return obj.getBuyerId();
+            }
+
+            public void put(SizeLOVRowImpl obj, Object value) {
+                obj.setBuyerId((Number)value);
+            }
+        }
+        ,
+        Season {
+            public Object get(SizeLOVRowImpl obj) {
+                return obj.getSeason();
+            }
+
+            public void put(SizeLOVRowImpl obj, Object value) {
+                obj.setSeason((String)value);
             }
         }
         ,
@@ -45,13 +75,13 @@ public class SizeLOVRowImpl extends ViewRowImpl {
             }
         }
         ,
-        OcNo {
+        Color {
             public Object get(SizeLOVRowImpl obj) {
-                return obj.getOcNo();
+                return obj.getColor();
             }
 
             public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setOcNo((String)value);
+                obj.setColor((String)value);
             }
         }
         ,
@@ -122,6 +152,26 @@ public class SizeLOVRowImpl extends ViewRowImpl {
 
             public void put(SizeLOVRowImpl obj, Object value) {
                 obj.setWipQty((Number)value);
+            }
+        }
+        ,
+        UserItemDescription {
+            public Object get(SizeLOVRowImpl obj) {
+                return obj.getUserItemDescription();
+            }
+
+            public void put(SizeLOVRowImpl obj, Object value) {
+                obj.setUserItemDescription((String)value);
+            }
+        }
+        ,
+        OcNo {
+            public Object get(SizeLOVRowImpl obj) {
+                return obj.getOcNo();
+            }
+
+            public void put(SizeLOVRowImpl obj, Object value) {
+                obj.setOcNo((String)value);
             }
         }
         ,
@@ -202,36 +252,6 @@ public class SizeLOVRowImpl extends ViewRowImpl {
 
             public void put(SizeLOVRowImpl obj, Object value) {
                 obj.setInseamQty((Number)value);
-            }
-        }
-        ,
-        BuyerId {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getBuyerId();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setBuyerId((Number)value);
-            }
-        }
-        ,
-        Season {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getSeason();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setSeason((String)value);
-            }
-        }
-        ,
-        Color {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getColor();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setColor((String)value);
             }
         }
         ,
@@ -494,9 +514,12 @@ public class SizeLOVRowImpl extends ViewRowImpl {
 
 
     public static final int LINENO = AttributesEnum.LineNo.index();
-    public static final int USERITEMDESCRIPTION = AttributesEnum.UserItemDescription.index();
+    public static final int SYSTEMID = AttributesEnum.SystemId.index();
+    public static final int BPOID = AttributesEnum.BpoId.index();
+    public static final int BUYERID = AttributesEnum.BuyerId.index();
+    public static final int SEASON = AttributesEnum.Season.index();
     public static final int STYLE = AttributesEnum.Style.index();
-    public static final int OCNO = AttributesEnum.OcNo.index();
+    public static final int COLOR = AttributesEnum.Color.index();
     public static final int TOTALQTY = AttributesEnum.TotalQty.index();
     public static final int INSEAMSIZECONCAT = AttributesEnum.InseamSizeConcat.index();
     public static final int INSEAM = AttributesEnum.Inseam.index();
@@ -504,6 +527,8 @@ public class SizeLOVRowImpl extends ViewRowImpl {
     public static final int BELQTY = AttributesEnum.BelQty.index();
     public static final int PREVREJQTY = AttributesEnum.PrevRejQty.index();
     public static final int WIPQTY = AttributesEnum.WipQty.index();
+    public static final int USERITEMDESCRIPTION = AttributesEnum.UserItemDescription.index();
+    public static final int OCNO = AttributesEnum.OcNo.index();
     public static final int TOTALINPUT = AttributesEnum.TotalInput.index();
     public static final int ACTUALDAYPRODUCTION = AttributesEnum.ActualDayProduction.index();
     public static final int ACTUALDAYREJECTION = AttributesEnum.ActualDayRejection.index();
@@ -512,9 +537,6 @@ public class SizeLOVRowImpl extends ViewRowImpl {
     public static final int PREVPRODQTY = AttributesEnum.PrevProdQty.index();
     public static final int TOTREJ = AttributesEnum.TotRej.index();
     public static final int INSEAMQTY = AttributesEnum.InseamQty.index();
-    public static final int BUYERID = AttributesEnum.BuyerId.index();
-    public static final int SEASON = AttributesEnum.Season.index();
-    public static final int COLOR = AttributesEnum.Color.index();
     public static final int OUTSUBLINEID = AttributesEnum.OutSublineId.index();
     public static final int INVENTORYITEMID = AttributesEnum.InventoryItemId.index();
     public static final int HEADERID = AttributesEnum.HeaderId.index();
@@ -783,6 +805,38 @@ public class SizeLOVRowImpl extends ViewRowImpl {
      */
     public void setLineNo(String value) {
         setAttributeInternal(LINENO, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute SystemId.
+     * @return the SystemId
+     */
+    public Number getSystemId() {
+        return (Number) getAttributeInternal(SYSTEMID);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute SystemId.
+     * @param value value to set the  SystemId
+     */
+    public void setSystemId(Number value) {
+        setAttributeInternal(SYSTEMID, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute BpoId.
+     * @return the BpoId
+     */
+    public Number getBpoId() {
+        return (Number) getAttributeInternal(BPOID);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute BpoId.
+     * @param value value to set the  BpoId
+     */
+    public void setBpoId(Number value) {
+        setAttributeInternal(BPOID, value);
     }
 
     /**

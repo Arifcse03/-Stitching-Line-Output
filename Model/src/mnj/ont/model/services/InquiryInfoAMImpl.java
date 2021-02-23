@@ -336,8 +336,10 @@ public class InquiryInfoAMImpl extends ApplicationModuleImpl implements InquiryI
     
     public void popSizes(Row poprow) {
 
-            Row linerow = createSizes();        
+            Row linerow = createSizes();   
+            
             System.out.println("Size value -->"+ getPopulateValue(poprow, "InseamSizeConcat"));
+            
             linerow.setAttribute("SizeVal",
                                  getPopulateValue(poprow, "InseamSizeConcat"));//InseamSizeConcat
                                  linerow.setAttribute("Inseem",
@@ -398,28 +400,35 @@ public class InquiryInfoAMImpl extends ApplicationModuleImpl implements InquiryI
            // System.out.println("Wher clause cut no -->"+getstyle());
             
            ViewObject LineVo = getLineVO1();
-           String BuyerId = LineVo.getCurrentRow().getAttribute("BuyerId").toString();
-           String Style   = LineVo.getCurrentRow().getAttribute("Style").toString();
-           String Season  = LineVo.getCurrentRow().getAttribute("Season").toString();
+           String SYSTEM_ID = LineVo.getCurrentRow().getAttribute("SystemId").toString();
+          // String Style   = LineVo.getCurrentRow().getAttribute("Style").toString();
+          // String Season  = LineVo.getCurrentRow().getAttribute("Season").toString();
             
             ViewObject vo = getSizeLOV1();
             
             
-        vo.setWhereClause(
+       /* vo.setWhereClause(
                           "OC_NO='"          + getstno() + 
                           "' and LINE_NO='"  + getSLno() + 
                           "' and BUYER_ID='" + BuyerId + 
                           "' and STYLE='"    + Style + 
                           "' and SEASON='"   + Season + 
                           "'"
-                         );    
+                         );    */
+            /////added by arif in 23 feb
+       vo.setWhereClause(
+                                 "OC_NO='"          + getstno() + 
+                                 "' and LINE_NO='"  + getSLno() + 
+                                 "' and SYSTEM_ID='" + SYSTEM_ID + 
+                                 "'"
+                                ); 
+            
+       
         
         
         System.out.println("Wher clause cut no -->"+                          "OC_NO='"          + getstno() + 
                           "' and LINE_NO='"  + getSLno() + 
-                          "' and BUYER_ID='" + BuyerId + 
-                          "' and STYLE='"    + Style + 
-                          "' and SEASON='"   + Season + 
+                          "' and SYSTEM_ID='" + SYSTEM_ID + 
                           "'");
             
             vo.executeQuery();
