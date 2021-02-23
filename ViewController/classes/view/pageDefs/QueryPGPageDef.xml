@@ -82,5 +82,9 @@
                   ReturnName="data.InquiryInfoAMDataControl.methodResults.CalculateTotalProductionNewLINE_InquiryInfoAMDataControl_dataProvider_CalculateTotalProductionNewLINE_result">
       <NamedData NDName="headerId" NDType="java.lang.String"/>
     </methodAction>
+    <action IterBinding="HederVO1Iterator" id="setCurrentRowWithKeyValue"
+            RequiresUpdateModel="false" Action="setCurrentRowWithKeyValue">
+      <NamedData NDName="rowKey" NDType="java.lang.String"/>
+    </action>
   </bindings>
 </pageDefinition>

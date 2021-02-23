@@ -28,7 +28,7 @@
                 <af:toolbar id="t1">
                   <af:commandButton actionListener="#{bindings.setCurrentRowWithKey.execute}"
                                     text="Edit"
-                                    id="cb2" action="GoToEdit"/>
+                                    id="cb2" action="GoToEdit" visible="false"/>
                   <af:commandButton actionListener="#{bindings.CreateInsert.execute}"
                                     text="Create"
                                     id="cb1" action="GoToEdit"/>
@@ -58,7 +58,7 @@
                         selectedRowKeys="#{bindings.HederVO1.collectionModel.selectedRow}"
                         selectionListener="#{bindings.HederVO1.collectionModel.makeCurrent}"
                         rowSelection="single" id="resId1" width="100%"
-                        partialTriggers="::cb1 ::cb2 ::cb5">
+                        partialTriggers="::cb1 ::cb2 ::cb5 cl1">
                 <af:column headerText="Doc. No"
                            id="c4" align="center" sortable="true"
                            filterable="true" sortProperty="DocNo" width="75">
@@ -68,9 +68,13 @@
                                 columns="#{bindings.HederVO1.hints.DocNo.displayWidth}"
                                 maximumLength="#{bindings.HederVO1.hints.DocNo.precision}"
                                 shortDesc="#{bindings.HederVO1.hints.DocNo.tooltip}"
-                                id="it1" readOnly="true">
+                                id="it1" readOnly="true" visible="false">
                     <f:validator binding="#{row.bindings.DocNo.validator}"/>
                   </af:inputText>
+                  <af:commandLink actionListener="#{bindings.setCurrentRowWithKeyValue.execute}"
+                                  text="#{row.bindings.DocNo.inputValue}"
+                                  disabled="#{!bindings.setCurrentRowWithKeyValue.enabled}"
+                                  id="cl1" action="GoToEdit"/>
                 </af:column>
                 <af:column sortProperty="OutrecDate" filterable="true"
                            sortable="true"
