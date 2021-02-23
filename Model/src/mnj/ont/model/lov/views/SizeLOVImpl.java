@@ -48,19 +48,20 @@ public class SizeLOVImpl extends ViewObjectImpl {
         setNamedWhereClauseParam("P_LINE_ID", value);
     }
 
+
     /**
-     * Returns the bind variable value for p_Org_Id.
-     * @return bind variable value for p_Org_Id
+     * Returns the bind variable value for P_ORG_ID.
+     * @return bind variable value for P_ORG_ID
      */
-    public String getp_Org_Id() {
-        return (String)getNamedWhereClauseParam("p_Org_Id");
+    public String getP_ORG_ID() {
+        return (String)getNamedWhereClauseParam("P_ORG_ID");
     }
 
     /**
-     * Sets <code>value</code> for bind variable p_Org_Id.
-     * @param value value to bind as p_Org_Id
+     * Sets <code>value</code> for bind variable P_ORG_ID.
+     * @param value value to bind as P_ORG_ID
      */
-    public void setp_Org_Id(String value) {
-        setNamedWhereClauseParam("p_Org_Id", value);
+    public void setP_ORG_ID(String value) {
+        setNamedWhereClauseParam("P_ORG_ID", value);
     }
 }

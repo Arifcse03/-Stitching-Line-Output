@@ -36,7 +36,7 @@
     <TransientExpression><![CDATA[adf.context.sessionScope.OutSublineIdNew]]></TransientExpression>
   </Variable>
   <Variable
-    Name="p_Org_Id"
+    Name="P_ORG_ID"
     Kind="where"
     Type="java.lang.String">
     <TransientExpression><![CDATA[adf.context.sessionScope.orgId]]></TransientExpression>

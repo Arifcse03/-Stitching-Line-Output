@@ -118,6 +118,7 @@
           <Item Value="Wash"/>
           <Item Value="SamValue"/>
           <Item Value="ProducedMin"/>
+          <Item Value="SystemId"/>
         </AttrNames>
       </nodeDefinition>
     </tree>

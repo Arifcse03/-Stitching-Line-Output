@@ -417,8 +417,7 @@ public class InquiryInfoAMImpl extends ApplicationModuleImpl implements InquiryI
                          );    */
             /////added by arif in 23 feb
        vo.setWhereClause(
-                                 "OC_NO='"          + getstno() + 
-                                 "' and LINE_NO='"  + getSLno() + 
+                                 "LINE_NO='"  + getSLno() + 
                                  "' and SYSTEM_ID='" + SYSTEM_ID + 
                                  "'"
                                 ); 
@@ -426,12 +425,13 @@ public class InquiryInfoAMImpl extends ApplicationModuleImpl implements InquiryI
        
         
         
-        System.out.println("Wher clause cut no -->"+                          "OC_NO='"          + getstno() + 
+        System.out.println("Wher clause cut no -->" + 
                           "' and LINE_NO='"  + getSLno() + 
                           "' and SYSTEM_ID='" + SYSTEM_ID + 
                           "'");
             
             vo.executeQuery();
+            System.out.println(vo.getQuery());
     }
 //    public String getstyle(){
 //    
