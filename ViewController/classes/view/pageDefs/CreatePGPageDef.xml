@@ -119,6 +119,10 @@
           <Item Value="SamValue"/>
           <Item Value="ProducedMin"/>
           <Item Value="SystemId"/>
+          <Item Value="BuyerNew"/>
+          <Item Value="StyleNew"/>
+          <Item Value="SeasonNew"/>
+          <Item Value="ColorNew"/>
         </AttrNames>
       </nodeDefinition>
     </tree>

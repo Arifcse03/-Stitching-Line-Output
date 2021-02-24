@@ -312,9 +312,31 @@
                                               pattern="#{bindings.LineVO1.hints.SystemId.format}"/>
                           </af:outputText>
                         </af:column>
+                        <af:column headerText="Buyer"
+                                   id="c123" align="center" sortable="true"
+                                   filterable="true" sortProperty="BuyerNew">
+                          <af:outputText value="#{row.BuyerNew}" id="ot47"/>
+                        </af:column>
+                        <af:column headerText="Style"
+                                   id="c124" align="center" sortable="true"
+                                   filterable="true" sortProperty="StyleNew">
+                          <af:outputText value="#{row.StyleNew}" id="ot48"/>
+                        </af:column>
+                        <af:column headerText="Season/lot" id="c125" sortable="true"
+                                   align="center" filterable="true"
+                                   sortProperty="SeasonNew">
+                          <af:outputText value="#{row.SeasonNew}" id="ot49"/>
+                        </af:column>
+                        <af:column headerText="Color"
+                                   id="c126" align="center"
+                                   filterable="true" sortProperty="ColorNew"
+                                   sortable="true">
+                          <af:outputText value="#{row.ColorNew}" id="ot50"/>
+                        </af:column>
                         <af:column headerText="Buyer Name" id="c20"
                                    sortProperty="BuyerName" filterable="true"
-                                   sortable="false" align="center" width="110">
+                                   sortable="false" align="center" width="110"
+                                   visible="false">
                           <af:inputComboboxListOfValues id="buyerNa"
                                                         popupTitle="Search and Select: #{bindings.LineVO1.hints.BuyerName.label}"
                                                         value="#{row.bindings.BuyerName.inputValue}"
@@ -328,7 +350,8 @@
                         </af:column>
                         <af:column headerText="Style" id="c22"
                                    sortProperty="Style" filterable="true"
-                                   sortable="false" align="center" width="130">
+                                   sortable="false" align="center" width="130"
+                                   visible="false">
                           <af:inputText value="#{row.bindings.Style.inputValue}"
                                         label="#{bindings.LineVO1.hints.Style.label}"
                                         required="#{bindings.LineVO1.hints.Style.mandatory}"
@@ -341,7 +364,8 @@
                         </af:column>
                         <af:column headerText="Season/lot" id="c23"
                                    sortProperty="Season" filterable="true"
-                                   sortable="false" align="center" width="110">
+                                   sortable="false" align="center" width="110"
+                                   visible="false">
                           <af:inputText value="#{row.bindings.Season.inputValue}"
                                         label="#{bindings.LineVO1.hints.Season.label}"
                                         required="#{bindings.LineVO1.hints.Season.mandatory}"
@@ -354,7 +378,8 @@
                         </af:column>
                         <af:column headerText="Color" id="c39" align="center"
                                    sortable="true" filterable="true"
-                                   sortProperty="Color" width="90">
+                                   sortProperty="Color" width="90"
+                                   visible="false">
                           <af:outputText value="#{row.Color}" id="ot1"/>
                         </af:column>
                         <af:column headerText="Total Input" id="c40"

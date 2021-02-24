@@ -22,7 +22,7 @@
     Name="p_Org_Id"
     Kind="where"
     Type="java.lang.String">
-    <TransientExpression><![CDATA[341//adf.context.sessionScope.orgId]]></TransientExpression>
+    <TransientExpression><![CDATA[adf.context.sessionScope.orgId]]></TransientExpression>
   </Variable>
   <ViewAccessor
     Name="operationLineVo1"

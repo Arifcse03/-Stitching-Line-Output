@@ -670,6 +670,76 @@ public class LineVORowImpl extends ViewRowImpl {
             }
         }
         ,
+        BpoId {
+            public Object get(LineVORowImpl obj) {
+                return obj.getBpoId();
+            }
+
+            public void put(LineVORowImpl obj, Object value) {
+                obj.setBpoId((Number)value);
+            }
+        }
+        ,
+        SystemId {
+            public Object get(LineVORowImpl obj) {
+                return obj.getSystemId();
+            }
+
+            public void put(LineVORowImpl obj, Object value) {
+                obj.setSystemId((Number)value);
+            }
+        }
+        ,
+        StyleNew {
+            public Object get(LineVORowImpl obj) {
+                return obj.getStyleNew();
+            }
+
+            public void put(LineVORowImpl obj, Object value) {
+                obj.setStyleNew((String)value);
+            }
+        }
+        ,
+        SeasonNew {
+            public Object get(LineVORowImpl obj) {
+                return obj.getSeasonNew();
+            }
+
+            public void put(LineVORowImpl obj, Object value) {
+                obj.setSeasonNew((String)value);
+            }
+        }
+        ,
+        ColorNew {
+            public Object get(LineVORowImpl obj) {
+                return obj.getColorNew();
+            }
+
+            public void put(LineVORowImpl obj, Object value) {
+                obj.setColorNew((String)value);
+            }
+        }
+        ,
+        WashNew {
+            public Object get(LineVORowImpl obj) {
+                return obj.getWashNew();
+            }
+
+            public void put(LineVORowImpl obj, Object value) {
+                obj.setWashNew((String)value);
+            }
+        }
+        ,
+        BuyerNew {
+            public Object get(LineVORowImpl obj) {
+                return obj.getBuyerNew();
+            }
+
+            public void put(LineVORowImpl obj, Object value) {
+                obj.setBuyerNew((String)value);
+            }
+        }
+        ,
         TotalPro {
             public Object get(LineVORowImpl obj) {
                 return obj.getTotalPro();
@@ -737,26 +807,6 @@ public class LineVORowImpl extends ViewRowImpl {
 
             public void put(LineVORowImpl obj, Object value) {
                 obj.setStnNo((String)value);
-            }
-        }
-        ,
-        BpoId {
-            public Object get(LineVORowImpl obj) {
-                return obj.getBpoId();
-            }
-
-            public void put(LineVORowImpl obj, Object value) {
-                obj.setBpoId((Number)value);
-            }
-        }
-        ,
-        SystemId {
-            public Object get(LineVORowImpl obj) {
-                return obj.getSystemId();
-            }
-
-            public void put(LineVORowImpl obj, Object value) {
-                obj.setSystemId((Number)value);
             }
         }
         ,
@@ -923,6 +973,13 @@ public class LineVORowImpl extends ViewRowImpl {
     public static final int SAM = AttributesEnum.Sam.index();
     public static final int CURRENTSTYLE = AttributesEnum.CurrentStyle.index();
     public static final int CURRENTSEASON = AttributesEnum.CurrentSeason.index();
+    public static final int BPOID = AttributesEnum.BpoId.index();
+    public static final int SYSTEMID = AttributesEnum.SystemId.index();
+    public static final int STYLENEW = AttributesEnum.StyleNew.index();
+    public static final int SEASONNEW = AttributesEnum.SeasonNew.index();
+    public static final int COLORNEW = AttributesEnum.ColorNew.index();
+    public static final int WASHNEW = AttributesEnum.WashNew.index();
+    public static final int BUYERNEW = AttributesEnum.BuyerNew.index();
     public static final int TOTALPRO = AttributesEnum.TotalPro.index();
     public static final int PREVTOTALPRO = AttributesEnum.PrevTotalPro.index();
     public static final int PRVTARGETQTY = AttributesEnum.PrvTargetqty.index();
@@ -930,8 +987,6 @@ public class LineVORowImpl extends ViewRowImpl {
     public static final int BALANCETARGET = AttributesEnum.BalanceTarget.index();
     public static final int OPERATIONLINE = AttributesEnum.OperationLine.index();
     public static final int STNNO = AttributesEnum.StnNo.index();
-    public static final int BPOID = AttributesEnum.BpoId.index();
-    public static final int SYSTEMID = AttributesEnum.SystemId.index();
     public static final int DETAILVO = AttributesEnum.DetailVO.index();
     public static final int SIZELOV1 = AttributesEnum.SizeLOV1.index();
     public static final int LINENOCODEVO1 = AttributesEnum.LineNoCodeVO1.index();
@@ -1785,6 +1840,86 @@ public class LineVORowImpl extends ViewRowImpl {
      */
     public void setSystemId(Number value) {
         setAttributeInternal(SYSTEMID, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute StyleNew.
+     * @return the StyleNew
+     */
+    public String getStyleNew() {
+        return (String) getAttributeInternal(STYLENEW);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute StyleNew.
+     * @param value value to set the  StyleNew
+     */
+    public void setStyleNew(String value) {
+        setAttributeInternal(STYLENEW, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute SeasonNew.
+     * @return the SeasonNew
+     */
+    public String getSeasonNew() {
+        return (String) getAttributeInternal(SEASONNEW);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute SeasonNew.
+     * @param value value to set the  SeasonNew
+     */
+    public void setSeasonNew(String value) {
+        setAttributeInternal(SEASONNEW, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute ColorNew.
+     * @return the ColorNew
+     */
+    public String getColorNew() {
+        return (String) getAttributeInternal(COLORNEW);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute ColorNew.
+     * @param value value to set the  ColorNew
+     */
+    public void setColorNew(String value) {
+        setAttributeInternal(COLORNEW, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute WashNew.
+     * @return the WashNew
+     */
+    public String getWashNew() {
+        return (String) getAttributeInternal(WASHNEW);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute WashNew.
+     * @param value value to set the  WashNew
+     */
+    public void setWashNew(String value) {
+        setAttributeInternal(WASHNEW, value);
+    }
+
+    /**
+     * Gets the attribute value for the calculated attribute BuyerNew.
+     * @return the BuyerNew
+     */
+    public String getBuyerNew() {
+        return (String) getAttributeInternal(BUYERNEW);
+    }
+
+    /**
+     * Sets <code>value</code> as the attribute value for the calculated attribute BuyerNew.
+     * @param value value to set the  BuyerNew
+     */
+    public void setBuyerNew(String value) {
+        setAttributeInternal(BUYERNEW, value);
     }
 
     /**

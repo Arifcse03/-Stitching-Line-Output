@@ -245,7 +245,13 @@ AND   SeasonDetailEO.SEASON_IDENTIFIER = LineVO.SEASON
        AND   SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID 
        AND   rownum = 1) CURRENT_SEASON,
        LineVO.Bpo_Id,
-       LineVO.System_Id/*,
+       LineVO.System_Id,
+       ph.Style Style_New,
+       ph.Season Season_New,
+       pl.Color Color_new,
+       pl.Wash_Name Wash_New,
+       ac.CUSTOMER_NAME Buyer_New
+       /*,
  NVL ((SELECT SUM(NVL(ll.line_output,0)) FROM MNJ_MFG_LINEOUTPUT h, 
          MNJ_MFG_LINEOUTPUT_SBLINE ll, oe_order_headers_all         ooha
           WHERE h.prod_trans_id=ll.prod_trans_id
@@ -253,7 +259,8 @@ AND   SeasonDetailEO.SEASON_IDENTIFIER = LineVO.SEASON
          and ll.sale_order_id=ooha.header_id
           and  ll.division_id=ooha.org_id
           ),0)+ LineVO.LINE_OUTPUT prev_total_pro*/
-  FROM MNJ_MFG_LINEOUTPUT_SBLINE LineVO]]>
+  FROM MNJ_MFG_LINEOUTPUT_SBLINE LineVO,xx_om_poc_h_t ph,xx_om_poc_l_t pl,ar_customers ac
+  where LineVO.system_id=pl.system_id and pl.poc_id=ph.poc_id AND ph.BUYER_ID = ac.CUSTOMER_ID]]>
   </SQLQuery>
   <EntityUsage
     Name="LineVO"
@@ -733,6 +740,93 @@ AND   SeasonDetailEO.SEASON_IDENTIFIER = LineVO.SEASON
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
+    Name="BpoId"
+    PrecisionRule="true"
+    EntityAttrName="BpoId"
+    EntityUsage="LineVO"
+    AliasName="BPO_ID"/>
+  <ViewAttribute
+    Name="SystemId"
+    PrecisionRule="true"
+    EntityAttrName="SystemId"
+    EntityUsage="LineVO"
+    AliasName="SYSTEM_ID"/>
+  <ViewAttribute
+    Name="StyleNew"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STYLE_NEW"
+    Expression="STYLE_NEW"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="SeasonNew"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="30"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SEASON_NEW"
+    Expression="SEASON_NEW"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="30"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="ColorNew"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="30"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="COLOR_NEW"
+    Expression="COLOR_NEW"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="30"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WashNew"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="100"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="WASH_NEW"
+    Expression="WASH_NEW"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="100"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BuyerNew"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="50"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="BUYER_NEW"
+    Expression="BUYER_NEW"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="50"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
     Name="TotalPro"
     IsPersistent="false"
     PrecisionRule="true"
@@ -800,18 +894,6 @@ AND   SeasonDetailEO.SEASON_IDENTIFIER = LineVO.SEASON
     Type="java.lang.String"
     ColumnType="$none$"
     SQLType="VARCHAR"/>
-  <ViewAttribute
-    Name="BpoId"
-    PrecisionRule="true"
-    EntityAttrName="BpoId"
-    EntityUsage="LineVO"
-    AliasName="BPO_ID"/>
-  <ViewAttribute
-    Name="SystemId"
-    PrecisionRule="true"
-    EntityAttrName="SystemId"
-    EntityUsage="LineVO"
-    AliasName="SYSTEM_ID"/>
   <ViewLinkAccessor
     Name="DetailVO"
     ViewLink="mnj.ont.model.views.LineDetail"

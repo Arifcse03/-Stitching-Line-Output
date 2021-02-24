@@ -17,7 +17,7 @@
                         model="#{bindings.HederVOCriteriaSPQuery.queryModel}"
                         queryListener="#{bindings.HederVOCriteriaSPQuery.processQuery}"
                         queryOperationListener="#{bindings.HederVOCriteriaSPQuery.processQueryOperation}"
-                        resultComponentId="pc1:resId1"/>
+                        resultComponentId="::pc1:resId1"/>
             </af:panelHeader>
           </af:panelBox>
           <af:panelBox text="Result" id="pb2">
