@@ -83,7 +83,9 @@ public class InquiryInfoAMImpl extends ApplicationModuleImpl implements InquiryI
     } //findSelLines
     public void populateLines(Row poprow) {
             System.out.println("enter in populateLines -->");
-            Row linerow = createLine();        
+            Row linerow = createLine();  
+            linerow.setAttribute("BpoId",
+                                 getPopulateValue(poprow, "BpoId")); 
             linerow.setAttribute("SystemId",
                                  getPopulateValue(poprow, "SystemId")); 
             linerow.setAttribute("BpoNo", getPopulateValue(poprow, "BpoNo"));

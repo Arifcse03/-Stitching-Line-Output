@@ -2094,6 +2094,13 @@
                            filterable="true" sortProperty="BpoNo">
                   <af:outputText value="#{row.BpoNo}" id="ot34"/>
                 </af:column>
+                <af:column headerText="#{bindings.FillBPOsCriteria1.hints.BpoId.label}"
+                           id="c128" visible="false">
+                  <af:outputText value="#{row.BpoId}" id="ot52">
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillBPOsCriteria1.hints.BpoId.format}"/>
+                  </af:outputText>
+                </af:column>
                 <af:column headerText="Style"
                            id="c111" align="center" sortable="true"
                            filterable="true" sortProperty="StyleName">

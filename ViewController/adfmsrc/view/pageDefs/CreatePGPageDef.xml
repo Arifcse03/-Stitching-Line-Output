@@ -236,6 +236,7 @@
           <Item Value="Wash"/>
           <Item Value="SystemId"/>
           <Item Value="WipEntityId"/>
+          <Item Value="BpoId"/>
         </AttrNames>
       </nodeDefinition>
     </tree>

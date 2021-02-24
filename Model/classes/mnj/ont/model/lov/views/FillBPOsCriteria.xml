@@ -42,7 +42,8 @@
          TOT_REJ TOT_REJ,
          SUM (ISS_QUANTITY) - (BEL_QTY - TOT_REJ) WIP,
          SUM (ISS_QUANTITY) ISS_QUANTITY,
-         FIND_STITCH_LINEOUTPUT_LSTSAM (SYSTEM_ID) SAM
+         FIND_STITCH_LINEOUTPUT_LSTSAM (SYSTEM_ID) SAM,
+          BPO_ID
     FROM (  SELECT PL.SYSTEM_ID,
                    PH.POC_ID,
                    PB.BPO BPO_NO,
@@ -104,7 +105,8 @@
                                AND ROWNUM = 1),
                        0))
                       SAM,
-                   PL.WASH_NAME WASH
+                   PL.WASH_NAME WASH,
+                   PB.BPO_ID
               FROM XX_OM_POC_H_T PH,
                    XX_OM_POC_L_T PL,
                    XX_OM_BPO_INFO_T PB,
@@ -147,7 +149,8 @@
                    WDJ.ORGANIZATION_ID,
                    PL.WASH_NAME,
                    MMRSA.bpo_id,
-                   PH.POC_ID) aa
+                   PH.POC_ID,
+                    PB.BPO_ID) aa
    WHERE 1 = 1     AND ISS_QUANTITY <> 0
 GROUP BY SYSTEM_ID,
          BPO_NO,
@@ -164,7 +167,8 @@ GROUP BY SYSTEM_ID,
          WASH,
          --ISS_QUANTITY,
          BEL_QTY,
-         TOT_REJ]]>
+         TOT_REJ,
+       BPO_ID]]>
   </SQLQuery>
   <ViewAttribute
     Name="SystemId"
@@ -396,6 +400,21 @@ GROUP BY SYSTEM_ID,
     AliasName="SAM"
     SQLType="NUMERIC"
     Expression="SAM">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="BpoId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    IsNotNull="true"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="BPO_ID"
+    Expression="BPO_ID"
+    SQLType="NUMERIC">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="39"/>
     </DesignTime>
