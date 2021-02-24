@@ -153,7 +153,7 @@
       Hint="showAndExecute"/>
   </ListBinding>
   <SQLQuery>
-    <![CDATA[SELECT LineVO.DIVISION_ID,
+    <![CDATA[SELECT distinct  LineVO.DIVISION_ID,
        LineVO.PROD_TRANS_ID,
        LineVO.OUT_SUBLINE_ID,
        LineVO.SNO,
