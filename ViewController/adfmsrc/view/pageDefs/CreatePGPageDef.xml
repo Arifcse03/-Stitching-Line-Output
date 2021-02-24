@@ -123,6 +123,7 @@
           <Item Value="StyleNew"/>
           <Item Value="SeasonNew"/>
           <Item Value="ColorNew"/>
+          <Item Value="WashNew"/>
         </AttrNames>
       </nodeDefinition>
     </tree>

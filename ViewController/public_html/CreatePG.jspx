@@ -333,6 +333,11 @@
                                    sortable="true">
                           <af:outputText value="#{row.ColorNew}" id="ot50"/>
                         </af:column>
+                        <af:column headerText="Wash"
+                                   id="c127" align="center" sortable="true"
+                                   filterable="true" sortProperty="WashNew">
+                          <af:outputText value="#{row.WashNew}" id="ot51"/>
+                        </af:column>
                         <af:column headerText="Buyer Name" id="c20"
                                    sortProperty="BuyerName" filterable="true"
                                    sortable="false" align="center" width="110"
@@ -688,7 +693,8 @@
                         </af:column>
                         <af:column headerText="STNO" id="c52" align="center"
                                    sortable="true" filterable="true"
-                                   sortProperty="StnNumber" width="200">
+                                   sortProperty="StnNumber" width="200"
+                                   visible="false">
                           <af:outputText value="#{row.StnNumber}" id="ot10"/>
                         </af:column>
                         <af:column headerText="Job Name" id="c34"
