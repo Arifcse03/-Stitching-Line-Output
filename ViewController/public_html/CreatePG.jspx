@@ -264,8 +264,7 @@
                                             disabled="#{!bindings.Delete.enabled}"
                                             id="cb4"/>
                           <af:commandButton text="Fill BPOs" id="cb9">
-                            <af:showPopupBehavior popupId="::p1"
-                                                  alignId="::f1"/>
+                            <af:showPopupBehavior popupId="::p1"/>
                           </af:commandButton>
                         </af:toolbar>
                       </f:facet>
@@ -1702,7 +1701,8 @@
           </af:panelHeader>
           <af:popup id="popup2"
                     popupFetchListener="#{backingBean.editPopupFetchNEWTab}"
-                    popupCanceledListener="#{backingBean.editPopupCancelListener}">
+                    popupCanceledListener="#{backingBean.editPopupCancelListener}"
+                    contentDelivery="lazyUncached">
             <af:dialog id="dialog2"
                        dialogListener="#{backingBean.editDialogListenerNEWTab}">
               <af:panelCollection id="pc4">
@@ -1876,7 +1876,8 @@
         </af:popup>
         <af:popup id="p1"
                   popupFetchListener="#{backingBean.editPopupFetchListener}"
-                  popupCanceledListener="#{backingBean.editPopupCancelListener}">
+                  popupCanceledListener="#{backingBean.editPopupCancelListener}"
+                  contentDelivery="lazyUncached">
           <af:dialog id="d2"
                      dialogListener="#{backingBean.editDialogListener}"
                      title="Fill BPOs">
@@ -2178,7 +2179,8 @@
         </af:popup>
         <af:popup id="popup1"
                   popupFetchListener="#{backingBean.editPopupFetchNEW}"
-                  popupCanceledListener="#{backingBean.editPopupCancelListener}">
+                  popupCanceledListener="#{backingBean.editPopupCancelListener}"
+                  contentDelivery="lazyUncached">
           <af:dialog id="dialog1"
                      dialogListener="#{backingBean.editDialogListenerNEW}"
                      title="Fill Details">
