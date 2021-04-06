@@ -24,36 +24,14 @@
     </SchemaBasedProperties>
   </Properties>
   <SQLQuery>
-    <![CDATA[SELECT DISTINCT
+    <![CDATA[/* old one
+SELECT DISTINCT
        h.prod_trans_id,
        h.division_id,
        l.SUBLINE_NO,
        l.Buyer_Id,
        l.Style,
        l.Season,
-       (SELECT DECODE (StyleLineEO.TRACK_BASIS,
-                       'Style Name', StyleLineEO.STYLE_NAME,
-                       'Style Number', StyleLineEO.STYLE_NUMBER)
-          FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
-               pwc_mfg_bss_buyer_h pwcmfgbssbuyerh
-         WHERE     StyleLineEO.STYLE_IDENTIFIER = l.STYLE
-               AND pwcmfgbssbuyerh.BUYER_ID = l.BUYER_ID
-               --AND   pwcmfgbssbuyerh.ORG_ID = LineVO.DIVISION_ID
-               AND StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
-               AND ROWNUM = 1)
-          CURRENT_STYLE,
-       (SELECT SeasonDetailEO.SEASON_NAME
-          FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
-               pwc_mfg_bss_buyer_h pwcmfgbssbuyerh,
-               PWC_MFG_BSS_SEASON_D SeasonDetailEO
-         WHERE     StyleLineEO.STYLE_IDENTIFIER = l.STYLE
-               AND SeasonDetailEO.SEASON_IDENTIFIER = l.SEASON
-               AND pwcmfgbssbuyerh.BUYER_ID = l.Buyer_Id
-               --AND   pwcmfgbssbuyerh.ORG_ID = LineVO.DIVISION_ID
-               AND StyleLineEO.HEADER_ID = pwcmfgbssbuyerh.HEADER_ID
-               AND SeasonDetailEO.LINE_ID = StyleLineEO.LINE_ID
-               AND ROWNUM = 1)
-          CURRENT_SEASON,
        (SELECT known_as
           FROM hz_parties hp, hz_cust_accounts hca
          WHERE     hp.party_id = hca.party_id
@@ -63,7 +41,24 @@
       (select COLOR from xx_om_poc_l_t where system_id= l.system_id and ROWNUM = 1)Color,  -- l.WASH W0,
       (select WASH_NAME from xx_om_poc_l_t where system_id= l.system_id AND ROWNUM = 1) wash
   FROM MNJ_MFG_LINEOUTPUT h, MNJ_MFG_LINEOUTPUT_SBLINE l
- WHERE h.prod_trans_id = l.prod_trans_id]]>
+ WHERE h.prod_trans_id = l.prod_trans_id*/
+
+SELECT DISTINCT
+       h.prod_trans_id,
+       h.division_id,
+       l.SUBLINE_NO,
+       l.Buyer_Id,
+       l.Style,
+       l.Season,
+      (select ac.customer_name from ar_customers ac where ac.customer_id = ph.BUYER_ID)
+          buyer_name,
+      (select COLOR from xx_om_poc_l_t where system_id= l.system_id and ROWNUM = 1)Color,  -- l.WASH W0,
+      (select WASH_NAME from xx_om_poc_l_t where system_id= l.system_id AND ROWNUM = 1) wash
+ FROM MNJ_MFG_LINEOUTPUT h, MNJ_MFG_LINEOUTPUT_SBLINE l,XX_OM_POC_H_T PH, XX_OM_POC_L_T PL
+WHERE 1=1
+and h.prod_trans_id = l.prod_trans_id
+and ph.poc_id=pl.poc_id
+and l.system_id=pl.system_id]]>
   </SQLQuery>
   <ViewAttribute
     Name="ProdTransId"
@@ -153,36 +148,6 @@
     SQLType="VARCHAR">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="500"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="CurrentStyle"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="250"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="CURRENT_STYLE"
-    Expression="CURRENT_STYLE"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="CurrentSeason"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="250"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="CURRENT_SEASON"
-    Expression="CURRENT_SEASON"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute

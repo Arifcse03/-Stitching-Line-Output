@@ -74,26 +74,6 @@ public class AdditionalPOPVORowImpl extends ViewRowImpl {
             }
         }
         ,
-        CurrentStyle {
-            public Object get(AdditionalPOPVORowImpl obj) {
-                return obj.getCurrentStyle();
-            }
-
-            public void put(AdditionalPOPVORowImpl obj, Object value) {
-                obj.setCurrentStyle((String)value);
-            }
-        }
-        ,
-        CurrentSeason {
-            public Object get(AdditionalPOPVORowImpl obj) {
-                return obj.getCurrentSeason();
-            }
-
-            public void put(AdditionalPOPVORowImpl obj, Object value) {
-                obj.setCurrentSeason((String)value);
-            }
-        }
-        ,
         BuyerName {
             public Object get(AdditionalPOPVORowImpl obj) {
                 return obj.getBuyerName();
@@ -178,8 +158,6 @@ public class AdditionalPOPVORowImpl extends ViewRowImpl {
     public static final int BUYERID = AttributesEnum.BuyerId.index();
     public static final int STYLE = AttributesEnum.Style.index();
     public static final int SEASON = AttributesEnum.Season.index();
-    public static final int CURRENTSTYLE = AttributesEnum.CurrentStyle.index();
-    public static final int CURRENTSEASON = AttributesEnum.CurrentSeason.index();
     public static final int BUYERNAME = AttributesEnum.BuyerName.index();
     public static final int COLOR = AttributesEnum.Color.index();
     public static final int WASH = AttributesEnum.Wash.index();
@@ -304,37 +282,6 @@ public class AdditionalPOPVORowImpl extends ViewRowImpl {
         setAttributeInternal(SEASON, value);
     }
 
-    /**
-     * Gets the attribute value for the calculated attribute CurrentStyle.
-     * @return the CurrentStyle
-     */
-    public String getCurrentStyle() {
-        return (String) getAttributeInternal(CURRENTSTYLE);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute CurrentStyle.
-     * @param value value to set the  CurrentStyle
-     */
-    public void setCurrentStyle(String value) {
-        setAttributeInternal(CURRENTSTYLE, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute CurrentSeason.
-     * @return the CurrentSeason
-     */
-    public String getCurrentSeason() {
-        return (String) getAttributeInternal(CURRENTSEASON);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute CurrentSeason.
-     * @param value value to set the  CurrentSeason
-     */
-    public void setCurrentSeason(String value) {
-        setAttributeInternal(CURRENTSEASON, value);
-    }
 
     /**
      * Gets the attribute value for the calculated attribute BuyerName.

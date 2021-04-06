@@ -413,8 +413,8 @@
           <Item Value="BuyerName"/>
           <Item Value="Color"/>
           <Item Value="FlagNEW" Binds="FlagNEW"/>
-          <Item Value="CurrentStyle"/>
-          <Item Value="CurrentSeason"/>
+         
+        
           <Item Value="Wash"/>
           <Item Value="DivisionId"/>
         </AttrNames>

@@ -2231,20 +2231,10 @@
                            align="center" width="105">
                   <af:outputText value="#{row.Style}" id="ot20"/>
                 </af:column>
-                <af:column headerText="Current Style" id="c98" sortable="true"
-                           filterable="true" sortProperty="CurrentStyle"
-                           align="center" width="105">
-                  <af:outputText value="#{row.CurrentStyle}" id="ot25"/>
-                </af:column>
                 <af:column sortProperty="Season" filterable="true"
                            sortable="true" headerText="Season" id="c72"
                            align="center" width="105">
                   <af:outputText value="#{row.Season}" id="ot17"/>
-                </af:column>
-                <af:column headerText="Current Season" id="c99" align="center"
-                           sortable="true" filterable="true"
-                           sortProperty="CurrentSeason" width="105">
-                  <af:outputText value="#{row.CurrentSeason}" id="ot26"/>
                 </af:column>
                 <af:column sortProperty="Color" filterable="true"
                            sortable="true" headerText="Color" id="c70"
