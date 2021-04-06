@@ -60,17 +60,8 @@
                AND hca.CUST_ACCOUNT_ID = l.Buyer_Id
                AND hp.KNOWN_AS IS NOT NULL)
           buyer_name,
-      l.Color,  -- l.WASH W0,
-          (NVL (
-                       (SELECT (NVL (rpln.wash, 0))
-                          FROM MNJ_MFG_ROUTING_PLAN rpln
-                         WHERE     rpln.style = l.STYLE
-                               AND rpln.season = l.SEASON
-                               --AND rpln.color = l.VALUE_DESCRIPTION
-                               AND rpln.color=l.Color
-                              -- AND rpln.customer_id = HCA.CUST_ACCOUNT_ID
-                               AND ROWNUM = 1),
-                       0)) wash
+      (select COLOR from xx_om_poc_l_t where system_id= l.system_id and ROWNUM = 1)Color,  -- l.WASH W0,
+      (select WASH_NAME from xx_om_poc_l_t where system_id= l.system_id AND ROWNUM = 1) wash
   FROM MNJ_MFG_LINEOUTPUT h, MNJ_MFG_LINEOUTPUT_SBLINE l
  WHERE h.prod_trans_id = l.prod_trans_id]]>
   </SQLQuery>
