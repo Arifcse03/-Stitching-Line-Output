@@ -2092,7 +2092,8 @@
                 </af:column>
                 <af:column headerText="BPO"
                            id="c110" align="center" sortable="true"
-                           filterable="true" sortProperty="BpoNo">
+                           filterable="true" sortProperty="BpoNo"
+                           visible="false">
                   <af:outputText value="#{row.BpoNo}" id="ot34"/>
                 </af:column>
                 <af:column headerText="#{bindings.FillBPOsCriteria1.hints.BpoId.label}"

@@ -84,11 +84,11 @@ public class InquiryInfoAMImpl extends ApplicationModuleImpl implements InquiryI
     public void populateLines(Row poprow) {
             System.out.println("enter in populateLines -->");
             Row linerow = createLine();  
-            linerow.setAttribute("BpoId",
-                                 getPopulateValue(poprow, "BpoId")); 
+            ///linerow.setAttribute("BpoId",
+                              //   getPopulateValue(poprow, "BpoId")); 
             linerow.setAttribute("SystemId",
                                  getPopulateValue(poprow, "SystemId")); 
-            linerow.setAttribute("BpoNo", getPopulateValue(poprow, "BpoNo"));
+            //linerow.setAttribute("BpoNo", getPopulateValue(poprow, "BpoNo"));
             linerow.setAttribute("SublineNo", getPopulateValue(poprow, "LineNo"));
             linerow.setAttribute("DivisionId", getPopulateValue(poprow, "OrgId"));
             linerow.setAttribute("JobId", getPopulateValue(poprow, "WipEntityId"));

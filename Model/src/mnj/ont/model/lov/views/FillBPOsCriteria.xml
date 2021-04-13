@@ -26,9 +26,7 @@
     <TransientExpression><![CDATA[adf.context.sessionScope.orgId]]></TransientExpression>
   </Variable>
   <SQLQuery>
-    <![CDATA[/* Formatted on 2/18/2021 5:45:12 PM (QP5 v5.256.13226.35510) --Developed By Syed Abdul Ahad-- */
-  SELECT SYSTEM_ID,
-         BPO_NO,
+    <![CDATA[SELECT SYSTEM_ID,
          COLOUR,
          WASH,
          ORG_ID,
@@ -42,16 +40,16 @@
          TOT_REJ TOT_REJ,
          SUM (ISS_QUANTITY) - (BEL_QTY - TOT_REJ) WIP,
          SUM (ISS_QUANTITY) ISS_QUANTITY,
-         FIND_STITCH_LINEOUTPUT_LSTSAM (SYSTEM_ID) SAM,
-          BPO_ID
+         FIND_STITCH_LINEOUTPUT_LSTSAM (SYSTEM_ID) SAM
+
     FROM (  SELECT PL.SYSTEM_ID,
                    PH.POC_ID,
-                   PB.BPO BPO_NO,
+
                    PL.COLOR COLOUR,
                    PH.LC_UNIT ORG_ID,
                    PH.style STYLE_NAME,
                    PH.season,
-                   --PB.BPO_ID,
+       
                    MMC.LINE_NO,
                    WDJ.WIP_ENTITY_ID,
                    WDJ.WIP_ENTITY_NAME,
@@ -82,14 +80,14 @@
                               FROM MNJ_MFG_CUTISSUANCE_LINE MMCL,
                                    MNJ_MFG_CUTISSUANCE_SZLINE MMCD
                              WHERE     1 = 1
-                                   AND MMC.CUTISSUE_ID = MMCL.CUTISSUE_ID 
+                                   AND MMC.CUTISSUE_ID = MMCL.CUTISSUE_ID
                                    AND MMCL.CUTISSUE_LINE_ID =
                                           MMCD.CUTISSUE_LINE_ID) QUERY_M
                      WHERE     MMPS.PIECE_NO BETWEEN QUERY_M.MINI
                                                  AND QUERY_M.MAXI
                            AND MMPS.bpo_id = PB.bpo_id
                            AND QUERY_M.BANDEL_NO = MMPS.BUNDLE_NO
-                           --AND MMPS.PIECE_STN_ID > 30314620
+                           
                            AND (SELECT MMCH1.POC_ID
                                   FROM MNJ_MFG_CUTLYRCNTRL_L MMCL1,
                                        MNJ_MFG_CUTLYRCNTRL_H MMCH1
@@ -105,8 +103,8 @@
                                AND ROWNUM = 1),
                        0))
                       SAM,
-                   PL.WASH_NAME WASH,
-                   PB.BPO_ID
+                   PL.WASH_NAME WASH
+          
               FROM XX_OM_POC_H_T PH,
                    XX_OM_POC_L_T PL,
                    XX_OM_BPO_INFO_T PB,
@@ -124,7 +122,7 @@
                    AND wdj.status_type NOT IN (7, 12)
                    AND TO_CHAR (PL.SYSTEM_ID) = WDJ.ATTRIBUTE10
                    AND TO_CHAR (MMR.SYSTEM_ID) = MMC.SYSTEM_ID
-                   AND (SELECT                                      --DISTINCT
+                   AND (SELECT 
                                MMODA.FINAL_MFG_ORG_ID
                           FROM MNJ_MFG_OSP_DEP_ASSIGN MMODA,
                                MNJ_MFG_OSP_STN_LINE MMOSL,
@@ -134,9 +132,8 @@
                                AND TO_CHAR (MMOSL.SYSTEM_ID) = WDJ.ATTRIBUTE10
                                AND MMODA.FINAL_DEPARTMENT = 'Stitching'
                                AND ROWNUM = 1) = :P_ORG_ID
-                   --AND PL.SYSTEM_ID = 3068
+   
           GROUP BY PL.SYSTEM_ID,
-                   PB.BPO,
                    PL.COLOR,
                    PH.LC_UNIT,
                    PH.style,
@@ -150,10 +147,9 @@
                    PL.WASH_NAME,
                    MMRSA.bpo_id,
                    PH.POC_ID,
-                    PB.BPO_ID) aa
-   WHERE 1 = 1     AND ISS_QUANTITY <> 0
+                   PB.BPO_ID) aa
+   WHERE 1 = 1 AND ISS_QUANTITY <> 0
 GROUP BY SYSTEM_ID,
-         BPO_NO,
          COLOUR,
          WASH,
          ORG_ID,
@@ -163,12 +159,9 @@ GROUP BY SYSTEM_ID,
          WIP_ENTITY_ID,
          WIP_ENTITY_NAME,
          ORGANIZATION_ID,
-         --         SAM,--
          WASH,
-         --ISS_QUANTITY,
          BEL_QTY,
-         TOT_REJ,
-       BPO_ID]]>
+         TOT_REJ]]>
   </SQLQuery>
   <ViewAttribute
     Name="SystemId"
@@ -193,8 +186,7 @@ GROUP BY SYSTEM_ID,
     Type="java.lang.String"
     ColumnType="VARCHAR2"
     AliasName="BPO_NO"
-    SQLType="VARCHAR"
-    Expression="BPO_NO">
+    SQLType="VARCHAR">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="50"/>
     </DesignTime>
@@ -413,7 +405,6 @@ GROUP BY SYSTEM_ID,
     Type="oracle.jbo.domain.Number"
     ColumnType="NUMBER"
     AliasName="BPO_ID"
-    Expression="BPO_ID"
     SQLType="NUMERIC">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="39"/>
@@ -546,19 +537,6 @@ GROUP BY SYSTEM_ID,
     SQLType="NUMERIC">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="16"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="SelectcountFrommnjMfgPieceStnRelationmmpsSelectminMmcbFromPieceNoMiniMaxMmcbToPieceNoMaxifrommnjMfgCutissuanceLinemmclMnjMfgCutissuanceSzlinemmcdMnjMfgCutlyrcntrlLmmcllMnjMfgCutlyrcntrlBndLmmcbwhere11andmmcCutissu"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="(SELECTCOUNT(*)FROMMNJ_MFG_PIECE_STN_RELATIONMMPS,(SELECTMIN(MMCB.FROM_PIECE_NO)MINI,MAX(MMCB.TO_PIECE_NO)MAXIFROMMNJ_MFG_CUTISSUANCE_LINEMMCL,MNJ_MFG_CUTISSUANCE_SZLINEMMCD,MNJ_MFG_CUTLYRCNTRL_LMMCLL,MNJ_MFG_CUTLYRCNTRL_BND_LMMCBWHERE1=1ANDMMC.CUTISSU"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
