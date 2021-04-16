@@ -237,6 +237,8 @@
           <Item Value="SystemId"/>
           <Item Value="WipEntityId"/>
           <Item Value="BpoId"/>
+          <Item Value="Color"/>
+          <Item Value="Sam"/>
         </AttrNames>
       </nodeDefinition>
     </tree>

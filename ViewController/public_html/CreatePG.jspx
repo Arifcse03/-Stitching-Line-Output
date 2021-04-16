@@ -1950,19 +1950,6 @@
                     <f:validator binding="#{row.bindings.Season.validator}"/>
                   </af:inputText>
                 </af:column>
-                <af:column headerText="Color" id="c46" align="center"
-                           filterable="true" sortable="true"
-                           sortProperty="Colour" width="90" visible="false">
-                  <af:inputText value="#{row.bindings.Colour.inputValue}"
-                                label="#{bindings.FillBPOsCriteria1.hints.Colour.label}"
-                                required="#{bindings.FillBPOsCriteria1.hints.Colour.mandatory}"
-                                columns="#{bindings.FillBPOsCriteria1.hints.Colour.displayWidth}"
-                                maximumLength="#{bindings.FillBPOsCriteria1.hints.Colour.precision}"
-                                shortDesc="#{bindings.FillBPOsCriteria1.hints.Colour.tooltip}"
-                                id="it6" readOnly="true">
-                    <f:validator binding="#{row.bindings.Colour.validator}"/>
-                  </af:inputText>
-                </af:column>
                 <af:column headerText="Wash" id="c105" align="center"
                            sortable="true" filterable="true"
                            sortProperty="Wash" visible="false">
@@ -2113,15 +2100,15 @@
                            filterable="true" sortProperty="Season">
                   <af:outputText value="#{row.Season}" id="ot36"/>
                 </af:column>
-                <af:column headerText="Colour"
-                           id="c113" align="center" sortable="true"
-                           filterable="true" sortProperty="Colour">
-                  <af:outputText value="#{row.Colour}" id="ot37"/>
-                </af:column>
                 <af:column headerText="Wash"
                            id="c114" align="center" sortable="true"
                            filterable="true" sortProperty="Wash">
                   <af:outputText value="#{row.Wash}" id="ot38"/>
+                </af:column>
+                <af:column headerText="Color"
+                           id="c46" align="center" sortable="true"
+                           filterable="true" sortProperty="Color">
+                  <af:outputText value="#{row.Color}" id="ot25"/>
                 </af:column>
                 <af:column headerText="Line"
                            id="c115" align="center" sortable="true"
@@ -2130,7 +2117,8 @@
                 </af:column>
                 <af:column headerText="Job Id"
                            id="c116" align="center" sortable="true"
-                           filterable="true" sortProperty="WipEntityId">
+                           filterable="true" sortProperty="WipEntityId"
+                           visible="false">
                   <af:outputText value="#{row.WipEntityId}" id="ot40">
                     <af:convertNumber groupingUsed="false"
                                       pattern="#{bindings.FillBPOsCriteria1.hints.WipEntityId.format}"/>
@@ -2138,7 +2126,8 @@
                 </af:column>
                 <af:column headerText="Job Name"
                            id="c117" align="center" sortable="true"
-                           filterable="true" sortProperty="WipEntityName">
+                           filterable="true" sortProperty="WipEntityName"
+                           visible="false">
                   <af:outputText value="#{row.WipEntityName}" id="ot41"/>
                 </af:column>
                 <af:column
@@ -2160,7 +2149,8 @@
                 </af:column>
                 <af:column headerText="Total Rejection"
                            id="c120" align="center" sortable="true"
-                           filterable="true" sortProperty="TotRej">
+                           filterable="true" sortProperty="TotRej"
+                           visible="false">
                   <af:outputText value="#{row.TotRej}" id="ot44">
                     <af:convertNumber groupingUsed="false"
                                       pattern="#{bindings.FillBPOsCriteria1.hints.TotRej.format}"/>
@@ -2172,6 +2162,14 @@
                   <af:outputText value="#{row.Wip}" id="ot45">
                     <af:convertNumber groupingUsed="false"
                                       pattern="#{bindings.FillBPOsCriteria1.hints.Wip.format}"/>
+                  </af:outputText>
+                </af:column>
+                <af:column headerText="SAM"
+                           id="c98" align="center" sortable="true"
+                           filterable="true" sortProperty="Sam">
+                  <af:outputText value="#{row.Sam}" id="ot26">
+                    <af:convertNumber groupingUsed="false"
+                                      pattern="#{bindings.FillBPOsCriteria1.hints.Sam.format}"/>
                   </af:outputText>
                 </af:column>
               </af:table>

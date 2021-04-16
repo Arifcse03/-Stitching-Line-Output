@@ -91,10 +91,10 @@ public class InquiryInfoAMImpl extends ApplicationModuleImpl implements InquiryI
             //linerow.setAttribute("BpoNo", getPopulateValue(poprow, "BpoNo"));
             linerow.setAttribute("SublineNo", getPopulateValue(poprow, "LineNo"));
             linerow.setAttribute("DivisionId", getPopulateValue(poprow, "OrgId"));
-            linerow.setAttribute("JobId", getPopulateValue(poprow, "WipEntityId"));
-            linerow.setAttribute("JobName", getPopulateValue(poprow, "WipEntityName"));
+            //linerow.setAttribute("JobId", getPopulateValue(poprow, "WipEntityId"));
+           // linerow.setAttribute("JobName", getPopulateValue(poprow, "WipEntityName"));
             linerow.setAttribute("TotalInput", getPopulateValue(poprow, "IssQuantity"));
-            linerow.setAttribute("TotRejection", getPopulateValue(poprow, "TotRej"));
+           // linerow.setAttribute("TotRejection", getPopulateValue(poprow, "TotRej"));
             linerow.setAttribute("Wip", getPopulateValue(poprow, "Wip"));
             linerow.setAttribute("TotalProduetion", getPopulateValue(poprow, "BelQty"));
             linerow.setAttribute("SamValue", getPopulateValue(poprow, "Sam"));
