@@ -2,6 +2,9 @@ package view.backing_bean;
 
 import java.io.IOException;
 
+import java.math.BigDecimal;
+
+import java.sql.CallableStatement;
 import java.sql.SQLException;
 
 import java.text.DecimalFormat;
@@ -55,9 +58,12 @@ import oracle.adf.view.rich.util.ResetUtils;
 
 import oracle.jbo.ApplicationModule;
 
+import oracle.jbo.JboException;
 import oracle.jbo.Row;
 import oracle.jbo.RowSetIterator;
 import oracle.jbo.ViewObject;
+
+import oracle.jdbc.OracleTypes;
 
 
 public class Main {
@@ -107,6 +113,12 @@ public class Main {
     private RichInputText prodmin;
     private RichTable additionalblocktable;
     private RichTable fillBpoTable;
+    public static final int VARCHAR2 = OracleTypes.VARCHAR;
+    public static final int NUMBER = OracleTypes.NUMBER;
+    public static final int DATE = OracleTypes.DATE;
+    public static final int STRING = 1;
+    public static final int INT = 2;
+    public static final int DOUBLE = 3;
 
 
     public Main() {
@@ -154,7 +166,8 @@ public class Main {
         //vo.executeQuery();
         
         
-        
+        ViewObject vo =am.getFillBPOsCriteria1();
+        vo.executeQuery();
         
         
         
@@ -651,11 +664,84 @@ public class Main {
                ViewObject vo =am.findViewObject("DetailVO1");
                vo.executeQuery();
                AdfFacesContext.getCurrentInstance().addPartialTarget(sizeTable);
-               
+            
+               get_sam();
               
            }
            }
 
+/*** get sam ***/
+
+ /***function to get sam ****/
+  public void get_sam(){
+      String system_id = null;
+      ViewObject vo=am.getLineVO1();
+      try { system_id=vo.getCurrentRow().getAttribute("SystemId").toString();}
+      catch (Exception e) {
+              system_id = null;
+              System.out.println("i am in get sm main");
+          }
+          
+     
+
+       
+           
+                BigDecimal   a =
+                 (BigDecimal)callStoredFunction(NUMBER, "FIND_STITCH_LINEOUTPUT_LSTSAM(?)",
+                                                new Object[] { Integer.parseInt(system_id)});
+    /*  }
+      catch (Exception e) {
+                 e.printStackTrace();
+                 
+             }
+      */
+     String value=null;
+      value=a.toString();
+      ViewObject vo1 = am.getLineVO1();
+      try {
+          vo1.getCurrentRow().setAttribute("SamValue", value);
+          }
+      catch (Exception e){e.printStackTrace();}
+    
+
+  }
+    
+ /***call store functiin**/
+  protected Object callStoredFunction(int sqlReturnType, String stmt,
+                                      Object[] bindVars) {
+      CallableStatement st = null;
+      try {
+          // 1. Create a JDBC CallabledStatement
+          st =
+  am.getDBTransaction().createCallableStatement("begin ? := " + stmt + ";end;", 0);
+          // 2. Register the first bind variable for the return value
+          st.registerOutParameter(1, sqlReturnType);
+          if (bindVars != null) {
+              // 3. Loop over values for the bind variables passed in, if any
+              for (int z = 0; z < bindVars.length; z++) {
+                  // 4. Set the value of user-supplied bind vars in the stmt
+                  st.setObject(z + 2, bindVars[z]);
+                  
+              }
+          }
+          // 5. Set the value of user-supplied bind vars in the stmt
+          st.executeUpdate();
+          // 6. Return the value of the first bind variable
+          return st.getObject(1);
+
+      } catch (SQLException e) {
+          throw new JboException(e);
+      } finally {
+          if (st != null) {
+              try {
+                  // 7. Close the statement
+                  st.close();
+              } catch (SQLException e) {
+              }
+          }
+      }
+
+  }
 
 
        public void editPopupFetchSize(PopupFetchEvent popupFetchEvent) {

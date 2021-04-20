@@ -214,31 +214,20 @@
       <nodeDefinition DefName="mnj.ont.model.lov.views.FillBPOsCriteria"
                       Name="FillBPOsCriteria10">
         <AttrNames>
-          <Item Value="BpoNo"/>
-          <Item Value="CustomerName"/>
-          <Item Value="StyleName"/>
-          <Item Value="Season"/>
-          <Item Value="StnNo"/>
+         
           <Item Value="Flag" Binds="Flag"/>
-          <Item Value="LineNo"/>
-          <Item Value="WipEntityName"/>
-          <Item Value="KnownAs"/>
-          <Item Value="Colour"/>
-          <Item Value="TotalInput"/>
-          <Item Value="BelQty"/>
-          <Item Value="TotRej"/>
-          <Item Value="WipQty"/>
-          <Item Value="IssQuantity"/>
-          <Item Value="ProductionDate"/>
-          <Item Value="Wip"/>
-          <Item Value="CurrentStyle"/>
-          <Item Value="CurrentSeason"/>
-          <Item Value="Wash"/>
           <Item Value="SystemId"/>
-          <Item Value="WipEntityId"/>
-          <Item Value="BpoId"/>
           <Item Value="Color"/>
-          <Item Value="Sam"/>
+          <Item Value="WashName"/>
+          <Item Value="Style"/>
+          <Item Value="OrgId"/>
+          <Item Value="LineNo"/>
+          <Item Value="IssueQty"/>
+          <Item Value="BelQty"/>
+          <Item Value="Wip"/>
+          <Item Value="PocId"/>
+          <Item Value="CustomerName"/>
+          <Item Value="Season"/>
         </AttrNames>
       </nodeDefinition>
     </tree>

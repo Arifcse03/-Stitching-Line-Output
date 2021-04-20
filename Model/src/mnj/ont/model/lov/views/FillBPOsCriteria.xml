@@ -26,346 +26,52 @@
     <TransientExpression><![CDATA[adf.context.sessionScope.orgId]]></TransientExpression>
   </Variable>
   <SQLQuery>
-    <![CDATA[/*SELECT SYSTEM_ID,
-         COLOUR,
-         WASH,
-         ORG_ID,
-         STYLE_NAME,
-         SEASON,
-         LINE_NO,
-         WIP_ENTITY_ID,
-         WIP_ENTITY_NAME,
-         ORGANIZATION_ID,
-         BEL_QTY BEL_QTY,
-         TOT_REJ TOT_REJ,
-         SUM (ISS_QUANTITY) - (BEL_QTY - TOT_REJ) WIP,
-         SUM (ISS_QUANTITY) ISS_QUANTITY,
-         FIND_STITCH_LINEOUTPUT_LSTSAM (SYSTEM_ID) SAM
-
-    FROM (  SELECT PL.SYSTEM_ID,
-                   PH.POC_ID,
-
-                   PL.COLOR COLOUR,
-                   PH.LC_UNIT ORG_ID,
-                   PH.style STYLE_NAME,
-                   PH.season,
-       
-                   MMC.LINE_NO,
-                   WDJ.WIP_ENTITY_ID,
-                   WDJ.WIP_ENTITY_NAME,
-                   WDJ.ORGANIZATION_ID,
-                   NVL (
-                      (SELECT SUM (NVL (LL.LINE_OUTPUT, 0))
-                         FROM MNJ_MFG_LINEOUTPUT H, MNJ_MFG_LINEOUTPUT_SBLINE LL
-                        WHERE     H.PROD_TRANS_ID = LL.PROD_TRANS_ID
-                              AND LL.BPO_ID = PB.BPO_ID
-                              AND LL.BPO_ID = MMRSA.bpo_id
-                              AND LL.SUBLINE_NO = MMC.LINE_NO),
-                      0)
-                      BEL_QTY,
-                   NVL (
-                      (SELECT SUM (NVL (LL.DAY_REJECTION, 0))
-                         FROM MNJ_MFG_LINEOUTPUT H, MNJ_MFG_LINEOUTPUT_SBLINE LL
-                        WHERE     H.PROD_TRANS_ID = LL.PROD_TRANS_ID
-                              AND LL.BPO_ID = PB.BPO_ID
-                              AND LL.bpo_id = MMRSA.bpo_id
-                              AND LL.SUBLINE_NO = MMC.LINE_NO),
-                      0)
-                      TOT_REJ,
-                   (SELECT COUNT (1)
-                      FROM MNJ_MFG_PIECE_STN_RELATION MMPS,
-                           (SELECT MMCD.SRQ_NUMBER_FRM MINI,
-                                   MMCD.SRQ_NUMBER_TO MAXI,
-                                   MMCD.BANDEL_NO
-                              FROM MNJ_MFG_CUTISSUANCE_LINE MMCL,
-                                   MNJ_MFG_CUTISSUANCE_SZLINE MMCD
-                             WHERE     1 = 1
-                                   AND MMC.CUTISSUE_ID = MMCL.CUTISSUE_ID
-                                   AND MMCL.CUTISSUE_LINE_ID =
-                                          MMCD.CUTISSUE_LINE_ID) QUERY_M
-                     WHERE     MMPS.PIECE_NO BETWEEN QUERY_M.MINI
-                                                 AND QUERY_M.MAXI
-                           AND MMPS.bpo_id = PB.bpo_id
-                           AND QUERY_M.BANDEL_NO = MMPS.BUNDLE_NO
-                           
-                           AND (SELECT MMCH1.POC_ID
-                                  FROM MNJ_MFG_CUTLYRCNTRL_L MMCL1,
-                                       MNJ_MFG_CUTLYRCNTRL_H MMCH1
-                                 WHERE     MMCH1.HEADER_ID = MMCL1.HEADER_ID
-                                       AND MMCL1.LINE_ID = MMPS.LINE_ID) =
-                                  PH.POC_ID)
-                      ISS_QUANTITY,
-                   (NVL (
-                       (SELECT (NVL (rpln.sam_stitch, 0))
-                          FROM MNJ_MFG_ROUTING_PLAN rpln
-                         WHERE     1 = 1
-                               AND rpln.system_id = pl.system_id
-                               AND ROWNUM = 1),
-                       0))
-                      SAM,
-                   PL.WASH_NAME WASH
-          
-              FROM XX_OM_POC_H_T PH,
-                   XX_OM_POC_L_T PL,
-                   XX_OM_BPO_INFO_T PB,
-                   MNJ_MFG_RATIOPLAN_STNS_ALL MMRSA,
-                   MNJ_MFG_RATIOPLAN MMR,
-                   MNJ_MFG_CUTISSUANCE MMC,
-                   WIP_DISCRETE_JOBS_V WDJ
-             WHERE     1 = 1
-                   AND PH.POC_ID = PL.POC_ID
-                   AND PL.FOB_ID = PB.FOB_ID
-                   AND MMRSA.BPO_ID = PB.BPO_ID
-                   AND MMR.RATIOPLAN_ID = MMRSA.RATIOPLAN_ID
-                   AND MMC.SYSTEM_ID = PL.SYSTEM_ID
-                   AND WDJ.CLASS_CODE = 'STI'
-                   AND wdj.status_type NOT IN (7, 12)
-                   AND TO_CHAR (PL.SYSTEM_ID) = WDJ.ATTRIBUTE10
-                   AND TO_CHAR (MMR.SYSTEM_ID) = MMC.SYSTEM_ID
-                   AND (SELECT 
-                               MMODA.FINAL_MFG_ORG_ID
-                          FROM MNJ_MFG_OSP_DEP_ASSIGN MMODA,
-                               MNJ_MFG_OSP_STN_LINE MMOSL,
-                               MNJ_MFG_OSP_HEADER MMOH
-                         WHERE     MMODA.STN_LINE_ID = MMOSL.STN_LINE_ID
-                               AND MMOSL.HEADER_ID = MMOH.HEADER_ID
-                               AND TO_CHAR (MMOSL.SYSTEM_ID) = WDJ.ATTRIBUTE10
-                               AND MMODA.FINAL_DEPARTMENT = 'Stitching'
-                               AND ROWNUM = 1) = :P_ORG_ID
-   
-          GROUP BY PL.SYSTEM_ID,
-                   PL.COLOR,
-                   PH.LC_UNIT,
-                   PH.style,
-                   PH.season,
-                   PB.BPO_ID,
-                   MMC.CUTISSUE_ID,
-                   MMC.LINE_NO,
-                   WDJ.WIP_ENTITY_ID,
-                   WDJ.WIP_ENTITY_NAME,
-                   WDJ.ORGANIZATION_ID,
-                   PL.WASH_NAME,
-                   MMRSA.bpo_id,
-                   PH.POC_ID,
-                   PB.BPO_ID) aa
-   WHERE 1 = 1 AND ISS_QUANTITY <> 0
-GROUP BY SYSTEM_ID,
-         COLOUR,
-         WASH,
-         ORG_ID,
-         STYLE_NAME,
-         SEASON,
-         LINE_NO,
-         WIP_ENTITY_ID,
-         WIP_ENTITY_NAME,
-         ORGANIZATION_ID,
-         WASH,
-         BEL_QTY,
-         TOT_REJ*/
-
-/* Formatted on 4/15/2021 2:37:38 PM (QP5 v5.256.13226.35510) */
-/*SELECT cut_issue.system_id,
-       cut_issue.color,
-       cut_issue.wash,
-       cut_issue.org_id,
-       cut_issue.style_name,
-       cut_issue.season,
-       cut_issue.line_no,
-       cut_issue.WIP_ENTITY_ID,
-       cut_issue.WIP_ENTITY_NAME,
-       NVL (OUTPUT_QTY, 0) BEL_QTY,
-       NVL (CUT_ISS_QTY, 0) - NVL (OUTPUT_QTY, 0) - NVL (TOTAL_REJ, 0) WIP,
-       NVL (CUT_ISS_QTY, 0) - NVL (OUTPUT_QTY, 0) ISS_QUANTITY,
-       sam
-  FROM (  SELECT MMC.SYSTEM_ID,
-                 PL.COLOR,
-                 PL.wash_name wash,
-                 MMC.DIVISION_ID org_id,
-                 PH.STYLE STYLE_NAME,
-                 PH.SEASON,
-                 LINE_NO,                                      
-                 we.WIP_ENTITY_ID,
-                 WIP_ENTITY_NAME,
-                 SUM (NVL (ISSUED_QUANTITY, 0)) CUT_ISS_QTY,
-                 FIND_STITCH_LINEOUTPUT_LSTSAM (MMC.SYSTEM_ID) SAM
-            FROM MNJ_MFG_CUTISSUANCE MMC,
-                 MNJ_MFG_CUTISSUANCE_LINE MMCL,
-                 (SELECT DISTINCT system_id,
-                                  poc_id,
-                                  wash_name,
-                                  color
-                    FROM xx_om_POC_L_t) PL,
-                 xx_om_POC_H_t PH,
-                 WIP_DISCRETE_JOBS WDJ,
-                 wip_entities we
-           WHERE     MMC.CUTISSUE_ID = MMCL.CUTISSUE_ID
-                 AND MMC.SYSTEM_ID = :2                  
-                 AND MMC.SYSTEM_ID = PL.system_id
-                 AND pl.poc_id = ph.poc_id
-                 AND WDJ.CLASS_CODE = 'STI'
-                 AND wdj.status_type NOT IN (7, 12)
-                 AND TO_CHAR (PL.SYSTEM_ID) = WDJ.ATTRIBUTE10
-                 AND wdj.WIP_ENTITY_ID = we.WIP_ENTITY_ID
-                 AND (SELECT                                        
-                             MMODA.FINAL_MFG_ORG_ID
-                        FROM MNJ_MFG_OSP_DEP_ASSIGN MMODA,
-                             MNJ_MFG_OSP_STN_LINE MMOSL,
-                             MNJ_MFG_OSP_HEADER MMOH,
-                             xx_om_bpo_info_t bp,
-                             xx_om_poc_l_t pl1
-                       WHERE     MMODA.STN_LINE_ID = MMOSL.STN_LINE_ID
-                             AND MMOSL.HEADER_ID = MMOH.HEADER_ID
-                             AND mmosl.bpo_id = bp.bpo_id
-                             AND bp.fob_id = pl1.fob_id
-                             AND pl1.system_id = pl.system_id
-                             --AND TO_CHAR (MMOSL.SYSTEM_ID) = WDJ.ATTRIBUTE10
-                             AND MMODA.FINAL_DEPARTMENT = 'Stitching'
-                             AND ROWNUM = 1) = :1
-        GROUP BY PH.STYLE,
-                 PH.SEASON,
-                 PL.COLOR,                                    
-                 MMC.ATTRIBUTE1,
-                 --RATION_NO,
-                 MMC.SYSTEM_ID,
-                 LINE_NO,
-                 we.WIP_ENTITY_NAME,
-                 PL.wash_name,
-                 MMC.DIVISION_ID,
-                 we.WIP_ENTITY_ID) CUT_ISSUE,
-       (  SELECT                                            
-                DIVISION_ID ORGANIZATION_ID,
-                 SUBLINE_NO LINE_NO,
-                 MMLS.SYSTEM_ID,
-                 PH.style,
-                 ph.season,
-                 pl.wash_name,
-                 pl.color,
-                 SUM (NVL (LINE_OUTPUT, 0)) OUTPUT_QTY,
-                 SUM (NVL (LINE_OUTPUT, 0)) TOTAL_REJ
-            FROM MNJ_MFG_LINEOUTPUT_SBLINE MMLS,
-                 (SELECT DISTINCT system_id,
-                                  poc_id,
-                                  wash_name,
-                                  color
-                    FROM xx_om_POC_L_t) PL,
-                 xx_om_POC_H_t PH
-           WHERE     1 = 1
-                 AND MMLS.system_id = pl.system_id
-                 AND PL.POC_ID = ph.poc_id
-                 AND MMLS.system_id = :2         
-        GROUP BY DIVISION_ID,
-                 SUBLINE_NO,
-                 MMLS.SYSTEM_ID,
-                 PH.style,
-                 ph.season,
-                 pl.wash_name,
-                 pl.color) STI_OUT
- WHERE     1 = 1
-       AND cut_issue.system_id = sti_out.system_id(+)
-       AND cut_issue.line_no = sti_out.line_no(+)
-       AND NVL (CUT_ISS_QTY, 0) - NVL (OUTPUT_QTY, 0) <> 0*/
-
-
-/* Formatted on 4/16/2021 8:06:36 AM (QP5 v5.256.13226.35510) */
-SELECT cut_issue.system_id,
-       cut_issue.color,
-       cut_issue.wash,
-       cut_issue.org_id,
-       cut_issue.style_name,
-       cut_issue.season,
-       cut_issue.line_no, --cut_issue.WIP_ENTITY_ID,--cut_issue.WIP_ENTITY_NAME,
-       NVL (OUTPUT_QTY, 0) BEL_QTY,
-       NVL (CUT_ISS_QTY, 0) - NVL (OUTPUT_QTY, 0) - NVL (TOTAL_REJ, 0) WIP,
-       NVL (CUT_ISS_QTY, 0) - NVL (OUTPUT_QTY, 0) ISS_QUANTITY,
-       sam
-  FROM (  SELECT MMC.SYSTEM_ID,
-                 PL.COLOR,
-                 PL.wash_name wash,
-                 MMC.DIVISION_ID org_id,
-                 PH.STYLE STYLE_NAME,
-                 PH.SEASON,
-                 LINE_NO,                                      --pl.wash_name,
-                 --we.WIP_ENTITY_ID,
-                 --WIP_ENTITY_NAME,
-                 SUM (NVL (ISSUED_QUANTITY, 0)) CUT_ISS_QTY,
-                 FIND_STITCH_LINEOUTPUT_LSTSAM (MMC.SYSTEM_ID) SAM
-            FROM MNJ_MFG_CUTISSUANCE MMC,
-                 MNJ_MFG_CUTISSUANCE_LINE MMCL,
-                 (SELECT DISTINCT system_id,
-                                  poc_id,
-                                  wash_name,
-                                  color
-                    FROM xx_om_POC_L_t) PL,
-                 xx_om_POC_H_t PH     --,WIP_DISCRETE_JOBS WDJ,wip_entities we
-           WHERE     MMC.CUTISSUE_ID = MMCL.CUTISSUE_ID
-                 --AND MMC.SYSTEM_ID =:P_SYSTEM_ID -- 4371
-                 AND MMC.SYSTEM_ID = PL.system_id
-                 AND pl.poc_id = ph.poc_id
-                 AND mmc.issue_to = 'Issued to Stich'
-                 AND mmc.attribute1 = (SELECT name
-                                         FROM hr_operating_units
-                                        WHERE ORGANIZATION_ID = :P_ORG_ID)
-        --AND WDJ.CLASS_CODE = 'STI'
-        --AND wdj.status_type NOT IN (7, 12)
-        --AND TO_CHAR (PL.SYSTEM_ID) = WDJ.ATTRIBUTE10
-        --and wdj.WIP_ENTITY_ID=we.WIP_ENTITY_ID
-        --AND (SELECT-- DISTINCT
-        --MMODA.FINAL_MFG_ORG_ID
-        --FROM MNJ_MFG_OSP_DEP_ASSIGN MMODA,
-        --MNJ_MFG_OSP_STN_LINE MMOSL,
-        --MNJ_MFG_OSP_HEADER MMOH,xx_om_bpo_info_t bp,xx_om_poc_l_t pl1
-        --WHERE MMODA.STN_LINE_ID = MMOSL.STN_LINE_ID
-        --AND MMOSL.HEADER_ID = MMOH.HEADER_ID
-        --and mmosl.bpo_id=bp.bpo_id
-        --and bp.fob_id=pl1.fob_id
-        --and pl1.system_id=pl.system_id
-        ------AND TO_CHAR (MMOSL.SYSTEM_ID) = WDJ.ATTRIBUTE10
-        --AND MMODA.FINAL_DEPARTMENT = 'Stitching'
-        --AND ROWNUM = 1
-        --) = :P_ORG_ID
-        GROUP BY PH.STYLE,
-                 PH.SEASON,
-                 PL.COLOR,                                     --pl.wash_name,
-                 MMC.ATTRIBUTE1,
-                 --RATION_NO,
-                 MMC.SYSTEM_ID,
-                 LINE_NO,                                --we.WIP_ENTITY_NAME,
-                 PL.wash_name,
-                 MMC.DIVISION_ID                           --,we.WIP_ENTITY_ID
-                                ) CUT_ISSUE,
-       (  SELECT                                              --PROD_TRANS_ID,
-                DIVISION_ID ORGANIZATION_ID,
-                 SUBLINE_NO LINE_NO,
-                 MMLS.SYSTEM_ID,
-                 PH.style,
-                 ph.season,
-                 pl.wash_name,
-                 pl.color,
-                 SUM (NVL (LINE_OUTPUT, 0)) OUTPUT_QTY,
-                 SUM (NVL (LINE_OUTPUT, 0)) TOTAL_REJ
-            FROM MNJ_MFG_LINEOUTPUT_SBLINE MMLS,
-                 (SELECT DISTINCT system_id,
-                                  poc_id,
-                                  wash_name,
-                                  color
-                    FROM xx_om_POC_L_t) PL,
-                 xx_om_POC_H_t PH
-           WHERE     1 = 1
-                 AND MMLS.system_id = pl.system_id
-                 AND PL.POC_ID = ph.poc_id
-        --and MMLS.system_id=:P_SYSTEM_ID--4371
-        GROUP BY DIVISION_ID,
-                 SUBLINE_NO,
-                 MMLS.SYSTEM_ID,
-                 PH.style,
-                 ph.season,
-                 pl.wash_name,
-                 pl.color) STI_OUT
- WHERE     1 = 1
-       AND cut_issue.system_id = sti_out.system_id(+)
-       AND cut_issue.line_no = sti_out.line_no(+)
-       AND NVL (CUT_ISS_QTY, 0) - NVL (OUTPUT_QTY, 0) - NVL (TOTAL_REJ, 0) >
-              0]]>
+    <![CDATA[/* Formatted on 4/20/2021 9:32:35 AM (QP5 v5.256.13226.35510) */
+SELECT *
+  FROM (  SELECT XXX.SYSTEM_ID,
+                 XOPLT.COLOR,
+                 XOPLT.WASH_NAME,
+                 XXX.DIVISION_ID ORG_ID,
+                 XXX.LINE_NO,
+                 SUM (XXX.LINE_OUTPUT) BEL_QTY,
+                 SUM (XXX.ISSUED_QUANTITY) - SUM (XXX.LINE_OUTPUT) WIP,
+                 SUM (XXX.ISSUED_QUANTITY) ISSUE_QTY,
+                 XOPHT.POC_ID,
+                 AR.CUSTOMER_NAME,
+                 XOPHT.SEASON,
+                 XOPHT.STYLE
+            FROM (SELECT MMC.DIVISION_ID,
+                         MMC.SYSTEM_ID,
+                         MMC.LINE_NO,
+                         MMCL.ISSUED_QUANTITY,
+                         0 LINE_OUTPUT
+                    FROM MNJ_MFG_CUTISSUANCE MMC, MNJ_MFG_CUTISSUANCE_LINE MMCL
+                   WHERE     MMC.CUTISSUE_ID = MMCL.CUTISSUE_ID
+                         AND MMC.ISSUE_TO = 'Issued to Stich'
+                  UNION ALL
+                  SELECT MMLS.DIVISION_ID,
+                         MMLS.SYSTEM_ID,
+                         MMLS.SUBLINE_NO,
+                         0 ISSUED_QUANTITY,
+                         MMLS.LINE_OUTPUT
+                   FROM MNJ_MFG_LINEOUTPUT_SBLINE MMLS) XXX,
+XX_OM_POC_L_T XOPLT,
+XX_OM_POC_H_T XOPHT,
+AR_CUSTOMERS AR
+WHERE XXX.SYSTEM_ID = XOPLT.SYSTEM_ID
+AND XOPHT.POC_ID = XOPLT.POC_ID
+AND AR.CUSTOMER_id = XOPHT.BUYER_ID
+        GROUP BY XXX.DIVISION_ID,
+                 XXX.SYSTEM_ID,
+                 XOPLT.WASH_NAME,
+                 XOPLT.COLOR,
+                 XXX.LINE_NO,
+                 XOPHT.POC_ID,
+                 AR.CUSTOMER_NAME,
+                 XOPHT.SEASON,
+                 XOPHT.STYLE
+          HAVING SUM (XXX.ISSUED_QUANTITY) > SUM (XXX.LINE_OUTPUT))
+ WHERE ORG_ID = :P_ORG_ID]]>
   </SQLQuery>
   <ViewAttribute
     Name="SystemId"
@@ -397,18 +103,18 @@ SELECT cut_issue.system_id,
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="Wash"
+    Name="WashName"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
-    Precision="250"
+    Precision="100"
     Type="java.lang.String"
     ColumnType="VARCHAR2"
-    AliasName="WASH"
-    Expression="WASH"
+    AliasName="WASH_NAME"
+    Expression="WASH_NAME"
     SQLType="VARCHAR">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
+      <Attr Name="_DisplaySize" Value="100"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
@@ -416,43 +122,14 @@ SELECT cut_issue.system_id,
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
+    Precision="6"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
     AliasName="ORG_ID"
-    SQLType="NUMERIC"
-    Expression="ORG_ID">
+    Expression="ORG_ID"
+    SQLType="VARCHAR">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="StyleName"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="500"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="STYLE_NAME"
-    SQLType="VARCHAR"
-    Expression="STYLE_NAME">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="500"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="Season"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="500"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="SEASON"
-    SQLType="VARCHAR"
-    Expression="SEASON">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="500"/>
+      <Attr Name="_DisplaySize" Value="6"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
@@ -471,35 +148,6 @@ SELECT cut_issue.system_id,
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="WipEntityId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="WIP_ENTITY_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="WipEntityName"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Precision="240"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="WIP_ENTITY_NAME"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="240"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
     Name="BelQty"
     IsUpdateable="false"
     IsPersistent="false"
@@ -507,8 +155,8 @@ SELECT cut_issue.system_id,
     Type="oracle.jbo.domain.Number"
     ColumnType="NUMBER"
     AliasName="BEL_QTY"
-    SQLType="NUMERIC"
-    Expression="BEL_QTY">
+    Expression="BEL_QTY"
+    SQLType="NUMERIC">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="39"/>
     </DesignTime>
@@ -521,435 +169,36 @@ SELECT cut_issue.system_id,
     Type="oracle.jbo.domain.Number"
     ColumnType="NUMBER"
     AliasName="WIP"
-    SQLType="NUMERIC"
-    Expression="WIP">
+    Expression="WIP"
+    SQLType="NUMERIC">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="39"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="IssQuantity"
+    Name="IssueQty"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
     Type="oracle.jbo.domain.Number"
     ColumnType="NUMBER"
-    AliasName="ISS_QUANTITY"
-    SQLType="NUMERIC"
-    Expression="ISS_QUANTITY">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="22"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="Sam"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="SAM"
-    SQLType="NUMERIC"
-    Expression="SAM">
+    AliasName="ISSUE_QTY"
+    Expression="ISSUE_QTY"
+    SQLType="NUMERIC">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="39"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="BpoNo"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="255"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="BPO_NO"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="50"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="Colour"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="500"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="COLOUR"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="500"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="OrganizationId"
+    Name="PocId"
     IsUpdateable="false"
     IsPersistent="false"
     IsNotNull="true"
     PrecisionRule="true"
     Type="oracle.jbo.domain.Number"
     ColumnType="NUMBER"
-    AliasName="ORGANIZATION_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="TotRej"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="TOT_REJ"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="BpoId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="BPO_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="ProductionDate"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Date"
-    ColumnType="DATE"
-    AliasName="PRODUCTION_DATE"
-    SQLType="DATE">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="7"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="KnownAs"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="240"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="KNOWN_AS"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="240"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="HeaderId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="HEADER_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="CurrentStyle"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="250"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="CURRENT_STYLE"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="CurrentSeason"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="250"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="CURRENT_SEASON"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="250"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="StnNo"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="91"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="STN_NO"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="91"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="CustAccountId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Precision="15"
-    Scale="0"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="CUST_ACCOUNT_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="16"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="CurrentBpo"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="240"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="CURRENT_BPO"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="240"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="CutissueId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Precision="15"
-    Scale="0"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="CUTISSUE_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="16"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="UserItemDescription"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="1000"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="USER_ITEM_DESCRIPTION"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="1000"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="Style"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="500"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="STYLE"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="500"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="OcNo"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="120"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="OC_NO"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="120"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="TotalQty"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="TOTAL_QTY"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="InseamSizeConcat"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="150"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="INSEAM_SIZE_CONCAT"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="150"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="Inseam"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="150"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="INSEAM"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="150"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="SizeQty"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="SIZE_QTY"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="PrevRejQty"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="PREV_REJ_QTY"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="WipQty"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="WIP_QTY"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="WipQtyNew"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="WIP_QTY_NEW"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="PrevProdQty"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="PREV_PROD_QTY"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="LineOutput"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="8"
-    Scale="0"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="LINE_OUTPUT"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="9"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="DayRejection"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="DAY_REJECTION"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="TotalInput"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="TOTAL_INPUT"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="DayProduction"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="DAY_PRODUCTION"
+    AliasName="POC_ID"
+    Expression="POC_ID"
     SQLType="NUMERIC">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="39"/>
@@ -964,27 +213,38 @@ SELECT cut_issue.system_id,
     Type="java.lang.String"
     ColumnType="VARCHAR2"
     AliasName="CUSTOMER_NAME"
+    Expression="CUSTOMER_NAME"
     SQLType="VARCHAR">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="50"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="CustomerId"
+    Name="Season"
     IsUpdateable="false"
     IsPersistent="false"
-    IsNotNull="true"
     PrecisionRule="true"
-    Precision="15"
-    Scale="0"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="CUSTOMER_ID"
-    SQLType="NUMERIC">
+    Precision="30"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SEASON"
+    Expression="SEASON"
+    SQLType="VARCHAR">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="16"/>
+      <Attr Name="_DisplaySize" Value="30"/>
     </DesignTime>
   </ViewAttribute>
+  <ViewAttribute
+    Name="Style"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="32"
+    Type="java.lang.String"
+    ColumnType="CHAR"
+    AliasName="STYLE"
+    SQLType="VARCHAR"
+    Expression="STYLE"/>
   <ViewAttribute
     Name="Flag"
     IsSelected="false"

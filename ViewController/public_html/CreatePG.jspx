@@ -1914,262 +1914,79 @@
                                             shortDesc="#{bindings.FillBPOsCriteria1.hints.Flag.tooltip}"
                                             id="sbc1"/>
                 </af:column>
-                <af:column headerText="Line No." id="c56" sortable="true"
-                           sortProperty="LineNo" filterable="true"
-                           align="center" width="50" visible="false">
-                  <af:outputText value="#{row.LineNo}" id="ot14"/>
-                </af:column>
-                <af:column headerText="Buyer" id="c17" align="center"
-                           sortable="true" filterable="true"
-                           sortProperty="KnownAs" width="85" visible="false">
-                  <af:outputText value="#{row.KnownAs}" id="ot6"/>
-                </af:column>
-                <af:column sortProperty="StyleName" filterable="true"
-                           sortable="true" headerText="Style" id="c18"
-                           align="center" width="100" visible="false">
-                  <af:inputText value="#{row.bindings.StyleName.inputValue}"
-                                label="#{bindings.FillBPOsCriteria1.hints.StyleName.label}"
-                                required="#{bindings.FillBPOsCriteria1.hints.StyleName.mandatory}"
-                                columns="#{bindings.FillBPOsCriteria1.hints.StyleName.displayWidth}"
-                                maximumLength="#{bindings.FillBPOsCriteria1.hints.StyleName.precision}"
-                                shortDesc="#{bindings.FillBPOsCriteria1.hints.StyleName.tooltip}"
-                                id="it21" readOnly="true">
-                    <f:validator binding="#{row.bindings.StyleName.validator}"/>
-                  </af:inputText>
-                </af:column>
-                <af:column sortProperty="Season" filterable="true"
-                           sortable="true" headerText="Season/ Lot" id="c9"
-                           align="center" width="85" visible="false">
-                  <af:inputText value="#{row.bindings.Season.inputValue}"
-                                label="#{bindings.FillBPOsCriteria1.hints.Season.label}"
-                                required="#{bindings.FillBPOsCriteria1.hints.Season.mandatory}"
-                                columns="#{bindings.FillBPOsCriteria1.hints.Season.displayWidth}"
-                                maximumLength="#{bindings.FillBPOsCriteria1.hints.Season.precision}"
-                                shortDesc="#{bindings.FillBPOsCriteria1.hints.Season.tooltip}"
-                                id="it16" readOnly="true">
-                    <f:validator binding="#{row.bindings.Season.validator}"/>
-                  </af:inputText>
-                </af:column>
-                <af:column headerText="Wash" id="c105" align="center"
-                           sortable="true" filterable="true"
-                           sortProperty="Wash" visible="false">
-                  <af:outputText value="#{row.Wash}" id="ot30"/>
-                </af:column>
-                <af:column headerText="Production Date" id="c55" align="center"
-                           width="100" sortProperty="ProductionDate"
-                           sortable="true" filterable="true" visible="false">
-                  <af:inputDate value="#{row.bindings.ProductionDate.inputValue}"
-                                label="#{bindings.FillBPOsCriteria1.hints.ProductionDate.label}"
-                                required="#{bindings.FillBPOsCriteria1.hints.ProductionDate.mandatory}"
-                                shortDesc="#{bindings.FillBPOsCriteria1.hints.ProductionDate.tooltip}"
-                                id="id2" readOnly="true">
-                    <f:validator binding="#{row.bindings.ProductionDate.validator}"/>
-                    <af:convertDateTime pattern="#{bindings.FillBPOsCriteria1.hints.ProductionDate.format}"/>
-                  </af:inputDate>
-                  <f:facet name="filter">
-                    <af:inputDate value="#{vs.filterCriteria.ProductionDate}"
-                                  id="id3"/>
-                  </f:facet>
-                </af:column>
-                <af:column headerText="Total Input" id="c37" align="center"
-                           sortable="true" filterable="true"
-                           sortProperty="IssQuantity" width="60"
-                           visible="false">
-                  <af:outputText value="#{row.IssQuantity}" id="ot12">
-                    <af:convertNumber groupingUsed="false"
-                                      pattern="#{bindings.FillBPOsCriteria1.hints.IssQuantity.format}"/>
-                  </af:outputText>
-                </af:column>
-                <af:column headerText="Total  Production" id="c33"
-                           align="center" sortable="true" filterable="true"
-                           sortProperty="BelQty" width="65" visible="false">
-                  <af:inputText value="#{row.bindings.BelQty.inputValue}"
-                                label="#{bindings.FillBPOsCriteria1.hints.BelQty.label}"
-                                required="#{bindings.FillBPOsCriteria1.hints.BelQty.mandatory}"
-                                columns="#{bindings.FillBPOsCriteria1.hints.BelQty.displayWidth}"
-                                maximumLength="#{bindings.FillBPOsCriteria1.hints.BelQty.precision}"
-                                shortDesc="#{bindings.FillBPOsCriteria1.hints.BelQty.tooltip}"
-                                id="it31">
-                    <f:validator binding="#{row.bindings.BelQty.validator}"/>
-                    <af:convertNumber groupingUsed="false"
-                                      pattern="#{bindings.FillBPOsCriteria1.hints.BelQty.format}"/>
-                  </af:inputText>
-                </af:column>
-                <af:column headerText="Total Rejection" id="c47" align="center"
-                           sortable="true" filterable="true" sortProperty="Tot"
-                           width="65" visible="false">
-                  <af:inputText value="#{row.bindings.TotRej.inputValue}"
-                                label="#{bindings.FillBPOsCriteria1.hints.TotRej.label}"
-                                required="#{bindings.FillBPOsCriteria1.hints.TotRej.mandatory}"
-                                columns="#{bindings.FillBPOsCriteria1.hints.TotRej.displayWidth}"
-                                maximumLength="#{bindings.FillBPOsCriteria1.hints.TotRej.precision}"
-                                shortDesc="#{bindings.FillBPOsCriteria1.hints.TotRej.tooltip}"
-                                id="it36">
-                    <f:validator binding="#{row.bindings.TotRej.validator}"/>
-                    <af:convertNumber groupingUsed="false"
-                                      pattern="#{bindings.FillBPOsCriteria1.hints.TotRej.format}"/>
-                  </af:inputText>
-                </af:column>
-                <af:column headerText="Wip" id="c48" align="center"
-                           sortable="true" filterable="true" sortProperty="Wip"
-                           width="60" visible="false">
-                  <af:inputText value="#{row.bindings.Wip.inputValue}"
-                                label="#{bindings.FillBPOsCriteria1.hints.Wip.label}"
-                                required="#{bindings.FillBPOsCriteria1.hints.Wip.mandatory}"
-                                columns="#{bindings.FillBPOsCriteria1.hints.Wip.displayWidth}"
-                                maximumLength="#{bindings.FillBPOsCriteria1.hints.Wip.precision}"
-                                shortDesc="#{bindings.FillBPOsCriteria1.hints.Wip.tooltip}"
-                                id="it24" readOnly="true">
-                    <f:validator binding="#{row.bindings.Wip.validator}"/>
-                    <af:convertNumber groupingUsed="false"
-                                      pattern="#{bindings.FillBPOsCriteria1.hints.Wip.format}"/>
-                  </af:inputText>
-                </af:column>
-                <af:column sortProperty="BpoNo" filterable="true"
-                           sortable="true" headerText="BPO" id="c16"
-                           align="center" width="170" visible="false">
-                  <af:inputText value="#{row.bindings.BpoNo.inputValue}"
-                                label="#{bindings.FillBPOsCriteria1.hints.BpoNo.label}"
-                                required="#{bindings.FillBPOsCriteria1.hints.BpoNo.mandatory}"
-                                columns="#{bindings.FillBPOsCriteria1.hints.BpoNo.displayWidth}"
-                                maximumLength="#{bindings.FillBPOsCriteria1.hints.BpoNo.precision}"
-                                shortDesc="#{bindings.FillBPOsCriteria1.hints.BpoNo.tooltip}"
-                                id="it18">
-                    <f:validator binding="#{row.bindings.BpoNo.validator}"/>
-                  </af:inputText>
-                </af:column>
-                <af:column headerText="Current Style" id="c100" align="center"
-                           sortable="true" filterable="true"
-                           sortProperty="CurrentStyle" width="85"
-                           visible="false">
-                  <af:outputText value="#{row.CurrentStyle}" id="ot27"/>
-                </af:column>
-                <af:column headerText="Current Season" id="c101" align="center"
-                           sortable="true" filterable="true"
-                           sortProperty="CurrentSeason" width="85"
-                           visible="false">
-                  <af:outputText value="#{row.CurrentSeason}" id="ot28"/>
-                </af:column>
-                <af:column sortProperty="StnNo" filterable="true"
-                           sortable="true" headerText="STN No" id="c7"
-                           align="center" width="200" visible="false">
-                  <af:inputText value="#{row.bindings.StnNo.inputValue}"
-                                label="#{bindings.FillBPOsCriteria1.hints.StnNo.label}"
-                                required="#{bindings.FillBPOsCriteria1.hints.StnNo.mandatory}"
-                                columns="#{bindings.FillBPOsCriteria1.hints.StnNo.displayWidth}"
-                                maximumLength="#{bindings.FillBPOsCriteria1.hints.StnNo.precision}"
-                                shortDesc="#{bindings.FillBPOsCriteria1.hints.StnNo.tooltip}"
-                                id="it19">
-                    <f:validator binding="#{row.bindings.StnNo.validator}"/>
-                  </af:inputText>
-                </af:column>
-                <af:column headerText="Job Name" id="c38" align="center"
-                           sortable="true" filterable="true"
-                           sortProperty="WipEntityName" width="200"
-                           visible="false">
-                  <af:outputText value="#{row.WipEntityName}" id="ot9"/>
-                </af:column>
-                <af:column headerText="SystemId"
-                           id="c109" align="center" sortable="true"
+                <af:column headerText="System Id"
+                           id="c7" align="center" sortable="true"
                            filterable="true" sortProperty="SystemId">
-                  <af:outputText value="#{row.SystemId}" id="ot33">
+                  <af:outputText value="#{row.SystemId}" id="ot6">
                     <af:convertNumber groupingUsed="false"
                                       pattern="#{bindings.FillBPOsCriteria1.hints.SystemId.format}"/>
                   </af:outputText>
                 </af:column>
-                <af:column headerText="BPO"
-                           id="c110" align="center" sortable="true"
-                           filterable="true" sortProperty="BpoNo"
-                           visible="false">
-                  <af:outputText value="#{row.BpoNo}" id="ot34"/>
-                </af:column>
-                <af:column headerText="#{bindings.FillBPOsCriteria1.hints.BpoId.label}"
-                           id="c128" visible="false">
-                  <af:outputText value="#{row.BpoId}" id="ot52">
+                <af:column headerText="Poc Id"
+                           id="c46" align="center" sortable="true"
+                           filterable="true" sortProperty="PocId">
+                  <af:outputText value="#{row.PocId}" id="ot30">
                     <af:convertNumber groupingUsed="false"
-                                      pattern="#{bindings.FillBPOsCriteria1.hints.BpoId.format}"/>
+                                      pattern="#{bindings.FillBPOsCriteria1.hints.PocId.format}"/>
                   </af:outputText>
+                </af:column>
+                <af:column headerText=" Buyer"
+                           id="c47" align="center" sortable="true"
+                           filterable="true" sortProperty="CustomerName">
+                  <af:outputText value="#{row.CustomerName}" id="ot33"/>
                 </af:column>
                 <af:column headerText="Style"
-                           id="c111" align="center" sortable="true"
-                           filterable="true" sortProperty="StyleName">
-                  <af:outputText value="#{row.StyleName}" id="ot35"/>
+                           id="c48" align="center" sortable="true"
+                           filterable="true" sortProperty="Style">
+                  <af:outputText value="#{row.Style}" id="ot34"/>
                 </af:column>
-                <af:column headerText="Season"
-                           id="c112" align="center" sortable="true"
-                           filterable="true" sortProperty="Season">
-                  <af:outputText value="#{row.Season}" id="ot36"/>
-                </af:column>
-                <af:column headerText="Wash"
-                           id="c114" align="center" sortable="true"
-                           filterable="true" sortProperty="Wash">
-                  <af:outputText value="#{row.Wash}" id="ot38"/>
+                <af:column headerText="#{bindings.FillBPOsCriteria1.hints.Season.label}"
+                           id="c55" sortable="true" filterable="true"
+                           sortProperty="Season" align="center">
+                  <af:outputText value="#{row.Season}" id="ot35"/>
                 </af:column>
                 <af:column headerText="Color"
-                           id="c46" align="center" sortable="true"
+                           id="c9" align="center" sortable="true"
                            filterable="true" sortProperty="Color">
-                  <af:outputText value="#{row.Color}" id="ot25"/>
+                  <af:outputText value="#{row.Color}" id="ot9"/>
                 </af:column>
-                <af:column headerText="Line"
-                           id="c115" align="center" sortable="true"
+                <af:column headerText="Wash Name"
+                           id="c16" align="center" sortable="true"
+                           filterable="true" sortProperty="WashName">
+                  <af:outputText value="#{row.WashName}" id="ot12"/>
+                </af:column>
+                <af:column headerText="Org Id"
+                           id="c17" align="center" sortable="true"
+                           filterable="true" sortProperty="OrgId">
+                  <af:outputText value="#{row.OrgId}" id="ot14"/>
+                </af:column>
+                <af:column headerText="Line No"
+                           id="c18" align="center" sortable="true"
                            filterable="true" sortProperty="LineNo">
-                  <af:outputText value="#{row.LineNo}" id="ot39"/>
+                  <af:outputText value="#{row.LineNo}" id="ot25"/>
                 </af:column>
-                <af:column headerText="Job Id"
-                           id="c116" align="center" sortable="true"
-                           filterable="true" sortProperty="WipEntityId"
-                           visible="false">
-                  <af:outputText value="#{row.WipEntityId}" id="ot40">
+                <af:column headerText="Issue Qty"
+                           id="c33" align="center" sortable="true"
+                           filterable="true" sortProperty="IssueQty">
+                  <af:outputText value="#{row.IssueQty}" id="ot26">
                     <af:convertNumber groupingUsed="false"
-                                      pattern="#{bindings.FillBPOsCriteria1.hints.WipEntityId.format}"/>
+                                      pattern="#{bindings.FillBPOsCriteria1.hints.IssueQty.format}"/>
                   </af:outputText>
                 </af:column>
-                <af:column headerText="Job Name"
-                           id="c117" align="center" sortable="true"
-                           filterable="true" sortProperty="WipEntityName"
-                           visible="false">
-                  <af:outputText value="#{row.WipEntityName}" id="ot41"/>
-                </af:column>
-                <af:column
-                           id="c118" headerText="Total Input" align="center"
-                           sortable="true" filterable="true"
-                           sortProperty="IssQuantity">
-                  <af:outputText value="#{row.IssQuantity}" id="ot42">
-                    <af:convertNumber groupingUsed="false"
-                                      pattern="#{bindings.FillBPOsCriteria1.hints.IssQuantity.format}"/>
-                  </af:outputText>
-                </af:column>
-                <af:column headerText="Total  Production"
-                           id="c119" align="center" sortable="true"
+                <af:column headerText="Bel Qty"
+                           id="c37" align="center" sortable="true"
                            filterable="true" sortProperty="BelQty">
-                  <af:outputText value="#{row.BelQty}" id="ot43">
+                  <af:outputText value="#{row.BelQty}" id="ot27">
                     <af:convertNumber groupingUsed="false"
                                       pattern="#{bindings.FillBPOsCriteria1.hints.BelQty.format}"/>
                   </af:outputText>
                 </af:column>
-                <af:column headerText="Total Rejection"
-                           id="c120" align="center" sortable="true"
-                           filterable="true" sortProperty="TotRej"
-                           visible="false">
-                  <af:outputText value="#{row.TotRej}" id="ot44">
-                    <af:convertNumber groupingUsed="false"
-                                      pattern="#{bindings.FillBPOsCriteria1.hints.TotRej.format}"/>
-                  </af:outputText>
-                </af:column>
-                <af:column headerText="Wip"
-                           id="c121" align="center" sortable="true"
+                <af:column headerText="Wip Qty"
+                           id="c38" align="center" sortable="true"
                            filterable="true" sortProperty="Wip">
-                  <af:outputText value="#{row.Wip}" id="ot45">
+                  <af:outputText value="#{row.Wip}" id="ot28">
                     <af:convertNumber groupingUsed="false"
                                       pattern="#{bindings.FillBPOsCriteria1.hints.Wip.format}"/>
-                  </af:outputText>
-                </af:column>
-                <af:column headerText="SAM"
-                           id="c98" align="center" sortable="true"
-                           filterable="true" sortProperty="Sam">
-                  <af:outputText value="#{row.Sam}" id="ot26">
-                    <af:convertNumber groupingUsed="false"
-                                      pattern="#{bindings.FillBPOsCriteria1.hints.Sam.format}"/>
                   </af:outputText>
                 </af:column>
               </af:table>
