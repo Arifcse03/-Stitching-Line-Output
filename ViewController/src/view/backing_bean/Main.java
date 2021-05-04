@@ -175,17 +175,43 @@ public class Main {
    
     
     ////////////////////////////////////////////////////////////////
-//    public void editPopupFetchSize(PopupFetchEvent popupFetchEvent) {
-//        System.out.println("size inter-->");
-//        OperationBinding operationBinding =
-//            executeOperation("Commit");
-//        operationBinding.execute();
-//        System.out.println("after sive commit-->");
-//        OperationBinding operationBinding1 =
-//            executeOperation("setSizeWherCaluse");
-//        operationBinding1.execute();
-//        //setSizeWherCaluse
-//    }
+   /*
+     public void editPopupFetchSize(PopupFetchEvent popupFetchEvent) {
+       /*** System.out.println("size inter-->");
+        OperationBinding operationBinding =
+            executeOperation("Commit");
+        operationBinding.execute();
+        System.out.println("after sive commit-->");
+        OperationBinding operationBinding1 =
+            executeOperation("setSizeWherCaluse");
+        operationBinding1.execute(); ***/
+      /*  String orgid=null;
+        String systemid=null;
+        ViewObject vo=am.getHederVO1();
+        ViewObject voL=am.getLineVO1();
+        try{  
+            orgid=vo.getCurrentRow().getAttribute("DivisionId").toString();
+            }
+        catch(Exception e ){
+            orgid=null;;
+            }
+        try{  
+            systemid=voL.getCurrentRow().getAttribute("SystemId").toString();
+            }
+        catch(Exception e ){
+            systemid=null;;
+            }
+        
+        ViewObject populatevo =am.getSizeLOV1();
+                populatevo.clearCache();
+                populatevo.setWhereClause(null);
+                populatevo.setWhereClauseParam(0,orgid);
+        populatevo.setWhereClauseParam(1,systemid);
+                populatevo.executeQuery();
+                populatevo.first();
+        
+        //setSizeWherCaluse
+    }*/
 
     public void editDialogListener(DialogEvent dialogEvent) {
 
@@ -649,6 +675,8 @@ public class Main {
      * ***************************************************************************************/
     
     public void editDialogSize(DialogEvent dialogEvent) {
+        
+               get_sam();
            if (dialogEvent.getOutcome().name().equals("ok")) {
 
                OperationBinding operationBinding =
@@ -668,6 +696,7 @@ public class Main {
                get_sam();
               
            }
+               
            }
 
 /*** get sam ***/
@@ -675,35 +704,34 @@ public class Main {
  /***function to get sam ****/
   public void get_sam(){
       String system_id = null;
-      ViewObject vo=am.getLineVO1();
-      try { system_id=vo.getCurrentRow().getAttribute("SystemId").toString();}
-      catch (Exception e) {
-              system_id = null;
-              System.out.println("i am in get sm main");
-          }
-          
-     
+        ViewObject vo = am.getLineVO1();
+        try {
+            system_id = vo.getCurrentRow().getAttribute("SystemId").toString();
+        } catch (Exception e) {
+            system_id = null;
+            System.out.println("i am in get sm main");
+        }
 
-       
-           
-                BigDecimal   a =
-                 (BigDecimal)callStoredFunction(NUMBER, "FIND_STITCH_LINEOUTPUT_LSTSAM(?)",
-                                                new Object[] { Integer.parseInt(system_id)});
-    /*  }
+
+        BigDecimal a =
+            (BigDecimal)callStoredFunction(NUMBER, "FIND_STITCH_LINEOUTPUT_LSTSAM(?)",
+                                           new Object[] { Integer.parseInt(system_id) });
+        /*  }
       catch (Exception e) {
                  e.printStackTrace();
-                 
+
              }
       */
-     String value=null;
-      value=a.toString();
-      ViewObject vo1 = am.getLineVO1();
-      try {
-          vo1.getCurrentRow().setAttribute("SamValue", value);
-          }
-      catch (Exception e){e.printStackTrace();}
-    
-
+        String value = null;
+        value = a.toString();
+        ViewObject vo1 = am.getLineVO1();
+        try {
+            vo1.getCurrentRow().setAttribute("SamValue", value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    am.getDBTransaction().commit();
+System.out.println("sam we got is -----------------------------------"+value+"and system id is -----"+system_id);
   }
     
  /***call store functiin**/
@@ -762,9 +790,38 @@ public class Main {
 //           ViewObject vo1 =am.findViewObject("SizeLOV1");
 //           vo.executeQuery();
            System.out.println("after sive commit-->");
-           OperationBinding operationBinding1 =
-               executeOperation("setSizeWherCaluse");
-           operationBinding1.execute();
+//           OperationBinding operationBinding1 =
+//               executeOperation("setSizeWherCaluse");
+          // operationBinding1.execute();
+           /**added by arif**/
+          String orgid=null;
+          String systemid=null;
+          ViewObject vo=am.getHederVO1();
+          ViewObject voL=am.getLineVO1();
+          try{  
+              orgid=vo.getCurrentRow().getAttribute("DivisionId").toString();
+              }
+          catch(Exception e ){
+              orgid=null;;
+              }
+          try{  
+              systemid=voL.getCurrentRow().getAttribute("SystemId").toString();
+              }
+          catch(Exception e ){
+              systemid=null;;
+              }
+          
+          ViewObject populatevo =am.getSizeLOV1();
+                  populatevo.clearCache();
+                 
+                  populatevo.setWhereClause(null);
+                  populatevo.setWhereClauseParam(0,orgid);
+          populatevo.setWhereClauseParam(1,systemid);
+                  populatevo.executeQuery();
+                  populatevo.first();
+                  populatevo.clearCache();
+           
+           
            if (popupFetchEvent.getLaunchSourceClientId().contains("cbInsert")) {
            
                         BindingContainer bindings = getBindings();
@@ -772,6 +829,8 @@ public class Main {
                             bindings.getOperationBinding("CreateInsert");
                         operationBinding2.execute();
                     }
+           
+          
            //setSizeWherCaluse
        }
 //        if (popupFetchEvent.getLaunchSourceClientId().contains("cbInsert")) {

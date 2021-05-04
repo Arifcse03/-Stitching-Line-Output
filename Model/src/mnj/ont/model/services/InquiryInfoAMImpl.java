@@ -143,7 +143,7 @@ public class InquiryInfoAMImpl extends ApplicationModuleImpl implements InquiryI
                               //   getPopulateValue(poprow, "BpoId")); 
             linerow.setAttribute("SystemId",
                                  getPopulateValue(poprow, "SystemId")); 
-            //linerow.setAttribute("BpoNo", getPopulateValue(poprow, "BpoNo"));
+            linerow.setAttribute("ProdType","Bulk");
             linerow.setAttribute("SublineNo", getPopulateValue(poprow, "LineNo"));
             linerow.setAttribute("DivisionId", getPopulateValue(poprow, "OrgId"));
             //linerow.setAttribute("JobId", getPopulateValue(poprow, "WipEntityId"));
@@ -402,14 +402,14 @@ public class InquiryInfoAMImpl extends ApplicationModuleImpl implements InquiryI
             System.out.println("Size value -->"+ getPopulateValue(poprow, "InseamSizeConcat"));
             
             linerow.setAttribute("SizeVal",
-                                 getPopulateValue(poprow, "InseamSizeConcat"));//InseamSizeConcat
+                                 getPopulateValue(poprow, "SizeVal"));//InseamSizeConcat
                                  linerow.setAttribute("Inseem",
                                                       getPopulateValue(poprow, "Inseam"));//InseamSizeConcat
 //                                 linerow.setAttribute("Inseem",
 //                                                       getPopulateValue(poprow, "Inseam"));
 //         
-            linerow.setAttribute("ProductionQuantity",
-                                 getPopulateValue(poprow, "SizeQty"));
+            //linerow.setAttribute("ProductionQuantity",
+                               //  getPopulateValue(poprow, "SizeQty"));
             
             linerow.setAttribute("TotalInput",
                                  getPopulateValue(poprow, "TotalQty"));
@@ -423,7 +423,7 @@ public class InquiryInfoAMImpl extends ApplicationModuleImpl implements InquiryI
             linerow.setAttribute("TotalRejection",
                                  getPopulateValue(poprow, "PrevRejQty"));
             linerow.setAttribute("Wip",
-                                 getPopulateValue(poprow, "WipQty"));
+                                 getPopulateValue(poprow, "Wipqty"));
   
            
             

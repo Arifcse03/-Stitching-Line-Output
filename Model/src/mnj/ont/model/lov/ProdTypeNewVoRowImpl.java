@@ -49,6 +49,8 @@ public class ProdTypeNewVoRowImpl extends ViewRowImpl {
             return vals;
         }
     }
+
+
     public static final int PRODUCTIONTYPE = AttributesEnum.ProductionType.index();
 
     /**

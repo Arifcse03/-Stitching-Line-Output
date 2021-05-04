@@ -23,189 +23,82 @@
         ResId="mnj.ont.model.lov.views.SizeLOV_LABEL"/>
     </SchemaBasedProperties>
   </Properties>
-  <Variable
-    Name="P_HEADER_ID"
-    Kind="where"
-    Type="java.lang.String">
-    <TransientExpression><![CDATA[adf.context.sessionScope.HeaderIdNEW]]></TransientExpression>
-  </Variable>
-  <Variable
-    Name="P_LINE_ID"
-    Kind="where"
-    Type="java.lang.String">
-    <TransientExpression><![CDATA[adf.context.sessionScope.OutSublineIdNew]]></TransientExpression>
-  </Variable>
-  <Variable
-    Name="P_ORG_ID"
-    Kind="where"
-    Type="java.lang.String">
-    <TransientExpression><![CDATA[adf.context.sessionScope.orgId]]></TransientExpression>
-  </Variable>
   <SQLQuery>
-    <![CDATA[/*Formatted on 2/23/2021 3:36:51 PM (QP5 v5.256.13226.35510) --Developed By Syed Abdul Ahad-- */
-SELECT MAIN_Q.LINE_NO,
-MAIN_Q.SYSTEM_ID,
-MAIN_Q.BPO_ID,
-ST.BUYER_ID,
-ST.SEASON,
-ST.STYLE,
-ST.COLOR,
-SUM (TOTAL_QTY) TOTAL_QTY,
-MAIN_Q.INSEAM_SIZE_CONCAT,
-MAIN_Q.INSEAM,
-MAIN_Q.SIZE_QTY,
-NVL (ST.TOTAL_CUTQTY, 0) BEL_QTY,
-NVL (ST.TOTAL_REJECTION, 0) PREV_REJ_QTY,
-SUM (TOTAL_QTY)
-- (NVL (ST.TOTAL_CUTQTY, 0) - NVL (ST.TOTAL_REJECTION, 0))
-WIP_QTY
-FROM ( SELECT PH.LC_UNIT ORG_ID,
-MMC.LINE_NO,
-PL.SYSTEM_ID,
-PB.BPO_ID,
-(SELECT COUNT (*)
-FROM MNJ_MFG_PIECE_STN_RELATION MMPS,
-(SELECT MMCD.SRQ_NUMBER_FRM MINI,
-MMCD.SRQ_NUMBER_TO MAXI,
-MMCD.BANDEL_NO
-FROM MNJ_MFG_CUTISSUANCE_LINE MMCL,
-MNJ_MFG_CUTISSUANCE_SZLINE MMCD
-WHERE 1 = 1
-AND MMC.CUTISSUE_ID = MMCL.CUTISSUE_ID
-AND MMCL.CUTISSUE_LINE_ID =
-MMCD.CUTISSUE_LINE_ID
-AND NVL (
-(SELECT SUBSTR (
-MMCD.SIZ_BND_ID,
-0,
-INSTR (MMCD.SIZ_BND_ID,
-'~')
-- 1)
-FROM DUAL),
-MMCD.SIZ_BND_ID) =
-(SELECT MMRSV.SIZE1
-FROM MNJ_MFG_RATIO_SIZE_V MMRSV
-WHERE SIZE_L.SIZE_NAME =
-MMRSV.SIZE_INSEAM
-AND ROWNUM = 1)) QUERY_M
-WHERE MMPS.PIECE_NO BETWEEN QUERY_M.MINI
-AND QUERY_M.MAXI
-AND MMPS.BPO_ID = PB.BPO_ID
-AND QUERY_M.BANDEL_NO = MMPS.BUNDLE_NO
-AND MMPS.INSEAM =
-(SELECT MMRSV.INSEAM
-FROM MNJ_MFG_RATIO_SIZE_V MMRSV
-WHERE SIZE_L.SIZE_NAME =
-MMRSV.SIZE_INSEAM
-AND ROWNUM = 1)
-AND MMPS.SIZEE =
-(SELECT MMRSV.SIZE1
-FROM MNJ_MFG_RATIO_SIZE_V MMRSV
-WHERE SIZE_L.SIZE_NAME =
-MMRSV.SIZE_INSEAM
-AND ROWNUM = 1))
-TOTAL_QTY,
-(SELECT MMRSV.SIZE1
-FROM MNJ_MFG_RATIO_SIZE_V MMRSV
-WHERE SIZE_L.SIZE_NAME = MMRSV.SIZE_INSEAM AND ROWNUM = 1)
-INSEAM_SIZE_CONCAT,
-(SELECT MMRSV.INSEAM
-FROM MNJ_MFG_RATIO_SIZE_V MMRSV
-WHERE SIZE_L.SIZE_NAME = MMRSV.SIZE_INSEAM AND ROWNUM = 1)
-INSEAM,
-SUM (ROUND (SIZE_L.QTY)) SIZE_QTY
-FROM MNJ_MFG_CUTISSUANCE MMC,
-XX_OM_POC_H_T PH,
-XX_OM_POC_L_T PL,
-XX_OM_BPO_INFO_T PB,
-XX_OM_SIZEWISE_L_T SIZE_L
-WHERE 1 = 1
-AND SIZE_L.BPO_ID = PB.BPO_ID
-AND PB.FOB_ID = PL.FOB_ID
-AND PL.POC_ID = PH.POC_ID
-AND MMC.SYSTEM_ID = PL.SYSTEM_ID
-AND MMC.ISSUE_TO = 'Issued to Stich'
-AND MMC.LINE_NO IS NOT NULL
---AND PL.SYSTEM_ID=3068
--- AND PL.SYSTEM_ID = 21502
-AND :P_HEADER_ID <> :P_LINE_ID --JUNK STATEMENT
-AND (SELECT DISTINCT MMODA.FINAL_MFG_ORG_ID
-FROM MNJ_MFG_OSP_DEP_ASSIGN MMODA,
-MNJ_MFG_OSP_STN_LINE MMOSL,
-MNJ_MFG_OSP_HEADER MMOH
-WHERE MMOH.HEADER_ID = MMOSL.HEADER_ID
-AND MMODA.STN_LINE_ID = MMOSL.STN_LINE_ID
-AND MMOSL.BPO_ID = PB.BPO_ID
-AND MMOH.POC_ID = PH.POC_ID
-AND MMODA.FINAL_DEPARTMENT = 'Stitching') =
-:P_ORG_ID
-GROUP BY PH.LC_UNIT,
-MMC.LINE_NO,
-PL.SYSTEM_ID,
-PB.BPO_ID,
-SIZE_L.SIZE_NAME,
-MMC.CUTISSUE_ID,
-PB.BPO_ID) MAIN_Q,
-( SELECT HH.BUYER_ID,
-LL1.SYSTEM_ID,
-BB.BPO_ID,
-HH.LC_UNIT DIVISION_ID,
-LL.SUBLINE_NO,
-MAX (H.OUTREC_DATE) PRODUCTION_DATE,
-SUM (NVL (LL.DAY_REJECTION, 0)) TOTAL_DAY_REJECTION,
-SUM (NVL (LL.LINE_OUTPUT, 0)) TOTAL_LINE_OUTPUT,
-SUM (NVL (DD.REJECTION, 0)) TOTAL_REJECTION,
-SUM (NVL (DD.CUTQTY, 0)) TOTAL_CUTQTY,
-DD.SIZE_VAL,
-DD.INSEEM,
-LL1.WASH_NAME,
-LL1.COLOR,
-HH.SEASON,
-HH.STYLE
-FROM MNJ_MFG_LINEOUTPUT H,
-MNJ_MFG_LINEOUTPUT_SBLINE LL,
-MNJ_MFG_LINEOUTPUT_DETAIL DD,
-XX_OM_POC_H_T HH,
-XX_OM_POC_L_T LL1,
-XX_OM_BPO_INFO_T BB
-WHERE H.PROD_TRANS_ID = LL.PROD_TRANS_ID
-AND LL.OUT_SUBLINE_ID = DD.OUT_SUBLINE_ID
-AND LL.SYSTEM_ID = LL1.SYSTEM_ID
-AND LL.BPO_ID = BB.BPO_ID
-AND HH.POC_ID = LL1.POC_ID
-AND LL1.FOB_ID = BB.FOB_ID
---AND LL1.SYSTEM_ID=3068---21502 ,--3068
-GROUP BY HH.BUYER_ID,
-LL1.SYSTEM_ID,
-BB.BPO_ID,
-HH.LC_UNIT,
-LL.SUBLINE_NO,
-DD.SIZE_VAL,
-DD.INSEEM,
-LL1.WASH_NAME,
-LL1.COLOR,
-HH.SEASON,
-HH.STYLE) ST
-WHERE MAIN_Q.TOTAL_QTY <> 0
-AND ST.DIVISION_ID(+) = MAIN_Q.ORG_ID
-AND ST.SUBLINE_NO(+) = MAIN_Q.LINE_NO
-AND ST.SIZE_VAL(+) = MAIN_Q.INSEAM_SIZE_CONCAT
-AND ST.INSEEM(+) = MAIN_Q.INSEAM
-AND ST.BPO_ID(+) = MAIN_Q.BPO_ID
-AND ST.SYSTEM_ID(+) = MAIN_Q.SYSTEM_ID
-GROUP BY MAIN_Q.SYSTEM_ID,
-MAIN_Q.BPO_ID,
-MAIN_Q.LINE_NO,
-ST.BUYER_ID,
-ST.SEASON,
-ST.COLOR,
-ST.STYLE,
-MAIN_Q.INSEAM_SIZE_CONCAT,
-MAIN_Q.INSEAM,
-MAIN_Q.SIZE_QTY,
-NVL (ST.TOTAL_CUTQTY, 0),
-NVL (ST.TOTAL_REJECTION, 0)]]>
+    <![CDATA[SELECT XXX.SYSTEM_ID,DIVISION_ID,line_no,PH.STYLE,PH.SEASON, PL.COLOR,PL.WASH_NAME,
+INSEAM,SIZE_Details Size_Val,
+SUM(ISS_SIZE_QTY) Total_Qty,
+SUM(LINEOUTPUT_SIZE_QTY)Prev_Prod,
+SUM(ISS_SIZE_QTY)-SUM(LINEOUTPUT_SIZE_QTY)Bel_Qty,
+sum(REJECTION)Prev_Rej_Qty,
+sum(LINEOUTPUT_SIZE_QTY)-sum(REJECTION)WipQty
+FROM (
+select --MMC.CUTISSUE_NO,
+to_char(system_id) SYSTEM_ID,to_char(ISSUE_TO_ORG) DIVISION_ID,to_char(LINE_NO) line_no,INSEAM_PATTERN INSEAM,--to_char(MMRS.SIZE_ID) ISSUE_SIZE ,
+--SIZ_BND_ID,
+NVL(substr(SIZ_BND_ID,1,instr(SIZ_BND_ID,'~')-1),SIZ_BND_ID) SIZE_Details,
+SUM(ISS_QUANTITY) ISS_SIZE_QTY, 0 LINEOUTPUT_SIZE_QTY, 0 REJECTION
+from MNJ_MFG_CUTISSUANCE_SZLINE MMCS,MNJ_MFG_CUTISSUANCE_LINE MMCL,MNJ_MFG_CUTISSUANCE MMC,MNJ_MFG_RATIOPLAN_PLYCFLINE MMRP--,MNJ_MFG_RATIOPLAN_SIZLINE MMRS
+,MNJ_MFG_RATIOPLAN_PLYLINE MMRP1
+WHERE 1=1
+AND MMCS.CUTISSUE_LINE_ID=MMCL.CUTISSUE_LINE_ID
+and mmcl.CUTISSUE_ID = MMC.CUTISSUE_ID
+and MMCL.attribute1=MMRP.cut_no
+--and MMRP.PLYLINE_ID=MMRS.PLYLINE_ID
+--and MMRS.PLYLINE_ID=MMRP1.PLYLINE_ID
+and MMRP.PLYLINE_ID=MMRP1.PLYLINE_ID
+--and substr(SIZ_BND_ID,1,instr(SIZ_BND_ID,'~')-1)=MMRS.SIZE_ID(+)
+--and MMRP.cut_no='2020/518/18/18'
+and ISSUE_TO='Issued to Stich'
+--and system_id is not null
+and system_id=:2--P_SYSTEM_ID
+group by --MMC.CUTISSUE_NO,
+system_id,ISSUE_TO_ORG ,LINE_NO,INSEAM_PATTERN,--SHADE_ID,
+NVL(substr(SIZ_BND_ID,1,instr(SIZ_BND_ID,'~')-1),SIZ_BND_ID)
+--MMRS.SIZE_ID
+--SIZ_BND_ID
+UNION ALL
+select to_char(MMLS.SYSTEM_ID), to_char(MMLS.DIVISION_ID),to_char(SUBLINE_NO),to_char(INSEEM),to_char(SIZE_VAL),
+0 ISS_SIZE_QTY, SUM(CUTQTY) LINEOUTPUT_SIZE_QTY, sum(REJECTION)
+from MNJ_MFG_LINEOUTPUT_DETAIL MMLD ,MNJ_MFG_LINEOUTPUT_SBLINE MMLS--, MNJ_MFG_LINEOUTPUT_DETAIL MMLD
+where 1=1
+and MMLD.OUT_SUBLINE_ID=MMLS.OUT_SUBLINE_ID
+and system_id=:2--P_SYSTEM_ID
+group by MMLS.SYSTEM_ID, MMLS.DIVISION_ID,SUBLINE_NO,INSEEM,SIZE_VAL) XXX, XX_OM_POC_L_T PL,XX_OM_POC_H_T PH
+where XXX.system_id=pl.system_id
+and PL.POC_ID=PH.POC_ID
+and DIVISION_ID=:1--P_ORG_ID
+group by XXX.SYSTEM_ID,DIVISION_ID,line_no,PH.STYLE,PH.SEASON, PL.COLOR,PL.WASH_NAME,
+INSEAM,SIZE_Details]]>
   </SQLQuery>
+  <ViewAttribute
+    Name="SystemId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="SYSTEM_ID"
+    Expression="SYSTEM_ID"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="DivisionId"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="40"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="DIVISION_ID"
+    Expression="DIVISION_ID"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="40"/>
+    </DesignTime>
+  </ViewAttribute>
   <ViewAttribute
     Name="LineNo"
     IsUpdateable="false"
@@ -222,46 +115,18 @@ NVL (ST.TOTAL_REJECTION, 0)]]>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="SystemId"
+    Name="Style"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="SYSTEM_ID"
-    Expression="SYSTEM_ID"
-    SQLType="NUMERIC">
+    Precision="500"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="STYLE"
+    SQLType="VARCHAR"
+    Expression="STYLE">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="BpoId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="BPO_ID"
-    Expression="BPO_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="BuyerId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="BUYER_ID"
-    SQLType="NUMERIC"
-    Expression="BUYER_ID">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="22"/>
+      <Attr Name="_DisplaySize" Value="500"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
@@ -275,21 +140,6 @@ NVL (ST.TOTAL_REJECTION, 0)]]>
     AliasName="SEASON"
     SQLType="VARCHAR"
     Expression="SEASON">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="500"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="Style"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="500"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="STYLE"
-    SQLType="VARCHAR"
-    Expression="STYLE">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="500"/>
     </DesignTime>
@@ -310,41 +160,19 @@ NVL (ST.TOTAL_REJECTION, 0)]]>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="TotalQty"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="TOTAL_QTY"
-    Expression="TOTAL_QTY"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="InseamSizeConcat"
+    Name="WashName"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
     Precision="100"
     Type="java.lang.String"
     ColumnType="VARCHAR2"
-    AliasName="INSEAM_SIZE_CONCAT"
-    SQLType="VARCHAR"
-    Expression="INSEAM_SIZE_CONCAT">
+    AliasName="WASH_NAME"
+    Expression="WASH_NAME"
+    SQLType="VARCHAR">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="100"/>
     </DesignTime>
-    <Properties>
-      <SchemaBasedProperties>
-        <LABEL
-          ResId="mnj.ont.model.lov.views.SizeLOV.InseamSizeConcat_LABEL"/>
-        <DISPLAYWIDTH
-          Value="20"/>
-      </SchemaBasedProperties>
-    </Properties>
   </ViewAttribute>
   <ViewAttribute
     Name="Inseam"
@@ -362,26 +190,47 @@ NVL (ST.TOTAL_REJECTION, 0)]]>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="SizeQty"
+    Name="SizeVal"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Precision="300"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    AliasName="SIZE_VAL"
+    Expression="SIZE_VAL"
+    SQLType="VARCHAR">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="300"/>
+    </DesignTime>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="TotalQty"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
     Type="oracle.jbo.domain.Number"
     ColumnType="NUMBER"
-    AliasName="SIZE_QTY"
-    SQLType="NUMERIC"
-    Expression="SIZE_QTY">
+    AliasName="TOTAL_QTY"
+    Expression="TOTAL_QTY"
+    SQLType="NUMERIC">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="22"/>
+      <Attr Name="_DisplaySize" Value="39"/>
     </DesignTime>
-    <Properties>
-      <SchemaBasedProperties>
-        <LABEL
-          ResId="mnj.ont.model.lov.views.SizeLOV.SizeQty_LABEL"/>
-        <DISPLAYWIDTH
-          Value="20"/>
-      </SchemaBasedProperties>
-    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="PrevProd"
+    IsUpdateable="false"
+    IsPersistent="false"
+    PrecisionRule="true"
+    Type="oracle.jbo.domain.Number"
+    ColumnType="NUMBER"
+    AliasName="PREV_PROD"
+    Expression="PREV_PROD"
+    SQLType="NUMERIC">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="39"/>
+    </DesignTime>
   </ViewAttribute>
   <ViewAttribute
     Name="BelQty"
@@ -412,449 +261,61 @@ NVL (ST.TOTAL_REJECTION, 0)]]>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="WipQty"
+    Name="Wipqty"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
     Type="oracle.jbo.domain.Number"
     ColumnType="NUMBER"
-    AliasName="WIP_QTY"
-    Expression="WIP_QTY"
+    AliasName="WIPQTY"
+    Expression="WIPQTY"
     SQLType="NUMERIC">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="39"/>
     </DesignTime>
   </ViewAttribute>
   <ViewAttribute
-    Name="UserItemDescription"
+    Name="InseamSizeConcat"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
-    Precision="1000"
+    Precision="100"
     Type="java.lang.String"
     ColumnType="VARCHAR2"
-    AliasName="USER_ITEM_DESCRIPTION"
+    AliasName="INSEAM_SIZE_CONCAT"
     SQLType="VARCHAR">
     <DesignTime>
-      <Attr Name="_DisplaySize" Value="1000"/>
+      <Attr Name="_DisplaySize" Value="100"/>
     </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.ont.model.lov.views.SizeLOV.InseamSizeConcat_LABEL"/>
+        <DISPLAYWIDTH
+          Value="20"/>
+      </SchemaBasedProperties>
+    </Properties>
   </ViewAttribute>
   <ViewAttribute
-    Name="OcNo"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="40"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="OC_NO"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="40"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="TotalInput"
+    Name="SizeQty"
     IsUpdateable="false"
     IsPersistent="false"
     PrecisionRule="true"
     Type="oracle.jbo.domain.Number"
     ColumnType="NUMBER"
-    AliasName="TOTAL_INPUT"
+    AliasName="SIZE_QTY"
     SQLType="NUMERIC">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="22"/>
     </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="ActualDayProduction"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="ACTUAL_DAY_PRODUCTION"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="22"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="ActualDayRejection"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="ACTUAL_DAY_REJECTION"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="22"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="DayProoduction"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="DAY_PROODUCTION"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="22"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="DayRejection"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="DAY_REJECTION"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="22"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="PrevProdQty"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="PREV_PROD_QTY"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="TotRej"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="TOT_REJ"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="InseamQty"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="20"
-    Scale="0"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="INSEAM_QTY"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="22"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="OutSublineId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Precision="15"
-    Scale="0"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="OUT_SUBLINE_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="16"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="InventoryItemId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="INVENTORY_ITEM_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="22"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="HeaderId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Precision="15"
-    Scale="0"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="HEADER_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="22"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="ObRef"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="40"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="OB_REF"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="40"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="OrderedItem"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="4000"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="ORDERED_ITEM"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="4000"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="Description"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="240"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="DESCRIPTION"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="240"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="DcpoNo"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="1000"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="DCPO_NO"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="1000"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="DeliveryDate"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Date"
-    ColumnType="DATE"
-    AliasName="DELIVERY_DATE"
-    SQLType="DATE">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="7"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="DeliveryTerm"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="500"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="DELIVERY_TERM"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="500"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="ShipMode"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="500"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="SHIP_MODE"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="500"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="Country"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="50"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="COUNTRY"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="50"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="PrevProd"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="PREV_PROD"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="BpoNo"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="50"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="BPO_NO"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="50"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="OrgId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="ORG_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="StyleName"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="500"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="STYLE_NAME"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="500"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="CustomerName"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="50"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="CUSTOMER_NAME"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="50"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="StnNo"
-    IsUpdateable="false"
-    IsPersistent="false"
-    PrecisionRule="true"
-    Precision="91"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="STN_NO"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="91"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="CustomerId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Precision="15"
-    Scale="0"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="CUSTOMER_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="16"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="WipEntityId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="WIP_ENTITY_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="WipEntityName"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Precision="240"
-    Type="java.lang.String"
-    ColumnType="VARCHAR2"
-    AliasName="WIP_ENTITY_NAME"
-    SQLType="VARCHAR">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="240"/>
-    </DesignTime>
-  </ViewAttribute>
-  <ViewAttribute
-    Name="OrganizationId"
-    IsUpdateable="false"
-    IsPersistent="false"
-    IsNotNull="true"
-    PrecisionRule="true"
-    Type="oracle.jbo.domain.Number"
-    ColumnType="NUMBER"
-    AliasName="ORGANIZATION_ID"
-    SQLType="NUMERIC">
-    <DesignTime>
-      <Attr Name="_DisplaySize" Value="39"/>
-    </DesignTime>
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="mnj.ont.model.lov.views.SizeLOV.SizeQty_LABEL"/>
+        <DISPLAYWIDTH
+          Value="20"/>
+      </SchemaBasedProperties>
+    </Properties>
   </ViewAttribute>
   <ViewAttribute
     Name="Flag"

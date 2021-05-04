@@ -255,30 +255,31 @@
       <nodeDefinition DefName="mnj.ont.model.lov.views.SizeLOV"
                       Name="SizeLOV10">
         <AttrNames>
-          <Item Value="ObRef"/>
-          <Item Value="OrderedItem"/>
-          <Item Value="Description"/>
-          <Item Value="DcpoNo"/>
-          <Item Value="InseamQty"/>
-          <Item Value="DeliveryDate"/>
-          <Item Value="DeliveryTerm"/>
-          <Item Value="ShipMode"/>
-          <Item Value="Country"/>
+   
+          
+          
+       
+         
+        
+         
           <Item Value="InseamSizeConcat"/>
           <Item Value="SizeQty"/>
           <Item Value="Color"/>
           <Item Value="Flag" Binds="Flag1"/>
           <Item Value="SelSize" Binds="SelSize"/>
-          <Item Value="PrevProd"/>
-          <Item Value="TotalInput"/>
+        
+      
           <Item Value="BelQty"/>
-          <Item Value="WipQty"/>
-          <Item Value="TotRej"/>
+          
+          
           <Item Value="TotalQty"/>
           <Item Value="PrevRejQty"/>
-          <Item Value="ActualDayProduction"/>
-          <Item Value="ActualDayRejection"/>
+         
+         
           <Item Value="Inseam"/>
+          <Item Value="SizeVal"/>
+          <Item Value="PrevProd"/>
+          <Item Value="Wipqty"/>
         </AttrNames>
       </nodeDefinition>
     </tree>

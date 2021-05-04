@@ -467,7 +467,7 @@
                         </af:column>
                         <af:column headerText="SAM" id="c103" align="center"
                                    sortable="true" filterable="true"
-                                   sortProperty="SamValue" width="100">
+                                   sortProperty="SamValue" width="120">
                           <af:inputListOfValues id="samValueId"
                                                 popupTitle="Search and Select: #{bindings.LineVO1.hints.SamValue.label}"
                                                 value="#{row.bindings.SamValue.inputValue}"
@@ -511,20 +511,22 @@
                         <af:column headerText="Current Style"
                                    id="c92" align="center" sortable="true"
                                    filterable="true"
-                                   sortProperty="CurrentStyle" width="110">
+                                   sortProperty="CurrentStyle" width="110"
+                                   visible="false">
                           <af:outputText value="#{row.CurrentStyle}" id="ot18"/>
                         </af:column>
                         <af:column headerText="Current Season"
                                    id="c95" align="center" sortable="true"
                                    filterable="true"
-                                   sortProperty="CurrentSeason" width="110">
+                                   sortProperty="CurrentSeason" width="110"
+                                   visible="false">
                           <af:outputText value="#{row.CurrentSeason}"
                                          id="ot21"/>
                         </af:column>
                         <af:column headerText="Production Type"
                                    id="c29" align="center"
                                    sortProperty="ProdType" sortable="true"
-                                   filterable="true">
+                                   filterable="true" width="130">
                           <af:inputListOfValues id="prodTypeId"
                                                 popupTitle="Search and Select: #{bindings.LineVO1.hints.ProdType.label}"
                                                 value="#{row.bindings.ProdType.inputValue}"
@@ -907,7 +909,8 @@
                           <af:column headerText="Order Quantity" id="c5" width="100"
                                      align="center"
                                      sortProperty="ProductionQuantity"
-                                     filterable="true" sortable="true">
+                                     filterable="true" sortable="true"
+                                     visible="false">
                             <af:inputText value="#{row.bindings.ProductionQuantity.inputValue}"
                                           label="#{bindings.DetailVO1.hints.ProductionQuantity.label}"
                                           required="#{bindings.DetailVO1.hints.ProductionQuantity.mandatory}"
@@ -1796,79 +1799,55 @@
                                             shortDesc="#{bindings.SizeLOV1.hints.SelSize.tooltip}"
                                             id="sbc2"/>
                 </af:column>
-                <af:column sortProperty="InseamSizeConcat" filterable="true"
-                           sortable="true" headerText="Size" id="c31"
-                           align="center" width="80">
-                  <af:inputText value="#{row.bindings.InseamSizeConcat.inputValue}"
-                                label="#{bindings.SizeLOV1.hints.InseamSizeConcat.label}"
-                                required="#{bindings.SizeLOV1.hints.InseamSizeConcat.mandatory}"
-                                columns="#{bindings.SizeLOV1.hints.InseamSizeConcat.displayWidth}"
-                                maximumLength="#{bindings.SizeLOV1.hints.InseamSizeConcat.precision}"
-                                shortDesc="#{bindings.SizeLOV1.hints.InseamSizeConcat.tooltip}"
-                                id="it43" readOnly="true">
-                    <f:validator binding="#{row.bindings.InseamSizeConcat.validator}"/>
-                  </af:inputText>
+                <af:column headerText="Size"
+                           id="c30" align="center" sortable="true"
+                           filterable="true" sortProperty="SizeVal">
+                  <af:outputText value="#{row.SizeVal}" id="ot8"/>
                 </af:column>
-                <af:column headerText="Inseam" id="c58" align="center"
-                           sortable="true" filterable="true"
-                           sortProperty="Inseam">
-                  <af:outputText value="#{row.Inseam}" id="ot16"/>
+                <af:column headerText="Inseam"
+                           id="c31" align="center" sortable="true"
+                           filterable="true" sortProperty="Inseam">
+                  <af:outputText value="#{row.Inseam}" id="ot11"/>
                 </af:column>
-                <af:column sortProperty="SizeQty" filterable="true"
-                           sortable="true" headerText="Quantity" id="c30"
-                           align="center" width="80">
-                  <af:inputText value="#{row.bindings.SizeQty.inputValue}"
-                                label="#{bindings.SizeLOV1.hints.SizeQty.label}"
-                                required="#{bindings.SizeLOV1.hints.SizeQty.mandatory}"
-                                columns="#{bindings.SizeLOV1.hints.SizeQty.displayWidth}"
-                                maximumLength="#{bindings.SizeLOV1.hints.SizeQty.precision}"
-                                shortDesc="#{bindings.SizeLOV1.hints.SizeQty.tooltip}"
-                                id="it35" readOnly="true">
-                    <f:validator binding="#{row.bindings.SizeQty.validator}"/>
+                <af:column headerText="Total Production"
+                           id="c58" align="center" sortable="true"
+                           filterable="true" sortProperty="BelQty">
+                  <af:outputText value="#{row.BelQty}" id="ot40">
                     <af:convertNumber groupingUsed="false"
-                                      pattern="#{bindings.SizeLOV1.hints.SizeQty.format}"/>
-                  </af:inputText>
+                                      pattern="#{bindings.SizeLOV1.hints.BelQty.format}"/>
+                  </af:outputText>
                 </af:column>
-                <af:column headerText="Total Input" id="c53" align="center"
-                           sortable="true" filterable="true"
-                           sortProperty="TotalQty">
-                  <af:outputText value="#{row.TotalQty}" id="ot11">
+                <af:column headerText="Total Qty"
+                           id="c50" align="center" sortable="true"
+                           filterable="true" sortProperty="TotalQty">
+                  <af:outputText value="#{row.TotalQty}" id="ot36">
                     <af:convertNumber groupingUsed="false"
                                       pattern="#{bindings.SizeLOV1.hints.TotalQty.format}"/>
                   </af:outputText>
                 </af:column>
-                <af:column headerText="Total Production" id="c49"
-                           align="center">
-                  <af:inputText value="#{row.bindings.BelQty.inputValue}"
-                                label="#{bindings.SizeLOV1.hints.BelQty.label}"
-                                required="#{bindings.SizeLOV1.hints.BelQty.mandatory}"
-                                columns="#{bindings.SizeLOV1.hints.BelQty.displayWidth}"
-                                maximumLength="#{bindings.SizeLOV1.hints.BelQty.precision}"
-                                shortDesc="#{bindings.SizeLOV1.hints.BelQty.tooltip}"
-                                id="it46" readOnly="true">
-                    <f:validator binding="#{row.bindings.BelQty.validator}"/>
+                <af:column headerText="Prev Prod Qty"
+                           id="c51" align="center" sortable="true"
+                           filterable="true" sortProperty="PrevProd">
+                  <af:outputText value="#{row.PrevProd}" id="ot37">
                     <af:convertNumber groupingUsed="false"
-                                      pattern="#{bindings.SizeLOV1.hints.BelQty.format}"/>
-                  </af:inputText>
+                                      pattern="#{bindings.SizeLOV1.hints.PrevProd.format}"/>
+                  </af:outputText>
                 </af:column>
-                <af:column headerText="Total Rejection" id="c51" align="center">
-                  <af:outputText value="#{row.PrevRejQty}" id="ot8">
+                <af:column headerText="Total Rejection"
+                           id="c53" align="center" sortable="true"
+                           filterable="true" sortProperty="PrevRejQty">
+                  <af:outputText value="#{row.PrevRejQty}" id="ot38">
                     <af:convertNumber groupingUsed="false"
                                       pattern="#{bindings.SizeLOV1.hints.PrevRejQty.format}"/>
                   </af:outputText>
                 </af:column>
-                <af:column headerText="Wip" id="c50" align="center">
-                  <af:inputText value="#{row.bindings.WipQty.inputValue}"
-                                label="#{bindings.SizeLOV1.hints.WipQty.label}"
-                                required="#{bindings.SizeLOV1.hints.WipQty.mandatory}"
-                                columns="#{bindings.SizeLOV1.hints.WipQty.displayWidth}"
-                                maximumLength="#{bindings.SizeLOV1.hints.WipQty.precision}"
-                                shortDesc="#{bindings.SizeLOV1.hints.WipQty.tooltip}"
-                                id="it47" readOnly="true">
-                    <f:validator binding="#{row.bindings.WipQty.validator}"/>
+                <af:column headerText="Wip"
+                           id="c56" align="center" sortable="true"
+                           filterable="true" sortProperty="Wipqty">
+                  <af:outputText value="#{row.Wipqty}" id="ot39">
                     <af:convertNumber groupingUsed="false"
-                                      pattern="#{bindings.SizeLOV1.hints.WipQty.format}"/>
-                  </af:inputText>
+                                      pattern="#{bindings.SizeLOV1.hints.Wipqty.format}"/>
+                  </af:outputText>
                 </af:column>
               </af:table>
             </af:panelCollection>

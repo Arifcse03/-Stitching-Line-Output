@@ -14,67 +14,20 @@ public class ProdTypeNewVoImpl extends ViewObjectImpl {
     public ProdTypeNewVoImpl() {
     }
 
+
     /**
-     * Returns the bind variable value for P_STYLE.
-     * @return bind variable value for P_STYLE
+     * Returns the bind variable value for P_SYSTEM_ID.
+     * @return bind variable value for P_SYSTEM_ID
      */
-    public String getP_STYLE() {
-        return (String)getNamedWhereClauseParam("P_STYLE");
+    public String getP_SYSTEM_ID() {
+        return (String)getNamedWhereClauseParam("P_SYSTEM_ID");
     }
 
     /**
-     * Sets <code>value</code> for bind variable P_STYLE.
-     * @param value value to bind as P_STYLE
+     * Sets <code>value</code> for bind variable P_SYSTEM_ID.
+     * @param value value to bind as P_SYSTEM_ID
      */
-    public void setP_STYLE(String value) {
-        setNamedWhereClauseParam("P_STYLE", value);
-    }
-
-    /**
-     * Returns the bind variable value for P_SEASON.
-     * @return bind variable value for P_SEASON
-     */
-    public String getP_SEASON() {
-        return (String)getNamedWhereClauseParam("P_SEASON");
-    }
-
-    /**
-     * Sets <code>value</code> for bind variable P_SEASON.
-     * @param value value to bind as P_SEASON
-     */
-    public void setP_SEASON(String value) {
-        setNamedWhereClauseParam("P_SEASON", value);
-    }
-
-    /**
-     * Returns the bind variable value for P_BUYER_ID.
-     * @return bind variable value for P_BUYER_ID
-     */
-    public String getP_BUYER_ID() {
-        return (String)getNamedWhereClauseParam("P_BUYER_ID");
-    }
-
-    /**
-     * Sets <code>value</code> for bind variable P_BUYER_ID.
-     * @param value value to bind as P_BUYER_ID
-     */
-    public void setP_BUYER_ID(String value) {
-        setNamedWhereClauseParam("P_BUYER_ID", value);
-    }
-
-    /**
-     * Returns the bind variable value for P_COLOR.
-     * @return bind variable value for P_COLOR
-     */
-    public String getP_COLOR() {
-        return (String)getNamedWhereClauseParam("P_COLOR");
-    }
-
-    /**
-     * Sets <code>value</code> for bind variable P_COLOR.
-     * @param value value to bind as P_COLOR
-     */
-    public void setP_COLOR(String value) {
-        setNamedWhereClauseParam("P_COLOR", value);
+    public void setP_SYSTEM_ID(String value) {
+        setNamedWhereClauseParam("P_SYSTEM_ID", value);
     }
 }

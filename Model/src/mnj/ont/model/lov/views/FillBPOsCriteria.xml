@@ -26,7 +26,7 @@
     <TransientExpression><![CDATA[adf.context.sessionScope.orgId]]></TransientExpression>
   </Variable>
   <SQLQuery>
-    <![CDATA[/* Formatted on 4/20/2021 9:32:35 AM (QP5 v5.256.13226.35510) */
+    <![CDATA[/* Formatted on 5/4/2021 1:08:16 PM (QP5 v5.256.13226.35510) */
 SELECT *
   FROM (  SELECT XXX.SYSTEM_ID,
                  XOPLT.COLOR,
@@ -54,13 +54,17 @@ SELECT *
                          MMLS.SUBLINE_NO,
                          0 ISSUED_QUANTITY,
                          MMLS.LINE_OUTPUT
-                   FROM MNJ_MFG_LINEOUTPUT_SBLINE MMLS) XXX,
-XX_OM_POC_L_T XOPLT,
-XX_OM_POC_H_T XOPHT,
-AR_CUSTOMERS AR
-WHERE XXX.SYSTEM_ID = XOPLT.SYSTEM_ID
-AND XOPHT.POC_ID = XOPLT.POC_ID
-AND AR.CUSTOMER_id = XOPHT.BUYER_ID
+                    FROM MNJ_MFG_LINEOUTPUT_SBLINE MMLS) XXX,
+                 (SELECT DISTINCT system_id,
+                                  WASH_NAME,
+                                  COLOR,
+                                  POC_ID
+                    FROM XX_OM_POC_L_T) XOPLT,
+                 XX_OM_POC_H_T XOPHT,
+                 AR_CUSTOMERS AR
+           WHERE     XXX.SYSTEM_ID = XOPLT.SYSTEM_ID
+                 AND XOPHT.POC_ID = XOPLT.POC_ID
+                 AND AR.CUSTOMER_id = XOPHT.BUYER_ID
         GROUP BY XXX.DIVISION_ID,
                  XXX.SYSTEM_ID,
                  XOPLT.WASH_NAME,

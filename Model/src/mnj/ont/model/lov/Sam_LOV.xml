@@ -20,36 +20,32 @@
     </SchemaBasedProperties>
   </Properties>
   <Variable
-    Name="p_style"
-    Kind="where"
-    Type="java.lang.String"/>
-  <Variable
-    Name="p_season"
-    Kind="where"
-    Type="java.lang.String"/>
-  <Variable
-    Name="p_buyer_id"
+    Name="SYSTEM_ID"
     Kind="where"
     Type="java.lang.String"/>
   <SQLQuery>
-    <![CDATA[SELECT DISTINCT oph.header_no, NVL (opl.option_no, '-') option_no,
-                NVL (opl.version_no, '-') version_no,
-                TO_CHAR(SUM (opl.total_sam_value),'99999.999') sam_v,
-               opl.REMARKS
-           FROM mnj_mfg_operation_master_h oph,
-                mnj_mfg_operation_master_l opl
-          WHERE oph.header_id = opl.header_id
-            AND opl.dept_name = 'Sewing'
-            AND oph.style_name = :p_style
-            AND oph.season = :p_season
-            AND oph.customer_id = :p_buyer_id
-       GROUP BY oph.header_no,
-                NVL (opl.option_no, '-'),
-                NVL (opl.version_no, '-'),
-                oph.style_name,
-                oph.season,
-                oph.customer_id,
-                opl.REMARKS]]>
+    <![CDATA[SELECT DISTINCT oph.header_no,
+NVL (opl.option_no, '-') option_no,
+NVL (opl.version_no, '-') version_no,
+TO_CHAR (SUM (opl.total_sam_value), '99999.999') sam_v,
+opl.REMARKS
+FROM mnj_mfg_operation_master_h oph, mnj_mfg_operation_master_l opl,
+xx_om_poc_h_t H, XX_OM_POC_L_T L
+WHERE oph.header_id = opl.header_id
+AND H.POC_ID=L.POC_ID
+AND H.POC_ID=OPH.POC_ID
+AND opl.dept_name = 'Sewing'
+AND L.SYSTEM_ID=:SYSTEM_ID
+--AND oph.style_name = :p_style
+--AND oph.season = :p_season
+--AND oph.customer_id = :p_buyer_id
+GROUP BY oph.header_no,
+NVL (opl.option_no, '-'),
+NVL (opl.version_no, '-'),
+oph.style_name,
+oph.season,
+oph.customer_id,
+opl.REMARKS]]>
   </SQLQuery>
   <ViewAttribute
     Name="HeaderNo"

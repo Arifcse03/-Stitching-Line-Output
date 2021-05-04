@@ -24,19 +24,7 @@
     </SchemaBasedProperties>
   </Properties>
   <Variable
-    Name="P_STYLE"
-    Kind="where"
-    Type="java.lang.String"/>
-  <Variable
-    Name="P_SEASON"
-    Kind="where"
-    Type="java.lang.String"/>
-  <Variable
-    Name="P_BUYER_ID"
-    Kind="where"
-    Type="java.lang.String"/>
-  <Variable
-    Name="P_COLOR"
+    Name="P_SYSTEM_ID"
     Kind="where"
     Type="java.lang.String"/>
   <SQLQuery>
@@ -46,10 +34,11 @@
                    MNJ_MFG_RATIOPLAN_PLYCFLINE MMRPC
              WHERE MMR.RATIOPLAN_ID = MMRP.RATIOPLAN_ID
                AND MMRPC.PLYLINE_ID = MMRP.PLYLINE_ID
-               AND MMR.STYLE        = :P_STYLE
+            and mmr.system_id=:P_SYSTEM_ID
+               /*AND MMR.STYLE        = :P_STYLE
                AND MMR.SEASON       = :P_SEASON
                AND MMR.BUYER_ID     = :P_BUYER_ID
-               AND MMR.COLOR        = :P_COLOR]]>
+               AND MMR.COLOR        = :P_COLOR*/]]>
   </SQLQuery>
   <ViewAttribute
     Name="ProductionType"

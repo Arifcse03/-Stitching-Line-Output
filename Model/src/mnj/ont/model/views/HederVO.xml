@@ -226,156 +226,119 @@
       Hint="showAndExecute"/>
   </ListBinding>
   <SQLQuery>
-    <![CDATA[/* Formatted on 3/18/2019 3:26:13 PM (QP5 v5.256.13226.35510) */
+    <![CDATA[/*Formatted on 4/27/2021 2:12:34 PM (QP5 v5.256.13226.35538) */
 SELECT HederEO.DIVISION_ID,
-       HederEO.PROD_TRANS_ID,
-       HederEO.PROD_TRANS_NUM,
-       HederEO.OUTREC_DATE,
-       --trunc(HederEO.OUTREC_DATE) OUTREC_DATE,
-       HederEO.SALESORDER_ID,
-       HederEO.SO_LINE_ID,
-       HederEO.JOB_ID,
-       HederEO.LINE_ID,
-       HederEO.LINE_TARGET,
-       HederEO.OBNO,
-       HederEO.INSEAM_ID,
-       HederEO.REMARKS,
-       HederEO.TOTAL_PRODUCED_MINUTES,
-       HederEO.EFFICIENCY,
-       HederEO.TL_STANDARD_MIN,
-       HederEO.LAST_UPDATE_DATE,
-       HederEO.LAST_UPDATED_BY,
-       HederEO.CREATION_DATE,
-       HederEO.CREATED_BY,
-       HederEO.NEW_STYLE,
-       HederEO.OE_SOLINE_ID,
-       HederEO.CUT_ISSUE_ID,
-       HederEO.MOVE_STATUS,
-       HederEO.POSTED_STATUS,
-       HederEO.TRANSACTION_STATUS,
-       HederEO.SUBINVENTORY,
-       HederEO.POSTED_STATUS_TMP,
-       HederEO.MOVE_STATUS_TMP,
-       HederEO.LAST_UPDATE_LOGIN,
-       HederEO.ATTRIBUTE1,
-       HederEO.ATTRIBUTE2,
-       HederEO.ATTRIBUTE3,
-       HederEO.ATTRIBUTE4,
-       HederEO.ATTRIBUTE5,
-       HederEO.ATTRIBUTE6,
-       HederEO.ATTRIBUTE7,
-       HederEO.ATTRIBUTE8,
-       HederEO.ATTRIBUTE9,
-       HederEO.ATTRIBUTE10,
-       HederEO.ATTRIBUTE11,
-       HederEO.ATTRIBUTE12,
-       HederEO.ATTRIBUTE13,
-       HederEO.ATTRIBUTE14,
-       HederEO.ATTRIBUTE15,
-       HederEO.JOB_QTY,
-       HederEO.Customer_Id,
-       HederEO.Bpo,
-       HederEO.Style,
-       (SELECT msi.description
-          FROM mtl_system_items msi,
-               org_organization_definitions ood,
-               oe_order_lines_all oola
-         WHERE     msi.ORGANIZATION_ID = ood.ORGANIZATION_ID
-               AND ood.OPERATING_UNIT = HederEO.division_id
-               AND oola.INVENTORY_ITEM_ID = msi.INVENTORY_ITEM_ID
-               AND oola.LINE_ID = HederEO.SO_LINE_ID)
-          ITEM_DESC,
-       NULL OPERATION_LINE,
-       (SELECT v.wip_entity_name
-          FROM wip_discrete_jobs_v v
-         WHERE v.wip_entity_id = HederEO.JOB_ID)
-          JOB_ID_DI,
-       (SELECT ooha.ORDER_NUMBER
-          FROM oe_order_headers_all ooha
-         WHERE ooha.HEADER_ID = HederEO.SALESORDER_ID)
-          order_number,
-       (SELECT ar.CUSTOMER_NAME
-          FROM ar_customers ar
-         WHERE ar.CUSTOMER_ID = HederEO.Customer_Id)
-          Buyer_NAME,
-       HederEO.Doc_No,
-       (SELECT h.name
-          FROM hr_operating_units h
-         WHERE h.organization_id = HederEO.DIVISION_ID)
-          unit_name,
-       HederEO.TOTAL_STANDARD_MINUTES,
-       (SELECT LISTAGG (SUBLINE_NO, ',') WITHIN GROUP (ORDER BY SUBLINE_NO)
-          FROM ( (SELECT DISTINCT l.SUBLINE_NO
-                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l
-                   WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID)))
-          Line_No,
-       (SELECT LISTAGG (known_as, ',') WITHIN GROUP (ORDER BY known_as)
-          FROM ( (SELECT DISTINCT known_as
-                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l,
-                         hz_parties hp,
-                         hz_cust_accounts hca
-                   WHERE     l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID
-                         AND hp.party_id = hca.party_id
-                         AND hca.CUST_ACCOUNT_ID = l.Buyer_Id
-                         AND hp.KNOWN_AS IS NOT NULL)))
-          Buyer,
-       (SELECT LISTAGG (Style, ',') WITHIN GROUP (ORDER BY Style)
-          FROM ( (SELECT DISTINCT l.Style
-                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l
-                   WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID)))
-          Style_Name,
-       (SELECT LISTAGG (Style, ',') WITHIN GROUP (ORDER BY Style)
-          FROM ( (SELECT (SELECT DECODE (
-                                    StyleLineEO.TRACK_BASIS,
-                                    'Style Name', StyleLineEO.STYLE_NAME,
-                                    'Style Number', StyleLineEO.STYLE_NUMBER)
-                            FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
-                                 pwc_mfg_bss_buyer_h pwcmfgbssbuyerh
-                           WHERE     StyleLineEO.STYLE_IDENTIFIER = l.STYLE
-                                 AND pwcmfgbssbuyerh.BUYER_ID = l.BUYER_ID
-                                 --AND   pwcmfgbssbuyerh.ORG_ID = LineVO.DIVISION_ID
-                                 AND StyleLineEO.HEADER_ID =
-                                        pwcmfgbssbuyerh.HEADER_ID
-                                 AND ROWNUM = 1)
-                            Style
-                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l
-                   WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID)))
-          Current_Style,
-       (SELECT LISTAGG (Season, ',') WITHIN GROUP (ORDER BY Season)
-          FROM ( (SELECT DISTINCT l.Season
-                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l
-                   WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID)))
-          Season,
-       (SELECT LISTAGG (Season, ',') WITHIN GROUP (ORDER BY Season)
-          FROM ( (SELECT DISTINCT
-                         (SELECT SeasonDetailEO.SEASON_NAME
-                            FROM PWC_MFG_BSS_STYLE_L StyleLineEO,
-                                 pwc_mfg_bss_buyer_h pwcmfgbssbuyerh,
-                                 PWC_MFG_BSS_SEASON_D SeasonDetailEO
-                           WHERE     StyleLineEO.STYLE_IDENTIFIER = l.STYLE
-                                 AND SeasonDetailEO.SEASON_IDENTIFIER =
-                                        l.SEASON
-                                 AND pwcmfgbssbuyerh.BUYER_ID = l.BUYER_ID
-                                 --AND   pwcmfgbssbuyerh.ORG_ID = LineVO.DIVISION_ID
-                                 AND StyleLineEO.HEADER_ID =
-                                        pwcmfgbssbuyerh.HEADER_ID
-                                 AND SeasonDetailEO.LINE_ID =
-                                        StyleLineEO.LINE_ID
-                                 AND ROWNUM = 1)
-                            Season
-                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l
-                   WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID)))
-          Current_Season,
-       (SELECT LISTAGG (Color, ',') WITHIN GROUP (ORDER BY Color)
-          FROM ( (SELECT DISTINCT l.Color
-                    FROM MNJ_MFG_LINEOUTPUT_SBLINE l
-                   WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID)))
-          Color,
-       (SELECT SUM (L.DAY_REJECTION)
-          FROM  MNJ_MFG_LINEOUTPUT_SBLINE L
-         WHERE HederEO.PROD_TRANS_ID = L.PROD_TRANS_ID ) Day_Rejection /* ADDED BY SAKIBUL ISLAM, 18-MAR-2019 ON REQUIREMENTS OF GFL ABDUL HAKIM */
-  FROM MNJ_MFG_LINEOUTPUT HederEO
- WHERE HederEO.DIVISION_ID = :p_Org_Id order by HederEO.Doc_No desc]]>
+HederEO.PROD_TRANS_ID,
+HederEO.PROD_TRANS_NUM,
+HederEO.OUTREC_DATE,
+HederEO.SALESORDER_ID,
+HederEO.SO_LINE_ID,
+HederEO.JOB_ID,
+HederEO.LINE_ID,
+HederEO.LINE_TARGET,
+HederEO.OBNO,
+HederEO.INSEAM_ID,
+HederEO.REMARKS,
+HederEO.TOTAL_PRODUCED_MINUTES,
+HederEO.EFFICIENCY,
+HederEO.TL_STANDARD_MIN,
+HederEO.LAST_UPDATE_DATE,
+HederEO.LAST_UPDATED_BY,
+HederEO.CREATION_DATE,
+HederEO.CREATED_BY,
+HederEO.NEW_STYLE,
+HederEO.OE_SOLINE_ID,
+HederEO.CUT_ISSUE_ID,
+HederEO.MOVE_STATUS,
+HederEO.POSTED_STATUS,
+HederEO.TRANSACTION_STATUS,
+HederEO.SUBINVENTORY,
+HederEO.POSTED_STATUS_TMP,
+HederEO.MOVE_STATUS_TMP,
+HederEO.LAST_UPDATE_LOGIN,
+HederEO.ATTRIBUTE1,
+HederEO.ATTRIBUTE2,
+HederEO.ATTRIBUTE3,
+HederEO.ATTRIBUTE4,
+HederEO.ATTRIBUTE5,
+HederEO.ATTRIBUTE6,
+HederEO.ATTRIBUTE7,
+HederEO.ATTRIBUTE8,
+HederEO.ATTRIBUTE9,
+HederEO.ATTRIBUTE10,
+HederEO.ATTRIBUTE11,
+HederEO.ATTRIBUTE12,
+HederEO.ATTRIBUTE13,
+HederEO.ATTRIBUTE14,
+HederEO.ATTRIBUTE15,
+HederEO.JOB_QTY,
+HederEO.Customer_Id,
+HederEO.Bpo,
+HederEO.Style,
+'' ITEM_DESC,
+NULL OPERATION_LINE,
+(SELECT v.wip_entity_name
+FROM wip_discrete_jobs_v v
+WHERE v.wip_entity_id = HederEO.JOB_ID)
+JOB_ID_DI,
+(SELECT ooha.ORDER_NUMBER
+FROM oe_order_headers_all ooha
+WHERE ooha.HEADER_ID = HederEO.SALESORDER_ID)
+order_number,
+(SELECT ar.CUSTOMER_NAME
+FROM ar_customers ar
+WHERE ar.CUSTOMER_ID = HederEO.Customer_Id)
+Buyer_NAME,
+HederEO.Doc_No,
+(SELECT h.name
+FROM hr_operating_units h
+WHERE h.organization_id = HederEO.DIVISION_ID)
+unit_name,
+HederEO.TOTAL_STANDARD_MINUTES,
+(SELECT LISTAGG (SUBLINE_NO, ',') WITHIN GROUP (ORDER BY SUBLINE_NO)
+FROM ( (SELECT DISTINCT l.SUBLINE_NO
+FROM MNJ_MFG_LINEOUTPUT_SBLINE l
+WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID)))
+Line_No,
+( SELECT LISTAGG (CUSTOMER_NAME, ',') WITHIN GROUP (ORDER BY CUSTOMER_NAME)
+FROM ( (SELECT DISTINCT C.CUSTOMER_NAME
+FROM MNJ_MFG_LINEOUTPUT_SBLINE l, XX_OM_POC_H_T PH,XX_OM_POC_L_T PL,
+ar_customers C
+WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID
+AND C.customer_id = Ph.buyer_id
+and PH.poc_id=pl.poc_id
+and pl.system_id=l.system_id
+)) )
+Buyer,
+( SELECT LISTAGG (Style, ',') WITHIN GROUP (ORDER BY Style)
+FROM ( (SELECT DISTINCT PH.Style
+FROM MNJ_MFG_LINEOUTPUT_SBLINE l, XX_OM_POC_H_T PH,XX_OM_POC_L_T PL
+WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID and PH.poc_id=pl.poc_id
+and pl.system_id=l.system_id)) )
+Style_Name,
+'' Current_Style,
+( SELECT LISTAGG (Season, ',') WITHIN GROUP (ORDER BY Season)
+FROM ( (SELECT DISTINCT Ph.Season
+FROM MNJ_MFG_LINEOUTPUT_SBLINE l, XX_OM_POC_H_T PH,XX_OM_POC_L_T PL
+WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID and PH.poc_id=pl.poc_id
+and pl.system_id=l.system_id)))
+Season,
+'' Current_Season,
+(SELECT LISTAGG (Color, ',') WITHIN GROUP (ORDER BY Color)
+FROM ( (SELECT DISTINCT pl.Color
+FROM MNJ_MFG_LINEOUTPUT_SBLINE l, XX_OM_POC_H_T PH,XX_OM_POC_L_T PL
+WHERE l.PROD_TRANS_ID = HederEO.PROD_TRANS_ID
+and PH.poc_id=pl.poc_id
+and pl.system_id=l.system_id
+)))
+Color,
+(SELECT SUM (L.DAY_REJECTION)
+FROM MNJ_MFG_LINEOUTPUT_SBLINE L
+WHERE HederEO.PROD_TRANS_ID = L.PROD_TRANS_ID)
+Day_Rejection
+FROM MNJ_MFG_LINEOUTPUT HederEO
+WHERE HederEO.DIVISION_ID = :p_Org_Id 
+ORDER BY HederEO.Doc_No DESC]]>
   </SQLQuery>
   <EntityUsage
     Name="HederEO"

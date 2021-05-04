@@ -37,17 +37,10 @@
     Name="ProdTypeNewVo1"
     ViewObjectName="mnj.ont.model.lov.ProdTypeNewVo">
     <ParameterMap>
-      <PIMap Variable="P_STYLE">
-        <TransientExpression><![CDATA[Style]]></TransientExpression>
-      </PIMap>
-      <PIMap Variable="P_SEASON">
-        <TransientExpression><![CDATA[Season]]></TransientExpression>
-      </PIMap>
-      <PIMap Variable="P_COLOR">
-        <TransientExpression><![CDATA[Color]]></TransientExpression>
-      </PIMap>
-      <PIMap Variable="P_BUYER_ID">
-        <TransientExpression><![CDATA[BuyerId]]></TransientExpression>
+      
+      
+      <PIMap Variable="P_SYSTEM_ID">
+        <TransientExpression><![CDATA[SystemId]]></TransientExpression>
       </PIMap>
     </ParameterMap>
   </ViewAccessor>
@@ -55,14 +48,8 @@
     Name="Sam_LOV1"
     ViewObjectName="mnj.ont.model.lov.Sam_LOV">
     <ParameterMap>
-      <PIMap Variable="p_buyer_id">
-        <TransientExpression><![CDATA[BuyerId]]></TransientExpression>
-      </PIMap>
-      <PIMap Variable="p_season">
-        <TransientExpression><![CDATA[Season]]></TransientExpression>
-      </PIMap>
-      <PIMap Variable="p_style">
-        <TransientExpression><![CDATA[Style]]></TransientExpression>
+      <PIMap Variable="SYSTEM_ID">
+        <TransientExpression><![CDATA[SystemId]]></TransientExpression>
       </PIMap>
     </ParameterMap>
   </ViewAccessor>
@@ -125,6 +112,9 @@
       <Item Value="ProdType"/>
     </AttrArray>
     <AttrArray Name="ListAttrNames">
+      <Item Value="ProductionType"/>
+    </AttrArray>
+    <AttrArray Name="ListDisplayAttrNames">
       <Item Value="ProductionType"/>
     </AttrArray>
     <DisplayCriteria

@@ -15,16 +15,6 @@ public class SizeLOVRowImpl extends ViewRowImpl {
      * AttributesEnum: generated enum for identifying attributes and accessors. Do not modify.
      */
     public enum AttributesEnum {
-        LineNo {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getLineNo();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setLineNo((String)value);
-            }
-        }
-        ,
         SystemId {
             public Object get(SizeLOVRowImpl obj) {
                 return obj.getSystemId();
@@ -35,33 +25,23 @@ public class SizeLOVRowImpl extends ViewRowImpl {
             }
         }
         ,
-        BpoId {
+        DivisionId {
             public Object get(SizeLOVRowImpl obj) {
-                return obj.getBpoId();
+                return obj.getDivisionId();
             }
 
             public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setBpoId((Number)value);
+                obj.setDivisionId((String)value);
             }
         }
         ,
-        BuyerId {
+        LineNo {
             public Object get(SizeLOVRowImpl obj) {
-                return obj.getBuyerId();
+                return obj.getLineNo();
             }
 
             public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setBuyerId((Number)value);
-            }
-        }
-        ,
-        Season {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getSeason();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setSeason((String)value);
+                obj.setLineNo((String)value);
             }
         }
         ,
@@ -75,6 +55,16 @@ public class SizeLOVRowImpl extends ViewRowImpl {
             }
         }
         ,
+        Season {
+            public Object get(SizeLOVRowImpl obj) {
+                return obj.getSeason();
+            }
+
+            public void put(SizeLOVRowImpl obj, Object value) {
+                obj.setSeason((String)value);
+            }
+        }
+        ,
         Color {
             public Object get(SizeLOVRowImpl obj) {
                 return obj.getColor();
@@ -85,23 +75,13 @@ public class SizeLOVRowImpl extends ViewRowImpl {
             }
         }
         ,
-        TotalQty {
+        WashName {
             public Object get(SizeLOVRowImpl obj) {
-                return obj.getTotalQty();
+                return obj.getWashName();
             }
 
             public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setTotalQty((Number)value);
-            }
-        }
-        ,
-        InseamSizeConcat {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getInseamSizeConcat();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setInseamSizeConcat((String)value);
+                obj.setWashName((String)value);
             }
         }
         ,
@@ -115,13 +95,33 @@ public class SizeLOVRowImpl extends ViewRowImpl {
             }
         }
         ,
-        SizeQty {
+        SizeVal {
             public Object get(SizeLOVRowImpl obj) {
-                return obj.getSizeQty();
+                return obj.getSizeVal();
             }
 
             public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setSizeQty((Number)value);
+                obj.setSizeVal((String)value);
+            }
+        }
+        ,
+        TotalQty {
+            public Object get(SizeLOVRowImpl obj) {
+                return obj.getTotalQty();
+            }
+
+            public void put(SizeLOVRowImpl obj, Object value) {
+                obj.setTotalQty((Number)value);
+            }
+        }
+        ,
+        PrevProd {
+            public Object get(SizeLOVRowImpl obj) {
+                return obj.getPrevProd();
+            }
+
+            public void put(SizeLOVRowImpl obj, Object value) {
+                obj.setPrevProd((Number)value);
             }
         }
         ,
@@ -145,323 +145,33 @@ public class SizeLOVRowImpl extends ViewRowImpl {
             }
         }
         ,
-        WipQty {
+        Wipqty {
             public Object get(SizeLOVRowImpl obj) {
-                return obj.getWipQty();
+                return obj.getWipqty();
             }
 
             public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setWipQty((Number)value);
+                obj.setWipqty((Number)value);
             }
         }
         ,
-        UserItemDescription {
+        InseamSizeConcat {
             public Object get(SizeLOVRowImpl obj) {
-                return obj.getUserItemDescription();
+                return obj.getInseamSizeConcat();
             }
 
             public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setUserItemDescription((String)value);
+                obj.setInseamSizeConcat((String)value);
             }
         }
         ,
-        OcNo {
+        SizeQty {
             public Object get(SizeLOVRowImpl obj) {
-                return obj.getOcNo();
+                return obj.getSizeQty();
             }
 
             public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setOcNo((String)value);
-            }
-        }
-        ,
-        TotalInput {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getTotalInput();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setTotalInput((Number)value);
-            }
-        }
-        ,
-        ActualDayProduction {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getActualDayProduction();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setActualDayProduction((Number)value);
-            }
-        }
-        ,
-        ActualDayRejection {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getActualDayRejection();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setActualDayRejection((Number)value);
-            }
-        }
-        ,
-        DayProoduction {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getDayProoduction();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setDayProoduction((Number)value);
-            }
-        }
-        ,
-        DayRejection {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getDayRejection();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setDayRejection((Number)value);
-            }
-        }
-        ,
-        PrevProdQty {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getPrevProdQty();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setPrevProdQty((Number)value);
-            }
-        }
-        ,
-        TotRej {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getTotRej();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setTotRej((Number)value);
-            }
-        }
-        ,
-        InseamQty {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getInseamQty();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setInseamQty((Number)value);
-            }
-        }
-        ,
-        OutSublineId {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getOutSublineId();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setOutSublineId((Number)value);
-            }
-        }
-        ,
-        InventoryItemId {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getInventoryItemId();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setInventoryItemId((Number)value);
-            }
-        }
-        ,
-        HeaderId {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getHeaderId();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setHeaderId((Number)value);
-            }
-        }
-        ,
-        ObRef {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getObRef();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setObRef((String)value);
-            }
-        }
-        ,
-        OrderedItem {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getOrderedItem();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setOrderedItem((String)value);
-            }
-        }
-        ,
-        Description {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getDescription();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setDescription((String)value);
-            }
-        }
-        ,
-        DcpoNo {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getDcpoNo();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setDcpoNo((String)value);
-            }
-        }
-        ,
-        DeliveryDate {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getDeliveryDate();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setDeliveryDate((Date)value);
-            }
-        }
-        ,
-        DeliveryTerm {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getDeliveryTerm();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setDeliveryTerm((String)value);
-            }
-        }
-        ,
-        ShipMode {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getShipMode();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setShipMode((String)value);
-            }
-        }
-        ,
-        Country {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getCountry();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setCountry((String)value);
-            }
-        }
-        ,
-        PrevProd {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getPrevProd();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setPrevProd((Number)value);
-            }
-        }
-        ,
-        BpoNo {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getBpoNo();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setBpoNo((String)value);
-            }
-        }
-        ,
-        OrgId {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getOrgId();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setOrgId((Number)value);
-            }
-        }
-        ,
-        StyleName {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getStyleName();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setStyleName((String)value);
-            }
-        }
-        ,
-        CustomerName {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getCustomerName();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setCustomerName((String)value);
-            }
-        }
-        ,
-        StnNo {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getStnNo();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setStnNo((String)value);
-            }
-        }
-        ,
-        CustomerId {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getCustomerId();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setCustomerId((Number)value);
-            }
-        }
-        ,
-        WipEntityId {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getWipEntityId();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setWipEntityId((Number)value);
-            }
-        }
-        ,
-        WipEntityName {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getWipEntityName();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setWipEntityName((String)value);
-            }
-        }
-        ,
-        OrganizationId {
-            public Object get(SizeLOVRowImpl obj) {
-                return obj.getOrganizationId();
-            }
-
-            public void put(SizeLOVRowImpl obj, Object value) {
-                obj.setOrganizationId((Number)value);
+                obj.setSizeQty((Number)value);
             }
         }
         ,
@@ -513,51 +223,22 @@ public class SizeLOVRowImpl extends ViewRowImpl {
     }
 
 
-    public static final int LINENO = AttributesEnum.LineNo.index();
     public static final int SYSTEMID = AttributesEnum.SystemId.index();
-    public static final int BPOID = AttributesEnum.BpoId.index();
-    public static final int BUYERID = AttributesEnum.BuyerId.index();
-    public static final int SEASON = AttributesEnum.Season.index();
+    public static final int DIVISIONID = AttributesEnum.DivisionId.index();
+    public static final int LINENO = AttributesEnum.LineNo.index();
     public static final int STYLE = AttributesEnum.Style.index();
+    public static final int SEASON = AttributesEnum.Season.index();
     public static final int COLOR = AttributesEnum.Color.index();
-    public static final int TOTALQTY = AttributesEnum.TotalQty.index();
-    public static final int INSEAMSIZECONCAT = AttributesEnum.InseamSizeConcat.index();
+    public static final int WASHNAME = AttributesEnum.WashName.index();
     public static final int INSEAM = AttributesEnum.Inseam.index();
-    public static final int SIZEQTY = AttributesEnum.SizeQty.index();
+    public static final int SIZEVAL = AttributesEnum.SizeVal.index();
+    public static final int TOTALQTY = AttributesEnum.TotalQty.index();
+    public static final int PREVPROD = AttributesEnum.PrevProd.index();
     public static final int BELQTY = AttributesEnum.BelQty.index();
     public static final int PREVREJQTY = AttributesEnum.PrevRejQty.index();
-    public static final int WIPQTY = AttributesEnum.WipQty.index();
-    public static final int USERITEMDESCRIPTION = AttributesEnum.UserItemDescription.index();
-    public static final int OCNO = AttributesEnum.OcNo.index();
-    public static final int TOTALINPUT = AttributesEnum.TotalInput.index();
-    public static final int ACTUALDAYPRODUCTION = AttributesEnum.ActualDayProduction.index();
-    public static final int ACTUALDAYREJECTION = AttributesEnum.ActualDayRejection.index();
-    public static final int DAYPROODUCTION = AttributesEnum.DayProoduction.index();
-    public static final int DAYREJECTION = AttributesEnum.DayRejection.index();
-    public static final int PREVPRODQTY = AttributesEnum.PrevProdQty.index();
-    public static final int TOTREJ = AttributesEnum.TotRej.index();
-    public static final int INSEAMQTY = AttributesEnum.InseamQty.index();
-    public static final int OUTSUBLINEID = AttributesEnum.OutSublineId.index();
-    public static final int INVENTORYITEMID = AttributesEnum.InventoryItemId.index();
-    public static final int HEADERID = AttributesEnum.HeaderId.index();
-    public static final int OBREF = AttributesEnum.ObRef.index();
-    public static final int ORDEREDITEM = AttributesEnum.OrderedItem.index();
-    public static final int DESCRIPTION = AttributesEnum.Description.index();
-    public static final int DCPONO = AttributesEnum.DcpoNo.index();
-    public static final int DELIVERYDATE = AttributesEnum.DeliveryDate.index();
-    public static final int DELIVERYTERM = AttributesEnum.DeliveryTerm.index();
-    public static final int SHIPMODE = AttributesEnum.ShipMode.index();
-    public static final int COUNTRY = AttributesEnum.Country.index();
-    public static final int PREVPROD = AttributesEnum.PrevProd.index();
-    public static final int BPONO = AttributesEnum.BpoNo.index();
-    public static final int ORGID = AttributesEnum.OrgId.index();
-    public static final int STYLENAME = AttributesEnum.StyleName.index();
-    public static final int CUSTOMERNAME = AttributesEnum.CustomerName.index();
-    public static final int STNNO = AttributesEnum.StnNo.index();
-    public static final int CUSTOMERID = AttributesEnum.CustomerId.index();
-    public static final int WIPENTITYID = AttributesEnum.WipEntityId.index();
-    public static final int WIPENTITYNAME = AttributesEnum.WipEntityName.index();
-    public static final int ORGANIZATIONID = AttributesEnum.OrganizationId.index();
+    public static final int WIPQTY = AttributesEnum.Wipqty.index();
+    public static final int INSEAMSIZECONCAT = AttributesEnum.InseamSizeConcat.index();
+    public static final int SIZEQTY = AttributesEnum.SizeQty.index();
     public static final int FLAG = AttributesEnum.Flag.index();
     public static final int SELSIZE = AttributesEnum.SelSize.index();
 
@@ -567,117 +248,6 @@ public class SizeLOVRowImpl extends ViewRowImpl {
     public SizeLOVRowImpl() {
     }
 
-    /**
-     * Gets the attribute value for the calculated attribute UserItemDescription.
-     * @return the UserItemDescription
-     */
-    public String getUserItemDescription() {
-        return (String) getAttributeInternal(USERITEMDESCRIPTION);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute UserItemDescription.
-     * @param value value to set the  UserItemDescription
-     */
-    public void setUserItemDescription(String value) {
-        setAttributeInternal(USERITEMDESCRIPTION, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute BuyerId.
-     * @return the BuyerId
-     */
-    public Number getBuyerId() {
-        return (Number) getAttributeInternal(BUYERID);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute BuyerId.
-     * @param value value to set the  BuyerId
-     */
-    public void setBuyerId(Number value) {
-        setAttributeInternal(BUYERID, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute BpoNo.
-     * @return the BpoNo
-     */
-    public String getBpoNo() {
-        return (String) getAttributeInternal(BPONO);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute BpoNo.
-     * @param value value to set the  BpoNo
-     */
-    public void setBpoNo(String value) {
-        setAttributeInternal(BPONO, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute InventoryItemId.
-     * @return the InventoryItemId
-     */
-    public Number getInventoryItemId() {
-        return (Number) getAttributeInternal(INVENTORYITEMID);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute InventoryItemId.
-     * @param value value to set the  InventoryItemId
-     */
-    public void setInventoryItemId(Number value) {
-        setAttributeInternal(INVENTORYITEMID, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute HeaderId.
-     * @return the HeaderId
-     */
-    public Number getHeaderId() {
-        return (Number) getAttributeInternal(HEADERID);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute HeaderId.
-     * @param value value to set the  HeaderId
-     */
-    public void setHeaderId(Number value) {
-        setAttributeInternal(HEADERID, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute OrgId.
-     * @return the OrgId
-     */
-    public Number getOrgId() {
-        return (Number) getAttributeInternal(ORGID);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute OrgId.
-     * @param value value to set the  OrgId
-     */
-    public void setOrgId(Number value) {
-        setAttributeInternal(ORGID, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute StyleName.
-     * @return the StyleName
-     */
-    public String getStyleName() {
-        return (String) getAttributeInternal(STYLENAME);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute StyleName.
-     * @param value value to set the  StyleName
-     */
-    public void setStyleName(String value) {
-        setAttributeInternal(STYLENAME, value);
-    }
 
     /**
      * Gets the attribute value for the calculated attribute Season.
@@ -711,21 +281,6 @@ public class SizeLOVRowImpl extends ViewRowImpl {
         setAttributeInternal(STYLE, value);
     }
 
-    /**
-     * Gets the attribute value for the calculated attribute OcNo.
-     * @return the OcNo
-     */
-    public String getOcNo() {
-        return (String) getAttributeInternal(OCNO);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute OcNo.
-     * @param value value to set the  OcNo
-     */
-    public void setOcNo(String value) {
-        setAttributeInternal(OCNO, value);
-    }
 
     /**
      * Gets the attribute value for the calculated attribute TotalQty.
@@ -743,52 +298,21 @@ public class SizeLOVRowImpl extends ViewRowImpl {
         setAttributeInternal(TOTALQTY, value);
     }
 
+
     /**
-     * Gets the attribute value for the calculated attribute CustomerName.
-     * @return the CustomerName
+     * Gets the attribute value for the calculated attribute PrevProd.
+     * @return the PrevProd
      */
-    public String getCustomerName() {
-        return (String) getAttributeInternal(CUSTOMERNAME);
+    public Number getPrevProd() {
+        return (Number) getAttributeInternal(PREVPROD);
     }
 
     /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute CustomerName.
-     * @param value value to set the  CustomerName
+     * Sets <code>value</code> as the attribute value for the calculated attribute PrevProd.
+     * @param value value to set the  PrevProd
      */
-    public void setCustomerName(String value) {
-        setAttributeInternal(CUSTOMERNAME, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute StnNo.
-     * @return the StnNo
-     */
-    public String getStnNo() {
-        return (String) getAttributeInternal(STNNO);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute StnNo.
-     * @param value value to set the  StnNo
-     */
-    public void setStnNo(String value) {
-        setAttributeInternal(STNNO, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute CustomerId.
-     * @return the CustomerId
-     */
-    public Number getCustomerId() {
-        return (Number) getAttributeInternal(CUSTOMERID);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute CustomerId.
-     * @param value value to set the  CustomerId
-     */
-    public void setCustomerId(Number value) {
-        setAttributeInternal(CUSTOMERID, value);
+    public void setPrevProd(Number value) {
+        setAttributeInternal(PREVPROD, value);
     }
 
     /**
@@ -824,212 +348,21 @@ public class SizeLOVRowImpl extends ViewRowImpl {
     }
 
     /**
-     * Gets the attribute value for the calculated attribute BpoId.
-     * @return the BpoId
+     * Gets the attribute value for the calculated attribute DivisionId.
+     * @return the DivisionId
      */
-    public Number getBpoId() {
-        return (Number) getAttributeInternal(BPOID);
+    public String getDivisionId() {
+        return (String) getAttributeInternal(DIVISIONID);
     }
 
     /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute BpoId.
-     * @param value value to set the  BpoId
+     * Sets <code>value</code> as the attribute value for the calculated attribute DivisionId.
+     * @param value value to set the  DivisionId
      */
-    public void setBpoId(Number value) {
-        setAttributeInternal(BPOID, value);
+    public void setDivisionId(String value) {
+        setAttributeInternal(DIVISIONID, value);
     }
 
-    /**
-     * Gets the attribute value for the calculated attribute WipEntityId.
-     * @return the WipEntityId
-     */
-    public Number getWipEntityId() {
-        return (Number) getAttributeInternal(WIPENTITYID);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute WipEntityId.
-     * @param value value to set the  WipEntityId
-     */
-    public void setWipEntityId(Number value) {
-        setAttributeInternal(WIPENTITYID, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute WipEntityName.
-     * @return the WipEntityName
-     */
-    public String getWipEntityName() {
-        return (String) getAttributeInternal(WIPENTITYNAME);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute WipEntityName.
-     * @param value value to set the  WipEntityName
-     */
-    public void setWipEntityName(String value) {
-        setAttributeInternal(WIPENTITYNAME, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute OrganizationId.
-     * @return the OrganizationId
-     */
-    public Number getOrganizationId() {
-        return (Number) getAttributeInternal(ORGANIZATIONID);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute OrganizationId.
-     * @param value value to set the  OrganizationId
-     */
-    public void setOrganizationId(Number value) {
-        setAttributeInternal(ORGANIZATIONID, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute ObRef.
-     * @return the ObRef
-     */
-    public String getObRef() {
-        return (String) getAttributeInternal(OBREF);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute ObRef.
-     * @param value value to set the  ObRef
-     */
-    public void setObRef(String value) {
-        setAttributeInternal(OBREF, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute OrderedItem.
-     * @return the OrderedItem
-     */
-    public String getOrderedItem() {
-        return (String) getAttributeInternal(ORDEREDITEM);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute OrderedItem.
-     * @param value value to set the  OrderedItem
-     */
-    public void setOrderedItem(String value) {
-        setAttributeInternal(ORDEREDITEM, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute Description.
-     * @return the Description
-     */
-    public String getDescription() {
-        return (String) getAttributeInternal(DESCRIPTION);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute Description.
-     * @param value value to set the  Description
-     */
-    public void setDescription(String value) {
-        setAttributeInternal(DESCRIPTION, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute DcpoNo.
-     * @return the DcpoNo
-     */
-    public String getDcpoNo() {
-        return (String) getAttributeInternal(DCPONO);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute DcpoNo.
-     * @param value value to set the  DcpoNo
-     */
-    public void setDcpoNo(String value) {
-        setAttributeInternal(DCPONO, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute InseamQty.
-     * @return the InseamQty
-     */
-    public Number getInseamQty() {
-        return (Number) getAttributeInternal(INSEAMQTY);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute InseamQty.
-     * @param value value to set the  InseamQty
-     */
-    public void setInseamQty(Number value) {
-        setAttributeInternal(INSEAMQTY, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute DeliveryDate.
-     * @return the DeliveryDate
-     */
-    public Date getDeliveryDate() {
-        return (Date) getAttributeInternal(DELIVERYDATE);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute DeliveryDate.
-     * @param value value to set the  DeliveryDate
-     */
-    public void setDeliveryDate(Date value) {
-        setAttributeInternal(DELIVERYDATE, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute DeliveryTerm.
-     * @return the DeliveryTerm
-     */
-    public String getDeliveryTerm() {
-        return (String) getAttributeInternal(DELIVERYTERM);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute DeliveryTerm.
-     * @param value value to set the  DeliveryTerm
-     */
-    public void setDeliveryTerm(String value) {
-        setAttributeInternal(DELIVERYTERM, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute ShipMode.
-     * @return the ShipMode
-     */
-    public String getShipMode() {
-        return (String) getAttributeInternal(SHIPMODE);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute ShipMode.
-     * @param value value to set the  ShipMode
-     */
-    public void setShipMode(String value) {
-        setAttributeInternal(SHIPMODE, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute Country.
-     * @return the Country
-     */
-    public String getCountry() {
-        return (String) getAttributeInternal(COUNTRY);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute Country.
-     * @param value value to set the  Country
-     */
-    public void setCountry(String value) {
-        setAttributeInternal(COUNTRY, value);
-    }
 
     /**
      * Gets the attribute value for the calculated attribute InseamSizeConcat.
@@ -1063,52 +396,21 @@ public class SizeLOVRowImpl extends ViewRowImpl {
         setAttributeInternal(INSEAM, value);
     }
 
+
     /**
-     * Gets the attribute value for the calculated attribute TotalInput.
-     * @return the TotalInput
+     * Gets the attribute value for the calculated attribute SizeVal.
+     * @return the SizeVal
      */
-    public Number getTotalInput() {
-        return (Number) getAttributeInternal(TOTALINPUT);
+    public String getSizeVal() {
+        return (String) getAttributeInternal(SIZEVAL);
     }
 
     /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute TotalInput.
-     * @param value value to set the  TotalInput
+     * Sets <code>value</code> as the attribute value for the calculated attribute SizeVal.
+     * @param value value to set the  SizeVal
      */
-    public void setTotalInput(Number value) {
-        setAttributeInternal(TOTALINPUT, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute ActualDayProduction.
-     * @return the ActualDayProduction
-     */
-    public Number getActualDayProduction() {
-        return (Number) getAttributeInternal(ACTUALDAYPRODUCTION);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute ActualDayProduction.
-     * @param value value to set the  ActualDayProduction
-     */
-    public void setActualDayProduction(Number value) {
-        setAttributeInternal(ACTUALDAYPRODUCTION, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute ActualDayRejection.
-     * @return the ActualDayRejection
-     */
-    public Number getActualDayRejection() {
-        return (Number) getAttributeInternal(ACTUALDAYREJECTION);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute ActualDayRejection.
-     * @param value value to set the  ActualDayRejection
-     */
-    public void setActualDayRejection(Number value) {
-        setAttributeInternal(ACTUALDAYREJECTION, value);
+    public void setSizeVal(String value) {
+        setAttributeInternal(SIZEVAL, value);
     }
 
     /**
@@ -1127,37 +429,6 @@ public class SizeLOVRowImpl extends ViewRowImpl {
         setAttributeInternal(SIZEQTY, value);
     }
 
-    /**
-     * Gets the attribute value for the calculated attribute DayProoduction.
-     * @return the DayProoduction
-     */
-    public Number getDayProoduction() {
-        return (Number) getAttributeInternal(DAYPROODUCTION);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute DayProoduction.
-     * @param value value to set the  DayProoduction
-     */
-    public void setDayProoduction(Number value) {
-        setAttributeInternal(DAYPROODUCTION, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute DayRejection.
-     * @return the DayRejection
-     */
-    public Number getDayRejection() {
-        return (Number) getAttributeInternal(DAYREJECTION);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute DayRejection.
-     * @param value value to set the  DayRejection
-     */
-    public void setDayRejection(Number value) {
-        setAttributeInternal(DAYREJECTION, value);
-    }
 
     /**
      * Gets the attribute value for the calculated attribute Color.
@@ -1175,36 +446,21 @@ public class SizeLOVRowImpl extends ViewRowImpl {
         setAttributeInternal(COLOR, value);
     }
 
+
     /**
-     * Gets the attribute value for the calculated attribute OutSublineId.
-     * @return the OutSublineId
+     * Gets the attribute value for the calculated attribute WashName.
+     * @return the WashName
      */
-    public Number getOutSublineId() {
-        return (Number) getAttributeInternal(OUTSUBLINEID);
+    public String getWashName() {
+        return (String) getAttributeInternal(WASHNAME);
     }
 
     /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute OutSublineId.
-     * @param value value to set the  OutSublineId
+     * Sets <code>value</code> as the attribute value for the calculated attribute WashName.
+     * @param value value to set the  WashName
      */
-    public void setOutSublineId(Number value) {
-        setAttributeInternal(OUTSUBLINEID, value);
-    }
-
-    /**
-     * Gets the attribute value for the calculated attribute PrevProdQty.
-     * @return the PrevProdQty
-     */
-    public Number getPrevProdQty() {
-        return (Number) getAttributeInternal(PREVPRODQTY);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute PrevProdQty.
-     * @param value value to set the  PrevProdQty
-     */
-    public void setPrevProdQty(Number value) {
-        setAttributeInternal(PREVPRODQTY, value);
+    public void setWashName(String value) {
+        setAttributeInternal(WASHNAME, value);
     }
 
     /**
@@ -1239,20 +495,21 @@ public class SizeLOVRowImpl extends ViewRowImpl {
         setAttributeInternal(PREVREJQTY, value);
     }
 
+
     /**
-     * Gets the attribute value for the calculated attribute TotRej.
-     * @return the TotRej
+     * Gets the attribute value for the calculated attribute Wipqty.
+     * @return the Wipqty
      */
-    public Number getTotRej() {
-        return (Number) getAttributeInternal(TOTREJ);
+    public Number getWipqty() {
+        return (Number) getAttributeInternal(WIPQTY);
     }
 
     /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute TotRej.
-     * @param value value to set the  TotRej
+     * Sets <code>value</code> as the attribute value for the calculated attribute Wipqty.
+     * @param value value to set the  Wipqty
      */
-    public void setTotRej(Number value) {
-        setAttributeInternal(TOTREJ, value);
+    public void setWipqty(Number value) {
+        setAttributeInternal(WIPQTY, value);
     }
 
     /**
@@ -1271,21 +528,6 @@ public class SizeLOVRowImpl extends ViewRowImpl {
         setAttributeInternal(WIPQTY, value);
     }
 
-    /**
-     * Gets the attribute value for the calculated attribute PrevProd.
-     * @return the PrevProd
-     */
-    public Number getPrevProd() {
-        return (Number) getAttributeInternal(PREVPROD);
-    }
-
-    /**
-     * Sets <code>value</code> as the attribute value for the calculated attribute PrevProd.
-     * @param value value to set the  PrevProd
-     */
-    public void setPrevProd(Number value) {
-        setAttributeInternal(PREVPROD, value);
-    }
 
     /**
      * Gets the attribute value for the calculated attribute Flag.
